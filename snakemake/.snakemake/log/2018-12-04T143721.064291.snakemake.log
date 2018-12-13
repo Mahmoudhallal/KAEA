@@ -1,0 +1,54 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	heatmap
+	1	prepare_shiny_inputs
+	1	waterfall
+	4
+
+[Tue Dec  4 14:37:21 2018]
+rule waterfall:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/waterfall_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Material_for_waterfall_0.01FDR_0.01P_U2OS.Rda
+    jobid: 18
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, fdr=0.01, pv=0.01, cline=U2OS
+
+[Tue Dec  4 14:37:25 2018]
+Finished job 18.
+1 of 4 steps (25%) done
+
+[Tue Dec  4 14:37:25 2018]
+rule heatmap:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/pathway_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Material_for_heatmap_0.01FDR_0.01P_U2OS.csv
+    jobid: 17
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, fdr=0.01, pv=0.01, cline=U2OS
+
+[Tue Dec  4 14:37:27 2018]
+Finished job 17.
+2 of 4 steps (50%) done
+
+[Tue Dec  4 14:37:27 2018]
+rule prepare_shiny_inputs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Material_for_waterfall_0.01FDR_0.01P_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Material_for_heatmap_0.01FDR_0.01P_U2OS.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/prepare_shiny_outputs.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/results_shiny_U2OS_0.01P_0.01FDR.Rda
+    jobid: 8
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS, pv=0.01, fdr=0.01
+
+[Tue Dec  4 14:40:04 2018]
+Finished job 8.
+3 of 4 steps (75%) done
+
+[Tue Dec  4 14:40:04 2018]
+localrule all:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/eSet_data_test1_U2OS.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/batches_all_phospho_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet_notfiltered_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/PCA_plot_filtered_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_prots_with_position_venn_diagram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_prots_histogram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_proteins_U2OS_venn_diagram_U2OS_Rap_WT.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_proteins_U2OS_venn_diagram_U2OS_RapConA_WT.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_proteins_U2OS_venn_diagram_U2OS_RapConA_Rap.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/collection_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/topTables_U2OS_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/U2OS_Rap_WT_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/U2OS_RapConA_WT_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/U2OS_RapConA_Rap_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/results_shiny_U2OS_0.01P_0.01FDR.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_Rap_WT.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_RapConA_WT.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_RapConA_Rap.pdf
+    jobid: 0
+
+[Tue Dec  4 14:40:04 2018]
+Finished job 0.
+4 of 4 steps (100%) done
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-04T143721.064291.snakemake.log

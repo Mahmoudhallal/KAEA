@@ -1,0 +1,42 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	prepare_shiny_inputs
+	1	waterfall
+	3
+
+[Thu Oct 25 10:13:03 2018]
+rule waterfall:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_0.05P_filtered_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/waterfall_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Material_for_waterfall_0.05FDR_0.05P.Rda
+    jobid: 4
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, fdr=0.05, pv=0.05
+
+[Thu Oct 25 10:13:04 2018]
+Finished job 4.
+1 of 3 steps (33%) done
+
+[Thu Oct 25 10:13:04 2018]
+rule prepare_shiny_inputs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Material_for_waterfall_0.05FDR_0.05P.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Material_for_heatmap_0.05FDR_0.05P.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/prepare_shiny_outputs.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/results_shiny_0.05FDR_0.05P.Rda
+    jobid: 6
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, fdr=0.05, pv=0.05
+
+[Thu Oct 25 10:13:43 2018]
+Finished job 6.
+2 of 3 steps (67%) done
+
+[Thu Oct 25 10:13:43 2018]
+localrule all:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet1.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/PCA_plot_filtered.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_with_position_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_proteins_K562_CTRL_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_histogram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/collection500_filtered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/topTables_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_0.05P_filtered_less/K562_CTRL_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_0.05P_filtered_less/K562_DRG_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_0.05P_filtered_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Material_for_waterfall_0.05FDR_0.05P.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Material_for_waterfall_0.05FDR_0.05P.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Volcano_plot_K562_CTRL.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Volcano_plot_K562_DRG.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/results_shiny_0.05FDR_0.05P.Rda
+    jobid: 0
+
+[Thu Oct 25 10:13:43 2018]
+Finished job 0.
+3 of 3 steps (100%) done
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-10-25T101302.899911.snakemake.log

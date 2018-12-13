@@ -1,0 +1,30 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	SetRank_analysis
+	1	all
+	1	heatmap
+	1	prepare_shiny_inputs
+	4
+
+[Mon Oct 15 17:34:20 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/collection500_filtered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/topTables_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/params/parameters.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/MOLM13_CTRL_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/MOLM13_DRG_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_greater/MOLM13_CTRL_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_greater/MOLM13_DRG_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_greater/pathways.txt
+    jobid: 3
+
+Terminating processes on user request, this might take some time.
+[Mon Oct 15 17:34:22 2018]
+Error in rule SetRank_analysis:
+    jobid: 3
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/MOLM13_CTRL_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/MOLM13_DRG_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_greater/MOLM13_CTRL_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_greater/MOLM13_DRG_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_greater/pathways.txt
+
+RuleException:
+CalledProcessError in line 204 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/setRank_analysis.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 204, in __rule_SetRank_analysis
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General2/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-10-15T173419.781238.snakemake.log

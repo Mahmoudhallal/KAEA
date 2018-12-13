@@ -1,0 +1,3 @@
+KeyError in line 29 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+'Input_file'
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 29, in <module>

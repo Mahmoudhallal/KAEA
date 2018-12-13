@@ -1,0 +1,30 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	filter_eSet
+	2
+
+[Fri Oct 26 16:54:47 2018]
+rule filter_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet_notfiltered_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/filter_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet1_MOLM13.Rda
+    jobid: 2
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, cline=MOLM13
+
+[Fri Oct 26 16:55:01 2018]
+Error in rule filter_eSet:
+    jobid: 2
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet1_MOLM13.Rda
+
+RuleException:
+CalledProcessError in line 90 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript --max-ppsize=200000 /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/filter_eSet_sd.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 90, in __rule_filter_eSet
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-10-26T165447.328702.snakemake.log

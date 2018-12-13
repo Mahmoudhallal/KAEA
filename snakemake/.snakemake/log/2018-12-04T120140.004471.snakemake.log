@@ -1,0 +1,42 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	create_kinase_substrate_5_dbs
+	1	create_kinase_substrate_dbs
+	3
+
+[Tue Dec  4 12:01:40 2018]
+rule create_kinase_substrate_5_dbs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoELM_db/phosphoELM_vertebrate_2015-04.dump, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoSitePlus/Kinase_Substrate_Dataset, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/PhosphoNetworks/refKSI.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/HPRD/FLAT_FILES_072010/POST_TRANSLATIONAL_MODIFICATIONS.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/MINT/MINT_MiTab.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/RegPhos/RegPhos_Phos_human.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/SIGNOR/human_phosphorylations_09_05_17.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/phospho_dbs_v2.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/all_dbs1.csv
+    jobid: 5
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.05FDR
+
+[Tue Dec  4 12:03:05 2018]
+Finished job 5.
+1 of 3 steps (33%) done
+
+[Tue Dec  4 12:03:05 2018]
+rule create_kinase_substrate_dbs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Motif_analysis/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/all_dbs1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/phospho_dbs_with_motif.R, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/phospho_dbs_without_motif.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/all_dbs.csv
+    jobid: 4
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.05FDR
+
+[Tue Dec  4 12:03:08 2018]
+Finished job 4.
+2 of 3 steps (67%) done
+
+[Tue Dec  4 12:03:08 2018]
+localrule all:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/eSet_data_test1_U2OS.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/batches_all_phospho_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/test_eSet_notfiltered_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/all_dbs.csv
+    jobid: 0
+
+[Tue Dec  4 12:03:08 2018]
+Finished job 0.
+3 of 3 steps (100%) done
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-04T120140.004471.snakemake.log

@@ -1,0 +1,44 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	heatmap
+	1	volcano_plot
+	3
+
+[Tue Sep 18 14:36:17 2018]
+rule volcano_plot:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/test_eSet1.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_analysis/volcano_plots.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/Volcano_plot_K562_CTRL.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/Volcano_plot_K562_DRG.pdf
+    jobid: 8
+
+[Tue Sep 18 14:36:30 2018]
+Finished job 8.
+1 of 3 steps (33%) done
+
+[Tue Sep 18 14:36:30 2018]
+rule heatmap:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/params/parameters.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/pathway_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/pathway_summary_all_phosprots_delete_True_0.01P_0.05fdr_filtered.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_results/dataframe_map_to_pathway.csv
+    jobid: 1
+
+Warning: the following output files of rule heatmap were not present when the DAG was created:
+{'/Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/pathway_summary_all_phosprots_delete_True_0.01P_0.05fdr_filtered.pdf', '/Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_results/dataframe_map_to_pathway.csv'}
+[Tue Sep 18 14:36:31 2018]
+Error in rule heatmap:
+    jobid: 1
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/pathway_summary_all_phosprots_delete_True_0.01P_0.05fdr_filtered.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_results/dataframe_map_to_pathway.csv
+
+RuleException:
+CalledProcessError in line 216 of /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/pathway_create.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/Snakefile", line 216, in __rule_heatmap
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_K562_Nilo_t2/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Removing output files of failed job heatmap since they might be corrupted:
+/Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_results/dataframe_map_to_pathway.csv
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/.snakemake/log/2018-09-18T143616.952126.snakemake.log

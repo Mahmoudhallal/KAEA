@@ -1,0 +1,48 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	STY_plotting
+	1	SetRank_analysis
+	1	all
+	1	create_STY_eSet
+	1	filter_eSet
+	1	heatmap
+	1	pca
+	1	prepare_shiny_inputs
+	1	setRank_collection_create
+	1	topTables
+	1	volcano_plot
+	11
+
+[Tue Oct 16 15:18:06 2018]
+rule STY_plotting:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_data.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_phospho_data.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/plotting_STY.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_with_position_histogram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_histogram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_peptides_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_with_position_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/table_counts_all.csv
+    jobid: 3
+
+[Tue Oct 16 15:18:07 2018]
+Finished job 3.
+1 of 11 steps (9%) done
+
+[Tue Oct 16 15:18:07 2018]
+rule create_STY_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/eSet_data_test1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/create_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet_notfiltered.Rda
+    jobid: 12
+
+[Tue Oct 16 15:18:07 2018]
+Error in rule create_STY_eSet:
+    jobid: 12
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet_notfiltered.Rda
+
+RuleException:
+CalledProcessError in line 80 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/create_eSet_sd.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 80, in __rule_create_STY_eSet
+  File "/Users/Mahmoud.Hallal/miniconda3/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-10-16T151805.738724.snakemake.log

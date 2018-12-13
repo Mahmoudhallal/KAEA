@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 33 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing input files for rule all:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Volcano_plot_MOLM13_MOLM13_DRG.pdf

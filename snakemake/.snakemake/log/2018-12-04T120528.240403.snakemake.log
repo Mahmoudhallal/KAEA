@@ -1,0 +1,30 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	pca
+	2
+
+[Tue Dec  4 12:05:28 2018]
+rule pca:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/pca.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/PCA_plot_filtered_U2OS.pdf
+    jobid: 3
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.05FDR, cline=U2OS
+
+[Tue Dec  4 12:05:33 2018]
+Finished job 3.
+1 of 2 steps (50%) done
+
+[Tue Dec  4 12:05:33 2018]
+localrule all:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/eSet_data_test1_U2OS.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/batches_all_phospho_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/test_eSet_notfiltered_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/PCA_plot_filtered_U2OS.pdf
+    jobid: 0
+
+[Tue Dec  4 12:05:33 2018]
+Finished job 0.
+2 of 2 steps (100%) done
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-04T120528.240403.snakemake.log

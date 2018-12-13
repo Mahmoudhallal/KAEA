@@ -1,0 +1,16 @@
+#source activate Snakefile
+snakemake
+
+#create dag
+snakemake --dag | dot -Tsvg > dag.svg
+
+#during imputation, package “MSnbase” did not want to install because of dependencies on mar package which had dependencies on RNet CDF package —> installing “sudo port install udunits” fixed the whole downstream
+#install.packages("RNetCDF", repos = "https://cran.rstudio.com")
+RNetCDF was installed from CRAN
+
+
+#I had a problem installing strings which is a dependency of reshape2
+SOLUTION: 
+wget https://github.com/gagolews/stringi/archive/master.zip
+unzip stringi-master.zip
+R CMD INSTALL stringi-master

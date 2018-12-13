@@ -1,0 +1,54 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	3	SetRank_analysis
+	1	all
+	4
+
+[Wed Oct 17 15:05:56 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/topTables_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt
+    jobid: 4
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, fdr=0.05, file=pathways
+
+[Wed Oct 17 15:06:27 2018]
+Finished job 4.
+1 of 4 steps (25%) done
+
+[Wed Oct 17 15:06:27 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/topTables_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/K562_CTRL_pathways.txt
+    jobid: 2
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, fdr=0.05, file=K562_CTRL_pathways
+
+[Wed Oct 17 15:06:52 2018]
+Finished job 2.
+2 of 4 steps (50%) done
+
+[Wed Oct 17 15:06:52 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/topTables_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/K562_DRG_pathways.txt
+    jobid: 3
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, fdr=0.05, file=K562_DRG_pathways
+
+Warning: the following output files of rule SetRank_analysis were not present when the DAG was created:
+{'/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/K562_DRG_pathways.txt'}
+[Wed Oct 17 15:07:17 2018]
+Finished job 3.
+3 of 4 steps (75%) done
+
+[Wed Oct 17 15:07:17 2018]
+localrule all:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/collection500_filtered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/K562_CTRL_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/K562_DRG_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt
+    jobid: 0
+
+[Wed Oct 17 15:07:17 2018]
+Finished job 0.
+4 of 4 steps (100%) done
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-10-17T150556.057356.snakemake.log

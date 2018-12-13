@@ -1,0 +1,53 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	SetRank_analysis
+	1	all
+	1	heatmap
+	1	topTables
+	4
+
+[Fri Sep 14 09:48:11 2018]
+rule topTables:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/test_eSet1.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/top_tables.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/topTables_less.Rda
+    jobid: 9
+
+[Fri Sep 14 09:48:39 2018]
+Finished job 9.
+1 of 4 steps (25%) done
+
+[Fri Sep 14 09:48:39 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/collection500_filtered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/topTables_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/new_scripts/With_positions/snakemake_with_positions/params/parameters.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/output_networks_with_positions_0.05fdr_filtered_less/K562_CTRL_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/output_networks_with_positions_0.05fdr_filtered_less/K562_DRG_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt
+    jobid: 11
+
+[Fri Sep 14 09:49:30 2018]
+Finished job 11.
+2 of 4 steps (50%) done
+
+[Fri Sep 14 09:49:30 2018]
+rule heatmap:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/new_scripts/With_positions/snakemake_with_positions/params/parameters.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/pathway_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/pathway_summary_all_phosprots_delete_True_0.05P_0.05fdr_filtered.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_results/dataframe_map_to_pathway.csv
+    jobid: 6
+
+[Fri Sep 14 09:49:31 2018]
+Error in rule heatmap:
+    jobid: 6
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/pathway_summary_all_phosprots_delete_True_0.05P_0.05fdr_filtered.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_results/dataframe_map_to_pathway.csv
+
+RuleException:
+CalledProcessError in line 206 of /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/pathway_create.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/Snakefile", line 206, in __rule_heatmap
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_K562_Nilo_t2/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Removing output files of failed job heatmap since they might be corrupted:
+/Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/pathway_summary_all_phosprots_delete_True_0.05P_0.05fdr_filtered.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_results/dataframe_map_to_pathway.csv
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/.snakemake/log/2018-09-14T094811.083712.snakemake.log

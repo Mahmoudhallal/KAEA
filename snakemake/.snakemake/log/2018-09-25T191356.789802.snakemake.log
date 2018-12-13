@@ -1,0 +1,29 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	SetRank_analysis
+	1	all
+	1	heatmap
+	3
+
+[Tue Sep 25 19:13:57 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/collection500_filtered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/topTables_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/params/parameters.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.05fdr_filtered_less/MOLM13_CTRL_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.05fdr_filtered_less/MOLM13_DRG_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt
+    jobid: 10
+
+Terminating processes on user request, this might take some time.
+[Tue Sep 25 19:14:07 2018]
+Error in rule SetRank_analysis:
+    jobid: 10
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.05fdr_filtered_less/MOLM13_CTRL_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.05fdr_filtered_less/MOLM13_DRG_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt
+
+RuleException:
+CalledProcessError in line 204 of /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/setRank_analysis.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/Snakefile", line 204, in __rule_SetRank_analysis
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_Molm13_Mido/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/.snakemake/log/2018-09-25T191356.789802.snakemake.log

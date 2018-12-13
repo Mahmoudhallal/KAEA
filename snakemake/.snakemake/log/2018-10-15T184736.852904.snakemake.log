@@ -1,0 +1,3 @@
+NameError in line 30 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+name 'data' is not defined
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 30, in <module>

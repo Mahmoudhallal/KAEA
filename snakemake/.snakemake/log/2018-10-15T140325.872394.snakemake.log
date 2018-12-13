@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 195 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing input files for rule heatmap:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.01fdr_filtered_less/pathways.txt

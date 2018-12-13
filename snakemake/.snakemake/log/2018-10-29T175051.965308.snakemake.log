@@ -1,0 +1,30 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	STY_plotting
+	1	all
+	2
+
+[Mon Oct 29 17:50:52 2018]
+rule STY_plotting:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_data_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_phospho_data_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/plotting_STY.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_with_position_histogram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_histogram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_peptides_venn_diagram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_with_position_venn_diagram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/table_counts_all_MOLM13.csv
+    jobid: 6
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, cline=MOLM13
+
+[Mon Oct 29 17:51:00 2018]
+Finished job 6.
+1 of 2 steps (50%) done
+
+[Mon Oct 29 17:51:00 2018]
+localrule all:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/PCA_plot_filtered_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_with_position_venn_diagram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_histogram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_proteins_MOLM13_CTRL_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/collection_MOLM13_500.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/results_shiny_MOLM13_0.05FDR_0.01P.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Volcano_plot_MOLM13_MOLM13_DRG.pdf
+    jobid: 0
+
+[Mon Oct 29 17:51:00 2018]
+Finished job 0.
+2 of 2 steps (100%) done
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-10-29T175051.965308.snakemake.log

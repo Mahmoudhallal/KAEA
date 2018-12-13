@@ -1,0 +1,3 @@
+TypeError in line 5 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+list indices must be integers or slices, not list
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 5, in <module>

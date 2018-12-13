@@ -1,0 +1,29 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	setRank_collection_create
+	2
+
+[Mon Oct 29 10:39:14 2018]
+rule setRank_collection_create:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet1_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/collection_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/collection_MOLM13_500.Rda
+    jobid: 8
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, cline=MOLM13, MaxSetSize=500
+
+Terminating processes on user request, this might take some time.
+[Mon Oct 29 10:48:20 2018]
+Error in rule setRank_collection_create:
+    jobid: 8
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/collection_MOLM13_500.Rda
+
+RuleException:
+CalledProcessError in line 184 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/collection_create.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 184, in __rule_setRank_collection_create
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-10-29T103914.537648.snakemake.log

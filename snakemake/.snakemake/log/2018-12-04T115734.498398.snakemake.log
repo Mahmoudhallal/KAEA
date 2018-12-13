@@ -1,0 +1,5 @@
+Building DAG of jobs...
+MissingInputException in line 38 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing input files for rule all:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/eSet_data_test1_U2OS.csv
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_phospho_data_U2OS.Rda

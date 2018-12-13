@@ -1,0 +1,35 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	SetRank_analysis
+	1	all
+	1	create_STY_eSet
+	1	filter_eSet
+	1	heatmap
+	1	pca
+	1	setRank_collection_create
+	1	topTables
+	8
+
+[Thu Sep 13 08:38:49 2018]
+rule create_STY_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/eSet_data_test1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/create_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/test_eSet_notfiltered.Rda
+    jobid: 4
+
+[Thu Sep 13 08:38:51 2018]
+Error in rule create_STY_eSet:
+    jobid: 4
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/test_eSet_notfiltered.Rda
+
+RuleException:
+CalledProcessError in line 64 of /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/create_eSet_sd.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/Snakefile", line 64, in __rule_create_STY_eSet
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_K562_Nilo_t2/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/.snakemake/log/2018-09-13T083848.695529.snakemake.log

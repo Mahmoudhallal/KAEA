@@ -1,0 +1,3 @@
+FileExistsError in line 27 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+[Errno 17] File exists: '/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR'
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 27, in <module>

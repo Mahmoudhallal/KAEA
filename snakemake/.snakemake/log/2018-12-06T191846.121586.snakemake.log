@@ -1,0 +1,66 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	2	Reproducibility
+	1	STY_plotting
+	1	SetRank_analysis
+	1	all
+	1	create_STY_eSet
+	1	create_kinase_substrate_5_dbs
+	1	create_kinase_substrate_dbs
+	1	filter_eSet
+	1	heatmap
+	1	load_prepare_STY_files
+	1	pca
+	1	prepare_shiny_inputs
+	1	setRank_collection_create
+	1	topTables
+	2	volcano_plot
+	1	waterfall
+	18
+
+[Thu Dec  6 19:18:46 2018]
+rule create_kinase_substrate_5_dbs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoELM_db/phosphoELM_vertebrate_2015-04.dump, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoSitePlus/Kinase_Substrate_Dataset, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/PhosphoNetworks/refKSI.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/HPRD/FLAT_FILES_072010/POST_TRANSLATIONAL_MODIFICATIONS.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/MINT/MINT_MiTab.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/RegPhos/RegPhos_Phos_human.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/SIGNOR/human_phosphorylations_09_05_17.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/phospho_dbs_v2.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/A204_0.01P_0.01FDR/all_dbs1.csv
+    jobid: 17
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=A204_0.01P_0.01FDR
+
+[Thu Dec  6 19:20:24 2018]
+Finished job 17.
+1 of 18 steps (6%) done
+
+[Thu Dec  6 19:20:24 2018]
+rule create_kinase_substrate_dbs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Motif_analysis/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/A204_0.01P_0.01FDR/all_dbs1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/phospho_dbs_with_motif.R, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/phospho_dbs_without_motif.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/A204_0.01P_0.01FDR/all_dbs.csv
+    jobid: 11
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=A204_0.01P_0.01FDR
+
+[Thu Dec  6 19:20:28 2018]
+Finished job 11.
+2 of 18 steps (11%) done
+
+[Thu Dec  6 19:20:28 2018]
+rule load_prepare_STY_files:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/External_datasets/External_data_pipeline.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/cell_lines_analysis_STYfiles_INC1_INC2_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/A204_0.01P_0.01FDR/eSet_data_test1_A204.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/A204_0.01P_0.01FDR/batches_all_data_A204.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/A204_0.01P_0.01FDR/batches_all_phospho_data_A204.Rda
+    jobid: 4
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=A204_0.01P_0.01FDR, cline=A204
+
+[Thu Dec  6 19:20:29 2018]
+Error in rule load_prepare_STY_files:
+    jobid: 4
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/A204_0.01P_0.01FDR/eSet_data_test1_A204.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/A204_0.01P_0.01FDR/batches_all_data_A204.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/A204_0.01P_0.01FDR/batches_all_phospho_data_A204.Rda
+
+RuleException:
+CalledProcessError in line 72 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/cell_lines_analysis_STYfiles_INC1_INC2_sd.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 72, in __rule_load_prepare_STY_files
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-06T191846.121586.snakemake.log

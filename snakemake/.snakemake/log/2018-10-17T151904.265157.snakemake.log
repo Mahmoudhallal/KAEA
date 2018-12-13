@@ -1,0 +1,31 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	Reproducibility
+	1	STY_plotting
+	1	all
+	3
+
+[Wed Oct 17 15:19:04 2018]
+rule Reproducibility:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet1.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_data.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_phospho_data.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/STY_reproducibility.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_proteins_K562_CTRL_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_proteins_K562_DRG_venn_diagram.pdf
+    jobid: 4
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline
+
+[Wed Oct 17 15:19:04 2018]
+Error in rule Reproducibility:
+    jobid: 4
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_proteins_K562_CTRL_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_proteins_K562_DRG_venn_diagram.pdf
+
+RuleException:
+CalledProcessError in line 154 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/STY_reproducibility.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 154, in __rule_Reproducibility
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General2/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-10-17T151904.265157.snakemake.log

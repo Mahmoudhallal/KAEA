@@ -1,0 +1,5 @@
+Building DAG of jobs...
+InputFunctionException in line 51 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+TypeError: list indices must be integers or slices, not str
+Wildcards:
+CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline

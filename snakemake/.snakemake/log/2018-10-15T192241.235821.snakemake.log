@@ -1,0 +1,4 @@
+TypeError in line 62 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+expected str, bytes or os.PathLike object, not list
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 62, in <module>
+  File "/Users/Mahmoud.Hallal/miniconda3/lib/python3.6/posixpath.py", line 371, in abspath

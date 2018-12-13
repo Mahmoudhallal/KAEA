@@ -1,0 +1,31 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	STY_plotting
+	1	all
+	1	prepare_shiny_inputs
+	3
+
+[Thu Nov  8 14:48:18 2018]
+rule STY_plotting:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_data_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_phospho_data_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/plotting_STY.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_with_position_histogram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_histogram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_peptides_venn_diagram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_with_position_venn_diagram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/table_counts_all_MOLM13.csv
+    jobid: 5
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, cline=MOLM13
+
+[Thu Nov  8 14:48:20 2018]
+Error in rule STY_plotting:
+    jobid: 5
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_with_position_histogram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_histogram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_peptides_venn_diagram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_with_position_venn_diagram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/table_counts_all_MOLM13.csv
+
+RuleException:
+CalledProcessError in line 142 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/plotting_STY.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 142, in __rule_STY_plotting
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-11-08T144817.383226.snakemake.log

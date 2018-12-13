@@ -1,0 +1,36 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	SetRank_analysis
+	1	all
+	1	heatmap
+	1	pca
+	1	prepare_shiny_inputs
+	1	topTables
+	2	volcano_plot
+	1	waterfall
+	9
+
+[Tue Dec 11 11:51:57 2018]
+rule topTables:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/test_eSet1_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/top_tables.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/topTables_CML_less.Rda
+    jobid: 2
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.01P_0.05FDR, cline=CML
+
+[Tue Dec 11 11:52:07 2018]
+Error in rule topTables:
+    jobid: 2
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/topTables_CML_less.Rda
+
+RuleException:
+CalledProcessError in line 197 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/top_tables.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 197, in __rule_topTables
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-11T115153.270914.snakemake.log

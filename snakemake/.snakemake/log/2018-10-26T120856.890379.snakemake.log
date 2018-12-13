@@ -1,0 +1,2 @@
+SyntaxError in line 63 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Unexpected keyword outfile in rule definition (Snakefile, line 63)

@@ -1,0 +1,12 @@
+Building DAG of jobs...
+AmbiguousRuleException:
+Rules load_prepare_STY_files and heatmap are ambiguous for the file /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/eSet_data_test1.csv.
+Consider starting rule output with a unique prefix, constrain your wildcards, or use the ruleorder directive.
+Wildcards:
+	load_prepare_STY_files: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline
+	heatmap: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline,files=eSet_data_test1.csv
+Expected input files:
+	load_prepare_STY_files: /Users/Mahmoud.Hallal/Desktop/PhD/cell_lines_data/Stimulated_data/K562_Nilotinib_t2/Phospho (STY)Sites.txt /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/cell_lines_analysis_STYfiles_INC1_INC2_sd.R
+	heatmap: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/pathway_create.RExpected output files:
+	load_prepare_STY_files: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/eSet_data_test1.csv /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_data.Rda /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_phospho_data.Rda
+	heatmap: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/eSet_data_test1.csv

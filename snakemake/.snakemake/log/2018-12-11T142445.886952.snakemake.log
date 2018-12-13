@@ -1,0 +1,78 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	SetRank_analysis
+	1	all
+	1	heatmap
+	1	prepare_shiny_inputs
+	1	topTables
+	1	waterfall
+	6
+
+[Tue Dec 11 14:24:46 2018]
+rule topTables:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/test_eSet1_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/top_tables.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/topTables_CML_less.Rda
+    jobid: 11
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.01P_0.01FDR, cline=CML
+
+[Tue Dec 11 14:24:50 2018]
+Finished job 11.
+1 of 6 steps (17%) done
+
+[Tue Dec 11 14:24:50 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/collection_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/topTables_CML_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_CML_less/CML_BE00097_fup_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_CML_less/CML_BE00283_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_CML_less/pathways.txt
+    jobid: 8
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.01P_0.01FDR, fdr=0.01, pv=0.01, cline=CML
+
+[Tue Dec 11 14:25:09 2018]
+Finished job 8.
+2 of 6 steps (33%) done
+
+[Tue Dec 11 14:25:09 2018]
+rule waterfall:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_CML_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/waterfall_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/Material_for_waterfall_0.01FDR_0.01P_CML.Rda
+    jobid: 14
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.01P_0.01FDR, fdr=0.01, pv=0.01, cline=CML
+
+[Tue Dec 11 14:25:12 2018]
+Finished job 14.
+3 of 6 steps (50%) done
+
+[Tue Dec 11 14:25:12 2018]
+rule heatmap:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_CML_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/pathway_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/Material_for_heatmap_0.01FDR_0.01P_CML.csv
+    jobid: 15
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.01P_0.01FDR, fdr=0.01, pv=0.01, cline=CML
+
+[Tue Dec 11 14:25:13 2018]
+Finished job 15.
+4 of 6 steps (67%) done
+
+[Tue Dec 11 14:25:13 2018]
+rule prepare_shiny_inputs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/Material_for_waterfall_0.01FDR_0.01P_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/Material_for_heatmap_0.01FDR_0.01P_CML.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/prepare_shiny_outputs.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/results_shiny_CML_0.01P_0.01FDR.Rda
+    jobid: 9
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.01P_0.01FDR, cline=CML, pv=0.01, fdr=0.01
+
+[Tue Dec 11 14:26:44 2018]
+Error in rule prepare_shiny_inputs:
+    jobid: 9
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.01FDR/results_shiny_CML_0.01P_0.01FDR.Rda
+
+RuleException:
+CalledProcessError in line 248 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/prepare_shiny_outputs.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 248, in __rule_prepare_shiny_inputs
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-11T142445.886952.snakemake.log

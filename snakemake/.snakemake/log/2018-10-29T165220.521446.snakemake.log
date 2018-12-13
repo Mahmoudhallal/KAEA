@@ -1,0 +1,49 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	Reproducibility
+	1	STY_plotting
+	1	SetRank_analysis
+	1	all
+	1	create_STY_eSet
+	1	filter_eSet
+	1	heatmap
+	1	pca
+	1	prepare_shiny_inputs
+	1	topTables
+	1	waterfall
+	11
+
+[Mon Oct 29 16:52:20 2018]
+rule STY_plotting:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_data_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_phospho_data_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/plotting_STY.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_with_position_histogram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_histogram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_peptides_venn_diagram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Phos_prots_with_position_venn_diagram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/table_counts_all_MOLM13.csv
+    jobid: 4
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, cline=MOLM13
+
+[Mon Oct 29 16:52:28 2018]
+Finished job 4.
+1 of 11 steps (9%) done
+
+[Mon Oct 29 16:52:28 2018]
+rule create_STY_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/eSet_data_test1_MOLM13.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/create_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet_notfiltered_MOLM13.Rda
+    jobid: 9
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, cline=MOLM13
+
+Terminating processes on user request, this might take some time.
+[Mon Oct 29 16:52:31 2018]
+Error in rule create_STY_eSet:
+    jobid: 9
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet_notfiltered_MOLM13.Rda
+
+RuleException:
+CalledProcessError in line 77 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/create_eSet_sd.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 77, in __rule_create_STY_eSet
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-10-29T165220.521446.snakemake.log

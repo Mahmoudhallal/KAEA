@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 237 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing input files for rule coverage:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/coverage_celllines_dbs.R

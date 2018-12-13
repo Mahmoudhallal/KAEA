@@ -1,0 +1,58 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	SetRank_analysis
+	1	all
+	1	heatmap
+	1	pca
+	1	prepare_shiny_inputs
+	1	topTables
+	2	volcano_plot
+	1	waterfall
+	9
+
+[Tue Dec 11 11:54:42 2018]
+rule topTables:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/test_eSet1_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/top_tables.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/topTables_CML_less.Rda
+    jobid: 8
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.01P_0.05FDR, cline=CML
+
+[Tue Dec 11 11:55:06 2018]
+Finished job 8.
+1 of 9 steps (11%) done
+
+[Tue Dec 11 11:55:06 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/collection_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/topTables_CML_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/output_networks_with_positions_0.05FDR_0.01P_CML_less/CML_BE00097_fup_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/output_networks_with_positions_0.05FDR_0.01P_CML_less/CML_BE00283_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/output_networks_with_positions_0.05FDR_0.01P_CML_less/pathways.txt
+    jobid: 4
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.01P_0.05FDR, fdr=0.05, pv=0.01, cline=CML
+
+[Tue Dec 11 11:55:37 2018]
+Finished job 4.
+2 of 9 steps (22%) done
+
+[Tue Dec 11 11:55:37 2018]
+rule volcano_plot:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/test_eSet1_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/volcano_plots.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/Volcano_plot_CML_x_CML_BE00283.pdf
+    jobid: 7
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.01P_0.05FDR, cline=CML, cond=CML_BE00283
+
+[Tue Dec 11 11:55:40 2018]
+Error in rule volcano_plot:
+    jobid: 7
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.01P_0.05FDR/Volcano_plot_CML_x_CML_BE00283.pdf
+
+RuleException:
+CalledProcessError in line 173 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/volcano_plots.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 173, in __rule_volcano_plot
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-11T115441.432077.snakemake.log

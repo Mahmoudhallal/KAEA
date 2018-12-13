@@ -1,0 +1,82 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	Reproducibility
+	1	STY_plotting
+	1	SetRank_analysis
+	1	all
+	1	create_STY_eSet
+	1	create_kinase_substrate_dbs
+	1	filter_eSet
+	1	heatmap
+	1	pca
+	1	prepare_shiny_inputs
+	1	setRank_collection_create
+	1	topTables
+	1	volcano_plot
+	1	waterfall
+	14
+
+[Tue Dec  4 10:16:40 2018]
+rule STY_plotting:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/batches_all_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/batches_all_phospho_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/plotting_STY.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_prots_with_position_histogram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_prots_histogram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_peptides_venn_diagram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_prots_with_position_venn_diagram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/table_counts_all_U2OS.csv
+    jobid: 4
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.05FDR, cline=U2OS
+
+[Tue Dec  4 10:16:49 2018]
+Finished job 4.
+1 of 14 steps (7%) done
+
+[Tue Dec  4 10:16:49 2018]
+rule create_kinase_substrate_dbs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Motif_analysis/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/all_dbs1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/phospho_dbs_with_motif.R, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/phospho_dbs_without_motif.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/all_dbs.csv
+    jobid: 9
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.05FDR
+
+[Tue Dec  4 10:16:52 2018]
+Finished job 9.
+2 of 14 steps (14%) done
+
+[Tue Dec  4 10:16:52 2018]
+rule create_STY_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/eSet_data_test1_U2OS.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/create_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/test_eSet_notfiltered_U2OS.Rda
+    jobid: 12
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.05FDR, cline=U2OS
+
+[Tue Dec  4 10:17:06 2018]
+Finished job 12.
+3 of 14 steps (21%) done
+
+[Tue Dec  4 10:17:06 2018]
+rule filter_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/test_eSet_notfiltered_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/filter_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/test_eSet1_U2OS.Rda
+    jobid: 8
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.05FDR, cline=U2OS
+
+[Tue Dec  4 10:17:18 2018]
+Finished job 8.
+4 of 14 steps (29%) done
+
+[Tue Dec  4 10:17:18 2018]
+rule Reproducibility:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/batches_all_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/batches_all_phospho_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/STY_reproducibility.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_proteins_U2OS_CTRL_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_proteins_U2OS_DRG_venn_diagram.pdf
+    jobid: 1
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.05FDR, cline=U2OS
+
+Waiting at most 5 seconds for missing files.
+MissingOutputException in line 148 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing files after 5 seconds:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_proteins_U2OS_CTRL_venn_diagram.pdf
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_proteins_U2OS_DRG_venn_diagram.pdf
+This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait.
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-04T101639.522143.snakemake.log

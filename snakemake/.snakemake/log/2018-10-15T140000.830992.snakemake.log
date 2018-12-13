@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 95 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing input files for rule create_kinase_substrate_dbs:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/phospho_dbs_with_motif.R

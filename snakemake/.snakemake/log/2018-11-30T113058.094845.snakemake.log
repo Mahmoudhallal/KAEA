@@ -1,0 +1,25 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	prepare_shiny_inputs
+	2
+
+[Fri Nov 30 11:31:01 2018]
+rule prepare_shiny_inputs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.025FDR/Material_for_waterfall_0.025FDR_0.01P_K562.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.025FDR/Material_for_heatmap_0.025FDR_0.01P_K562.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/prepare_shiny_outputs.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.025FDR/results_shiny_K562_0.025FDR_0.01P.Rda
+    jobid: 6
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=K562_0.01P_0.025FDR, cline=K562, fdr=0.025, pv=0.01
+
+Waiting at most 5 seconds for missing files.
+MissingOutputException in line 237 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing files after 5 seconds:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.025FDR/results_shiny_K562_0.025FDR_0.01P.Rda
+This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait.
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-11-30T113058.094845.snakemake.log

@@ -1,0 +1,42 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	Reproducibility
+	1	STY_plotting
+	1	all
+	3
+
+[Thu Nov 22 19:26:17 2018]
+rule Reproducibility:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/test_eSet1_K562.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/batches_all_data_K562.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/batches_all_phospho_data_K562.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/STY_reproducibility.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/Phos_proteins_K562_CTRL_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/Phos_proteins_K562_DRG_venn_diagram.pdf
+    jobid: 6
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=K562_0.01P_0.05FDR, cline=K562
+
+[Thu Nov 22 19:26:43 2018]
+Finished job 6.
+1 of 3 steps (33%) done
+
+[Thu Nov 22 19:26:43 2018]
+rule STY_plotting:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/batches_all_data_K562.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/batches_all_phospho_data_K562.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/plotting_STY.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/Phos_prots_with_position_histogram_K562.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/Phos_prots_histogram_K562.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/Phos_peptides_venn_diagram_K562.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/Phos_prots_with_position_venn_diagram_K562.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/table_counts_all_K562.csv
+    jobid: 1
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=K562_0.01P_0.05FDR, cline=K562
+
+[Thu Nov 22 19:26:52 2018]
+Finished job 1.
+2 of 3 steps (67%) done
+
+[Thu Nov 22 19:26:52 2018]
+localrule all:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/PCA_plot_filtered_K562.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/Phos_prots_with_position_venn_diagram_K562.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/Phos_prots_histogram_K562.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/Phos_proteins_K562_CTRL_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/collection_K562.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/results_shiny_K562_0.05FDR_0.01P.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.05FDR/Volcano_plot_K562_K562_DRG.pdf
+    jobid: 0
+
+[Thu Nov 22 19:26:52 2018]
+Finished job 0.
+3 of 3 steps (100%) done
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-11-22T192617.016446.snakemake.log

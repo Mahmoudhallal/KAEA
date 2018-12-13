@@ -1,0 +1,66 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	STY_plotting
+	1	SetRank_analysis
+	1	all
+	1	create_STY_eSet
+	1	filter_eSet
+	1	heatmap
+	1	pca
+	1	setRank_collection_create
+	1	topTables
+	1	volcano_plot
+	10
+
+[Fri Sep 28 11:59:04 2018]
+rule STY_plotting:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/batches_all_data.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/batches_all_phospho_data.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/plotting_STY.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Phos_prots_with_position_histogram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Phos_prots_histogram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Phos_peptides_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Phos_prots_with_position_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/table_counts_all.csv
+    jobid: 2
+
+[Fri Sep 28 11:59:12 2018]
+Finished job 2.
+1 of 10 steps (10%) done
+
+[Fri Sep 28 11:59:12 2018]
+rule create_STY_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/eSet_data_test1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/create_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/test_eSet_notfiltered.Rda
+    jobid: 9
+
+[Fri Sep 28 11:59:30 2018]
+Finished job 9.
+2 of 10 steps (20%) done
+
+[Fri Sep 28 11:59:30 2018]
+rule filter_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/test_eSet_notfiltered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/filter_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/test_eSet1.Rda
+    jobid: 5
+
+[Fri Sep 28 11:59:37 2018]
+Finished job 5.
+3 of 10 steps (30%) done
+
+[Fri Sep 28 11:59:37 2018]
+rule setRank_collection_create:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/test_eSet1.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/collection_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/collection500_filtered.Rda
+    jobid: 6
+
+Terminating processes on user request, this might take some time.
+[Fri Sep 28 12:02:53 2018]
+Error in rule setRank_collection_create:
+    jobid: 6
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/collection500_filtered.Rda
+
+RuleException:
+CalledProcessError in line 179 of /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/collection_create.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/Snakefile", line 179, in __rule_setRank_collection_create
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_Molm13_Mido/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/.snakemake/log/2018-09-28T115903.284907.snakemake.log

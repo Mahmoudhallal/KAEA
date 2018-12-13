@@ -1,0 +1,19 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	create_STY_eSet
+	2
+
+[Fri Oct 26 16:27:56 2018]
+rule create_STY_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/eSet_data_test1_MOLM13.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/create_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet_notfiltered_MOLM13.Rda
+    jobid: 1
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, cline=MOLM13
+
+Terminating processes on user request, this might take some time.
+Cancelling snakemake on user request.

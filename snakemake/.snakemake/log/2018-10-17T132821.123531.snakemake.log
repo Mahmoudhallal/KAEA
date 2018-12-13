@@ -1,0 +1,107 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	SetRank_analysis
+	1	all
+	1	create_STY_eSet
+	1	create_kinase_substrate_5_dbs
+	1	create_kinase_substrate_dbs
+	1	filter_eSet
+	1	load_prepare_STY_files
+	1	setRank_collection_create
+	1	topTables
+	9
+
+[Wed Oct 17 13:28:21 2018]
+rule create_kinase_substrate_5_dbs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoELM_db/phosphoELM_vertebrate_2015-04.dump, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoSitePlus/Kinase_Substrate_Dataset, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/PhosphoNetworks/refKSI.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/HPRD/FLAT_FILES_072010/POST_TRANSLATIONAL_MODIFICATIONS.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/MINT/MINT_MiTab.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/RegPhos/RegPhos_Phos_human.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/SIGNOR/human_phosphorylations_09_05_17.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/phospho_dbs_v2.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/all_dbs1.csv
+    jobid: 7
+
+[Wed Oct 17 13:28:52 2018]
+Finished job 7.
+1 of 9 steps (11%) done
+
+[Wed Oct 17 13:28:52 2018]
+rule load_prepare_STY_files:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/cell_lines_data/Stimulated_data/K562_Nilotinib_t2/Phospho (STY)Sites.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/cell_lines_analysis_STYfiles_INC1_INC2_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/eSet_data_test1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_data.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_phospho_data.Rda
+    jobid: 8
+
+[Wed Oct 17 13:29:00 2018]
+Finished job 8.
+2 of 9 steps (22%) done
+
+[Wed Oct 17 13:29:00 2018]
+rule create_kinase_substrate_dbs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Motif_analysis/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/all_dbs1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/phospho_dbs_with_motif.R, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/phospho_dbs_without_motif.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/all_dbs.csv
+    jobid: 5
+
+[Wed Oct 17 13:29:03 2018]
+Finished job 5.
+3 of 9 steps (33%) done
+
+[Wed Oct 17 13:29:03 2018]
+rule create_STY_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/eSet_data_test1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/create_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet_notfiltered.Rda
+    jobid: 6
+
+[Wed Oct 17 13:29:15 2018]
+Finished job 6.
+4 of 9 steps (44%) done
+
+[Wed Oct 17 13:29:15 2018]
+rule filter_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet_notfiltered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/filter_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet1.Rda
+    jobid: 4
+
+[Wed Oct 17 13:29:20 2018]
+Finished job 4.
+5 of 9 steps (56%) done
+
+[Wed Oct 17 13:29:20 2018]
+rule setRank_collection_create:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet1.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/collection_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/collection500_filtered.Rda
+    jobid: 2
+
+[Wed Oct 17 13:34:22 2018]
+Finished job 2.
+6 of 9 steps (67%) done
+
+[Wed Oct 17 13:34:22 2018]
+rule topTables:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet1.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/top_tables.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/topTables_less.Rda
+    jobid: 3
+
+[Wed Oct 17 13:34:37 2018]
+Finished job 3.
+7 of 9 steps (78%) done
+
+[Wed Oct 17 13:34:37 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/collection500_filtered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/topTables_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt
+    jobid: 1
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, fdr=0.05
+
+[Wed Oct 17 13:35:16 2018]
+Finished job 1.
+8 of 9 steps (89%) done
+
+[Wed Oct 17 13:35:16 2018]
+localrule all:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt
+    jobid: 0
+
+[Wed Oct 17 13:35:16 2018]
+Finished job 0.
+9 of 9 steps (100%) done
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-10-17T132821.123531.snakemake.log

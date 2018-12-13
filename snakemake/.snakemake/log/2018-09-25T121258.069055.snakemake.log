@@ -1,0 +1,96 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	STY_plotting
+	1	SetRank_analysis
+	1	all
+	1	create_STY_eSet
+	1	create_kinase_substrate_dbs
+	1	filter_eSet
+	1	heatmap
+	1	pca
+	1	setRank_collection_create
+	1	topTables
+	1	volcano_plot
+	11
+
+[Tue Sep 25 12:12:58 2018]
+rule STY_plotting:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/batches_all_data.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/batches_all_phospho_data.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/plotting_STY.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Phos_prots_with_position_histogram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Phos_prots_histogram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Phos_peptides_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Phos_prots_with_position_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/table_counts_all.csv
+    jobid: 1
+
+[Tue Sep 25 12:13:26 2018]
+Finished job 1.
+1 of 11 steps (9%) done
+
+[Tue Sep 25 12:13:26 2018]
+rule create_kinase_substrate_dbs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Motif_analysis/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/all_dbs1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/phospho_dbs_with_motif.R, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/phospho_dbs_without_motif.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/all_dbs.csv
+    jobid: 11
+
+[Tue Sep 25 12:13:28 2018]
+Finished job 11.
+2 of 11 steps (18%) done
+
+[Tue Sep 25 12:13:28 2018]
+rule create_STY_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/eSet_data_test1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/create_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/test_eSet_notfiltered.Rda
+    jobid: 7
+
+[Tue Sep 25 12:17:41 2018]
+Finished job 7.
+3 of 11 steps (27%) done
+
+[Tue Sep 25 12:17:41 2018]
+rule filter_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/test_eSet_notfiltered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/filter_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/test_eSet1.Rda
+    jobid: 6
+
+[Tue Sep 25 12:23:11 2018]
+Finished job 6.
+4 of 11 steps (36%) done
+
+[Tue Sep 25 12:23:11 2018]
+rule setRank_collection_create:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/test_eSet1.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/collection_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/collection500_filtered.Rda
+    jobid: 4
+
+[Tue Sep 25 12:28:12 2018]
+Finished job 4.
+5 of 11 steps (45%) done
+
+[Tue Sep 25 12:28:12 2018]
+rule topTables:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/test_eSet1.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/top_tables.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/topTables_less.Rda
+    jobid: 8
+
+[Tue Sep 25 12:28:35 2018]
+Finished job 8.
+6 of 11 steps (55%) done
+
+[Tue Sep 25 12:28:35 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/collection500_filtered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/topTables_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/params/parameters.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.05fdr_filtered_less/K562_CTRL_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.05fdr_filtered_less/K562_DRG_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt
+    jobid: 10
+
+Waiting at most 5 seconds for missing files.
+MissingOutputException in line 192 of /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/Snakefile:
+Missing files after 5 seconds:
+/Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.05fdr_filtered_less/K562_CTRL_pathways.txt
+/Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.05fdr_filtered_less/K562_DRG_pathways.txt
+This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait.
+Removing output files of failed job SetRank_analysis since they might be corrupted:
+/Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.05fdr_filtered_less/pathways.txt
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/.snakemake/log/2018-09-25T121258.069055.snakemake.log

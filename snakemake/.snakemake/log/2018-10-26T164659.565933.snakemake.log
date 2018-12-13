@@ -1,0 +1,78 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	create_STY_eSet
+	1	create_kinase_substrate_5_dbs
+	1	create_kinase_substrate_dbs
+	1	filter_eSet
+	1	load_prepare_STY_files
+	6
+
+[Fri Oct 26 16:47:00 2018]
+rule create_kinase_substrate_5_dbs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoELM_db/phosphoELM_vertebrate_2015-04.dump, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoSitePlus/Kinase_Substrate_Dataset, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/PhosphoNetworks/refKSI.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/HPRD/FLAT_FILES_072010/POST_TRANSLATIONAL_MODIFICATIONS.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/MINT/MINT_MiTab.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/RegPhos/RegPhos_Phos_human.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/SIGNOR/human_phosphorylations_09_05_17.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/phospho_dbs_v2.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/all_dbs1.csv
+    jobid: 5
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline
+
+[Fri Oct 26 16:48:23 2018]
+Finished job 5.
+1 of 6 steps (17%) done
+
+[Fri Oct 26 16:48:23 2018]
+rule load_prepare_STY_files:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/cell_lines_data/Stimulated_data/Molm13_Midostaurin_09.2018/20180913_MOLM13_TiO2_MQres_MH/Phospho (STY)Sites.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/cell_lines_analysis_STYfiles_INC1_INC2_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/eSet_data_test1_MOLM13.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_data_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/batches_all_phospho_data_MOLM13.Rda
+    jobid: 2
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, cline=MOLM13
+
+[Fri Oct 26 16:48:34 2018]
+Finished job 2.
+2 of 6 steps (33%) done
+
+[Fri Oct 26 16:48:34 2018]
+rule create_kinase_substrate_dbs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Motif_analysis/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/all_dbs1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/phospho_dbs_with_motif.R, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/phospho_dbs_without_motif.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/all_dbs.csv
+    jobid: 3
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline
+
+[Fri Oct 26 16:48:36 2018]
+Finished job 3.
+3 of 6 steps (50%) done
+
+[Fri Oct 26 16:48:36 2018]
+rule create_STY_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/eSet_data_test1_MOLM13.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/create_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet_notfiltered_MOLM13.Rda
+    jobid: 4
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, cline=MOLM13
+
+[Fri Oct 26 16:52:15 2018]
+Finished job 4.
+4 of 6 steps (67%) done
+
+[Fri Oct 26 16:52:15 2018]
+rule filter_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet_notfiltered_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/filter_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet1_MOLM13.Rda
+    jobid: 1
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, cline=MOLM13
+
+[Fri Oct 26 16:54:14 2018]
+Error in rule filter_eSet:
+    jobid: 1
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/test_eSet1_MOLM13.Rda
+
+RuleException:
+CalledProcessError in line 90 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript --max-ppsize=200000 /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/filter_eSet_sd.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 90, in __rule_filter_eSet
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-10-26T164659.565933.snakemake.log

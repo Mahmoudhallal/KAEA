@@ -1,0 +1,25 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	volcano_plot
+	2
+
+[Mon Sep 17 13:49:11 2018]
+rule volcano_plot:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/test_eSet1.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_analysis/volcano_plots.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/Volcano_plot_K562_CTRL.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/Volcano_plot_K562_DRG.pdf
+    jobid: 6
+
+Waiting at most 5 seconds for missing files.
+MissingOutputException in line 156 of /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/Snakefile:
+Missing files after 5 seconds:
+/Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/Volcano_plot_K562_CTRL.pdf
+/Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/Volcano_plot_K562_DRG.pdf
+This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait.
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/.snakemake/log/2018-09-17T134910.789072.snakemake.log

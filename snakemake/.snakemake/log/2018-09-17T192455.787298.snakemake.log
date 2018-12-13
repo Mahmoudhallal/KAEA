@@ -1,0 +1,29 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	heatmap
+	2
+
+[Mon Sep 17 19:24:56 2018]
+rule heatmap:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/params/parameters.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/output_networks_with_positions_0.01fdr_filtered_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/pathway_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/pathway_summary_all_phosprots_delete_True_0.01P_0.01fdr_filtered.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_results/dataframe_map_to_pathway.csv
+    jobid: 9
+
+[Mon Sep 17 19:24:58 2018]
+Finished job 9.
+1 of 2 steps (50%) done
+
+[Mon Sep 17 19:24:58 2018]
+localrule all:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/eSet_data_test1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/test_eSet_notfiltered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/test_eSet1.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/all_dbs1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/collection500_filtered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/topTables_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/pathway_summary_all_phosprots_delete_True_0.01P_0.01fdr_filtered.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/PCA_plot_filtered.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/Phos_prots_with_position_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/Phos_prots_histogram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_results/dataframe_map_to_pathway.csv, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/Volcano_plot_K562_CTRL.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_results/Volcano_plot_K562_DRG.pdf
+    jobid: 0
+
+[Mon Sep 17 19:24:58 2018]
+Finished job 0.
+2 of 2 steps (100%) done
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/.snakemake/log/2018-09-17T192455.787298.snakemake.log

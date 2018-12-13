@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 156 of /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/Snakefile:
+Missing input files for rule volcano_plot:
+/Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/K562_Nilotinib_analysis/volcano_plot.R

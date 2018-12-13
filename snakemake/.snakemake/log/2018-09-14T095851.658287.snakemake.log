@@ -1,0 +1,10 @@
+FileNotFoundError in line 12 of /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/Snakefile:
+File b'/Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/params/setSize.txt' does not exist
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_analysis/snakemake/Snakefile", line 12, in <module>
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_K562_Nilo_t2/lib/python3.6/site-packages/pandas/io/parsers.py", line 678, in parser_f
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_K562_Nilo_t2/lib/python3.6/site-packages/pandas/io/parsers.py", line 440, in _read
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_K562_Nilo_t2/lib/python3.6/site-packages/pandas/io/parsers.py", line 787, in __init__
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_K562_Nilo_t2/lib/python3.6/site-packages/pandas/io/parsers.py", line 1014, in _make_engine
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_K562_Nilo_t2/lib/python3.6/site-packages/pandas/io/parsers.py", line 1708, in __init__
+  File "pandas/_libs/parsers.pyx", line 384, in pandas._libs.parsers.TextReader.__cinit__
+  File "pandas/_libs/parsers.pyx", line 695, in pandas._libs.parsers.TextReader._setup_parser_source

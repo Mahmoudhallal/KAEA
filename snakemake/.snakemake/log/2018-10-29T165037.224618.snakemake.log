@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 69 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing input files for rule create_STY_eSet:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/eSet_data_test1_MOLM13_MOLM13.csv

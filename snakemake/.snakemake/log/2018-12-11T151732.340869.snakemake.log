@@ -1,0 +1,127 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	2	Reproducibility
+	1	STY_plotting
+	1	SetRank_analysis
+	1	all
+	1	heatmap
+	1	pca
+	1	prepare_shiny_inputs
+	1	topTables
+	1	waterfall
+	10
+
+[Tue Dec 11 15:17:32 2018]
+rule Reproducibility:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/test_eSet1_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/batches_all_data_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/batches_all_phospho_data_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/STY_reproducibility.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/Phos_proteins_CML_venn_diagram_CML_BE00097_fup.pdf
+    jobid: 9
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.2P_0.2FDR, cline=CML, COND=CML_BE00097_fup
+
+[Tue Dec 11 15:17:35 2018]
+Finished job 9.
+1 of 10 steps (10%) done
+
+[Tue Dec 11 15:17:35 2018]
+rule Reproducibility:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/test_eSet1_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/batches_all_data_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/batches_all_phospho_data_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/STY_reproducibility.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/Phos_proteins_CML_venn_diagram_CML_BE00283.pdf
+    jobid: 1
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.2P_0.2FDR, cline=CML, COND=CML_BE00283
+
+Warning: the following output files of rule Reproducibility were not present when the DAG was created:
+{'/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/Phos_proteins_CML_venn_diagram_CML_BE00283.pdf'}
+[Tue Dec 11 15:17:38 2018]
+Finished job 1.
+2 of 10 steps (20%) done
+
+[Tue Dec 11 15:17:38 2018]
+rule STY_plotting:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/batches_all_data_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/batches_all_phospho_data_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/plotting_STY.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/Phos_prots_with_position_histogram_CML.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/Phos_prots_histogram_CML.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/Phos_peptides_venn_diagram_CML.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/Phos_prots_with_position_venn_diagram_CML.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/table_counts_all_CML.csv
+    jobid: 7
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.2P_0.2FDR, cline=CML
+
+[Tue Dec 11 15:17:45 2018]
+Finished job 7.
+3 of 10 steps (30%) done
+
+[Tue Dec 11 15:17:45 2018]
+rule topTables:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/test_eSet1_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/top_tables.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/topTables_CML_less.Rda
+    jobid: 11
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.2P_0.2FDR, cline=CML
+
+[Tue Dec 11 15:17:49 2018]
+Finished job 11.
+4 of 10 steps (40%) done
+
+[Tue Dec 11 15:17:49 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/collection_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/topTables_CML_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/output_networks_with_positions_0.2FDR_0.2P_CML_less/CML_BE00097_fup_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/output_networks_with_positions_0.2FDR_0.2P_CML_less/CML_BE00283_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/output_networks_with_positions_0.2FDR_0.2P_CML_less/pathways.txt
+    jobid: 3
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.2P_0.2FDR, fdr=0.2, pv=0.2, cline=CML
+
+[Tue Dec 11 15:18:15 2018]
+Finished job 3.
+5 of 10 steps (50%) done
+
+[Tue Dec 11 15:18:15 2018]
+rule pca:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/test_eSet1_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/pca.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/PCA_plot_filtered_CML.pdf
+    jobid: 8
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.2P_0.2FDR, cline=CML
+
+[Tue Dec 11 15:18:19 2018]
+Finished job 8.
+6 of 10 steps (60%) done
+
+[Tue Dec 11 15:18:19 2018]
+rule waterfall:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/output_networks_with_positions_0.2FDR_0.2P_CML_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/waterfall_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/Material_for_waterfall_0.2FDR_0.2P_CML.Rda
+    jobid: 14
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.2P_0.2FDR, fdr=0.2, pv=0.2, cline=CML
+
+[Tue Dec 11 15:18:23 2018]
+Finished job 14.
+7 of 10 steps (70%) done
+
+[Tue Dec 11 15:18:23 2018]
+rule heatmap:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/output_networks_with_positions_0.2FDR_0.2P_CML_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/pathway_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/Material_for_heatmap_0.2FDR_0.2P_CML.csv
+    jobid: 13
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.2P_0.2FDR, fdr=0.2, pv=0.2, cline=CML
+
+[Tue Dec 11 15:18:24 2018]
+Finished job 13.
+8 of 10 steps (80%) done
+
+[Tue Dec 11 15:18:24 2018]
+rule prepare_shiny_inputs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/Material_for_waterfall_0.2FDR_0.2P_CML.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/Material_for_heatmap_0.2FDR_0.2P_CML.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/prepare_shiny_outputs.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/results_shiny_CML_0.2P_0.2FDR.Rda
+    jobid: 4
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=CML_0.2P_0.2FDR, cline=CML, pv=0.2, fdr=0.2
+
+[Tue Dec 11 15:19:58 2018]
+Error in rule prepare_shiny_inputs:
+    jobid: 4
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/CML_0.2P_0.2FDR/results_shiny_CML_0.2P_0.2FDR.Rda
+
+RuleException:
+CalledProcessError in line 248 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/prepare_shiny_outputs.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 248, in __rule_prepare_shiny_inputs
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-11T151732.340869.snakemake.log

@@ -1,0 +1,106 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	SetRank_analysis
+	1	all
+	1	heatmap
+	1	pca
+	1	prepare_shiny_inputs
+	1	topTables
+	3	volcano_plot
+	1	waterfall
+	10
+
+[Tue Dec  4 13:32:50 2018]
+rule topTables:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/top_tables.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/topTables_U2OS_less.Rda
+    jobid: 8
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS
+
+[Tue Dec  4 13:34:08 2018]
+Finished job 8.
+1 of 10 steps (10%) done
+
+[Tue Dec  4 13:34:08 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/collection_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/topTables_U2OS_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/U2OS_Rap_WT_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/U2OS_RapConA_WT_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/U2OS_RapConA_Rap_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/pathways.txt
+    jobid: 4
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, fdr=0.01, pv=0.01, cline=U2OS
+
+[Tue Dec  4 13:35:02 2018]
+Finished job 4.
+2 of 10 steps (20%) done
+
+[Tue Dec  4 13:35:02 2018]
+rule volcano_plot:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/volcano_plots.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_Rap_WT.pdf
+    jobid: 15
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS, cond=U2OS_Rap_WT
+
+[Tue Dec  4 13:35:18 2018]
+Finished job 15.
+3 of 10 steps (30%) done
+
+[Tue Dec  4 13:35:18 2018]
+rule volcano_plot:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/volcano_plots.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_RapConA_Rap.pdf
+    jobid: 2
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS, cond=U2OS_RapConA_Rap
+
+Warning: the following output files of rule volcano_plot were not present when the DAG was created:
+{'/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_RapConA_Rap.pdf'}
+[Tue Dec  4 13:35:34 2018]
+Finished job 2.
+4 of 10 steps (40%) done
+
+[Tue Dec  4 13:35:34 2018]
+rule volcano_plot:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/volcano_plots.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_RapConA_WT.pdf
+    jobid: 14
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS, cond=U2OS_RapConA_WT
+
+Warning: the following output files of rule volcano_plot were not present when the DAG was created:
+{'/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_RapConA_WT.pdf'}
+[Tue Dec  4 13:35:51 2018]
+Finished job 14.
+5 of 10 steps (50%) done
+
+[Tue Dec  4 13:35:51 2018]
+rule pca:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/pca.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/PCA_plot_filtered_U2OS.pdf
+    jobid: 7
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS
+
+[Tue Dec  4 13:35:55 2018]
+Finished job 7.
+6 of 10 steps (60%) done
+
+[Tue Dec  4 13:35:55 2018]
+rule waterfall:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/waterfall_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Material_for_waterfall_0.01FDR_0.01P_U2OS.Rda
+    jobid: 19
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, fdr=0.01, pv=0.01, cline=U2OS
+
+[Tue Dec  4 13:35:56 2018]
+Error in rule waterfall:
+    jobid: 19
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Material_for_waterfall_0.01FDR_0.01P_U2OS.Rda
+
+RuleException:
+CalledProcessError in line 237 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/waterfall_create.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 237, in __rule_waterfall
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-04T133249.895115.snakemake.log

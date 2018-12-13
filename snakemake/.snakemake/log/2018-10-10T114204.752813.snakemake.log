@@ -1,0 +1,51 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	SetRank_analysis
+	1	all
+	1	heatmap
+	1	prepare_shiny_inputs
+	4
+
+[Wed Oct 10 11:42:05 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/collection500_filtered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/topTables_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/params/parameters.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.01fdr_filtered_less/MOLM13_CTRL_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.01fdr_filtered_less/MOLM13_DRG_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.01fdr_filtered_less/pathways.txt
+    jobid: 12
+
+[Wed Oct 10 11:42:15 2018]
+Finished job 12.
+1 of 4 steps (25%) done
+
+[Wed Oct 10 11:42:15 2018]
+rule heatmap:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/params/parameters.txt, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/output_networks_with_positions_0.01fdr_filtered_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/pathway_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/pathway_summary_all_phosprots_delete_True_0.01P_0.01fdr_heatmap.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Material_for_heatmap.csv
+    jobid: 8
+
+[Wed Oct 10 11:42:19 2018]
+Finished job 8.
+2 of 4 steps (50%) done
+
+[Wed Oct 10 11:42:19 2018]
+rule prepare_shiny_inputs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/material_for_waterfall.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Material_for_heatmap.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/prepare_shiny_outputs.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/results_shiny.Rda
+    jobid: 6
+
+[Wed Oct 10 11:43:41 2018]
+Finished job 6.
+3 of 4 steps (75%) done
+
+[Wed Oct 10 11:43:41 2018]
+localrule all:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/eSet_data_test1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/test_eSet_notfiltered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/test_eSet1.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/collection500_filtered.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/topTables_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/pathway_summary_all_phosprots_delete_True_0.01P_0.01fdr_heatmap.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/PCA_plot_filtered.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Phos_prots_with_position_venn_diagram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Phos_prots_histogram.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Material_for_heatmap.csv, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Volcano_plot_MOLM13_CTRL.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/Volcano_plot_MOLM13_DRG.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/results_shiny.Rda
+    jobid: 0
+
+[Wed Oct 10 11:43:41 2018]
+Finished job 0.
+4 of 4 steps (100%) done
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/.snakemake/log/2018-10-10T114204.752813.snakemake.log

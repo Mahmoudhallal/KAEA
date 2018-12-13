@@ -1,0 +1,43 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	3	Reproducibility
+	1	STY_plotting
+	1	SetRank_analysis
+	1	all
+	3	create_STY_eSet
+	3	filter_eSet
+	1	heatmap
+	2	load_prepare_STY_files
+	1	pca
+	1	prepare_shiny_inputs
+	1	setRank_collection_create
+	1	topTables
+	1	volcano_plot
+	1	waterfall
+	21
+
+[Tue Dec  4 11:08:59 2018]
+rule STY_plotting:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/batches_all_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/batches_all_phospho_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/plotting_STY.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_prots_with_position_histogram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_prots_histogram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_peptides_venn_diagram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_prots_with_position_venn_diagram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/table_counts_all_U2OS.csv
+    jobid: 2
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.05FDR, cline=U2OS
+
+Terminating processes on user request, this might take some time.
+[Tue Dec  4 11:09:06 2018]
+Error in rule STY_plotting:
+    jobid: 2
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_prots_with_position_histogram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_prots_histogram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_peptides_venn_diagram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_prots_with_position_venn_diagram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/table_counts_all_U2OS.csv
+
+RuleException:
+CalledProcessError in line 146 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/plotting_STY.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 146, in __rule_STY_plotting
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Removing output files of failed job STY_plotting since they might be corrupted:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.05FDR/Phos_prots_with_position_histogram_U2OS.pdf
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-04T110858.591959.snakemake.log

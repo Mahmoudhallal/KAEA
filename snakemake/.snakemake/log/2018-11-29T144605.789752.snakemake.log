@@ -1,0 +1,30 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	prepare_shiny_inputs
+	2
+
+[Thu Nov 29 14:46:06 2018]
+rule prepare_shiny_inputs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.01FDR/Material_for_waterfall_0.01FDR_0.01P_K562.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.01FDR/Material_for_heatmap_0.01FDR_0.01P_K562.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/prepare_shiny_outputs.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.01FDR/results_shiny_K562_0.01FDR_0.01P.Rda
+    jobid: 6
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=K562_0.01P_0.01FDR, cline=K562, fdr=0.01, pv=0.01
+
+[Thu Nov 29 14:46:14 2018]
+Error in rule prepare_shiny_inputs:
+    jobid: 6
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/K562_0.01P_0.01FDR/results_shiny_K562_0.01FDR_0.01P.Rda
+
+RuleException:
+CalledProcessError in line 246 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/prepare_shiny_outputs.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 246, in __rule_prepare_shiny_inputs
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-11-29T144605.789752.snakemake.log

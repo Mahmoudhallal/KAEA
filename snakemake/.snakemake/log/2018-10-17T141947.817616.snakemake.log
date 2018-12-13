@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 31 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing input files for rule all:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/pathway_summary_all_phosprots_delete_True_0.01P_0.05fdr_heatmap.pdf

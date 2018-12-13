@@ -1,0 +1,8 @@
+Building DAG of jobs...
+MissingInputException in line 38 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing input files for rule all:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/topTables_U2OS_less.Rda
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05FDR_0.01P_U2OS_less/U2OS_RapConA_Rap_pathways.txt
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05FDR_0.01P_U2OS_less/pathways.txt
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05FDR_0.01P_U2OS_less/U2OS_RapConA_WT_pathways.txt
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/output_networks_with_positions_0.05FDR_0.01P_U2OS_less/U2OS_Rap_WT_pathways.txt

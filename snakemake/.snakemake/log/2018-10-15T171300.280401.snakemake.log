@@ -1,0 +1,3 @@
+WorkflowError in line 1 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Config file must be given as JSON or YAML with keys at top level.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 1, in <module>

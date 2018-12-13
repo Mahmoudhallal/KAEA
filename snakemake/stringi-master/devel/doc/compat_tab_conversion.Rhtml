@@ -1,0 +1,455 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+           "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+TO DO:
+enc2native
+enc2utf8
+stri_enc_toascii
+-->
+
+<!--begin.rcode message=FALSE,echo=FALSE,error=FALSE
+source('compat_tab_init.R')
+title <- 'Character Encodings'
+end.rcode-->
+   
+<head>
+<title>stringi &ndash; Compatibility Tables</title>
+
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!--    <meta charset='UTF-8' /> -->
+   <meta name="Author" content="Marek Gągolewski" />
+   <meta http-equiv="Content-Language" content="en-US" />
+   
+   <meta name="Keywords" content="Rexamine, stringi, ICU, R" />
+   <meta name="Description" content="stringi Compatibility Tables" />
+   <meta name="Robots" content="index, follow" />
+   
+<style>
+<!--begin.rcode results='asis',echo=FALSE,cache=FALSE
+cat(readLines('compat_tab_style.css'),sep='\n') # embed CSS
+end.rcode-->
+</style>
+</head>
+
+<body>
+
+
+
+<body>
+
+<h1>
+<!--begin.rcode results='asis',echo=FALSE,cache=FALSE
+cat('<a href="http://stringi.rexamine.com">stringi</a> ')
+cat(packageDescription("stringi")$Version, ' (')
+cat(packageDescription("stringi")$Date, ') ')
+cat('Compatibility Tables: ',  title)
+end.rcode-->
+</h1>
+
+<!-- -------------------------------------------------------------- -->
+
+<h2>Introduction</h2>
+
+<p>As we know, character vectors in R in computer's memory
+resemble lists of raw vectors (each ended up with a 00 byte).
+Each string has to be properly "decoded"
+so that textual information may be read from such a byte stream.
+This "decoding scheme" is simply called a character encoding.</p>
+
+<p>In other words, data in computer's memory are just bytes (small integer values) 
+&ndash; an encoding is a way to represent characters with such numbers,
+it is a semantic "key" to understand a given byte sequence.
+For example, in ISO-8859-2 (Central European), the value 177 represents Polish
+“a with ogonek”, and in ISO-8859-1 (Western European),
+the same value meas the “plus-minus” sign.
+Thus, a character encoding is a translation scheme.</p>
+
+<p>Below you will find a list of functions that deal with character encodings.
+Mostly, you will use them when reading or writing a text file.
+Functions in <a href="http://stringi.rexamine.com">stringi</a>
+process each string internally in Unicode,
+which is a superset of all character representation schemes.
+This is why while working with <a href="http://stringi.rexamine.com">stringi</a>
+you will often use (sometimes without even knowing that explicitly) the following
+workflow scheme: READ FILE -> CONVERT TO UTF-8 -> PROCESS -> CONVERT BACK TO
+DESIRED ENCODING -> WRITE FILE.</p>
+
+TODO: add stri_enc_toutf8
+
+<!-- -------------------------------------------------------------- -->
+
+<h2>Conversion to Raw Vectors</h2>
+
+<h3>Basic Functionality</h3>
+
+<div class='columns'>
+<div class='column1'><div class='columntitle'>base</div>
+<code><!--rinline "charToRaw()" --></code> &ndash; single string to a raw vector only
+
+<!--begin.rcode
+charToRaw("aA1")
+end.rcode-->
+
+</div>
+<div class='column2'><div class='columntitle'>stringr</div>
+
+<em>(none)</em>
+
+</div>
+<div class='column3'><div class='columntitle'>stringi</div>
+
+<code><!--rinline "stri_encode()" --></code>
+with argument <code><!--rinline "to_raw=TRUE" --></code>
+   is vectorized over the first argument;
+   it returns a list of raw vectors.
+
+<!--begin.rcode
+stri_encode("aA1", "", "", to_raw=TRUE)[[1]]
+stri_encode(c("aA1", " "), "", "", to_raw=TRUE)
+end.rcode-->
+</div>
+</div>
+
+<h3>Performance comparison</h3>
+
+<!--begin.rcode
+test1 <- "abcdefghijklmnopqrstuvwxyz"
+microbenchmark(charToRaw(test1), stri_encode(test1, "", "", to_raw=TRUE)[[1]])
+
+test2 <- rep(c("abcdefghijklmnopqrstuvwxyz", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "0123456789"), 10)
+microbenchmark(lapply(test2, charToRaw), stri_encode(test2, "", "", to_raw=TRUE))
+end.rcode-->
+
+<!-- -------------------------------------------------------------- -->
+
+<h2>Conversion from Raw Vectors</h2>
+
+<h3>Basic Functionality</h3>
+
+<div class='columns'>
+<div class='column1'><div class='columntitle'>base</div>
+<code><!--rinline "rawToChar()" --></code> 
+&ndash; single raw vector to a single string only
+
+<!--begin.rcode
+rawToChar(as.raw(c(97, 65, 49)))
+end.rcode-->
+
+</div>
+<div class='column2'><div class='columntitle'>stringr</div>
+
+<em>(none)</em>
+
+</div>
+<div class='column3'><div class='columntitle'>stringi</div>
+   <code><!--rinline "stri_encode()" --></code>  also accepts a raw vector
+   or a list of raw vectors as its first argument;
+   by default, i.e. when <code><!--rinline "to_raw=FALSE" --></code>,
+   the result is a character vector.
+
+<!--begin.rcode
+stri_encode(as.raw(c(97, 65, 49)), "")
+stri_encode(list(as.raw(c(97, 65, 49)),
+   as.raw(32)), "")
+end.rcode-->
+</div>
+</div>
+
+<h3>Performance comparison</h3>
+
+<!--begin.rcode
+test1 <- as.raw(97:122)
+microbenchmark(rawToChar(test1), stri_encode(test1, ""))
+
+test2 <- rep(list(as.raw(97:122), as.raw(65:90), as.raw(48:57)), 10)
+microbenchmark(lapply(test2, rawToChar), stri_encode(test2, ""))
+end.rcode-->
+
+<!-- -------------------------------------------------------------- -->
+
+<h2>Conversion to Integer Vectors (i.e. UTF-32)</h2>
+
+<h3>Basic Functionality</h3>
+
+<div class='columns'>
+<div class='column1'><div class='columntitle'>base</div>
+   <code><!--rinline "utf8ToInt()" --></code> 
+   &ndash; single string in UTF-8 to an integer vector only
+
+<!--begin.rcode
+utf8ToInt(enc2utf8("aA1"))
+end.rcode-->
+
+</div>
+<div class='column2'><div class='columntitle'>stringr</div>
+
+<em>(none)</em>
+
+</div>
+<div class='column3'><div class='columntitle'>stringi</div>
+   <code><!--rinline "stri_enc_toutf32()" --></code>  accepts a character vector on input
+   and returns a list of integer vectors;
+   like in all other functions from our package, native and UTF-8
+   encodings are handled properly
+
+<!--begin.rcode
+stri_enc_toutf32("aA1")[[1]]
+stri_enc_toutf32(c("aA1", " "))
+end.rcode-->
+
+</div>
+</div>
+
+
+<h3>Performance comparison</h3>
+
+<!--begin.rcode
+test1 <- enc2utf8("abcdefghijklmnopqrstuvwxyz")
+microbenchmark(utf8ToInt(test1), stri_enc_toutf32(test1)[[1]])
+
+test2 <- enc2utf8(rep(c("abcdefghijklmnopqrstuvwxyz", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "0123456789"), 10))
+microbenchmark(lapply(test2, utf8ToInt), stri_enc_toutf32(test2))
+end.rcode-->
+
+<!-- -------------------------------------------------------------- -->
+
+<h2>Conversion from Integer Vectors (i.e. UTF-32)</h2>
+
+<h3>Basic Functionality</h3>
+
+<div class='columns'>
+<div class='column1'><div class='columntitle'>base</div>
+   <code><!--rinline "intToUtf8()" --></code> 
+   &ndash; single integer vector to a single string only
+
+<!--begin.rcode
+intToUtf8(c(97L, 65L, 49L))
+end.rcode-->
+
+</div>
+<div class='column2'><div class='columntitle'>stringr</div>
+
+<em>(none)</em>
+
+</div>
+<div class='column3'><div class='columntitle'>stringi</div>
+   <code><!--rinline "stri_enc_fromutf32()" --></code> 
+   a single integer vector
+   or a list of integer vectors as its argument;
+   the result is a UTF-8-encoded character vector.
+
+<!--begin.rcode
+stri_enc_fromutf32(c(97L, 65L, 49L))
+stri_enc_fromutf32(list(c(97L, 65L, 49L), 32L))
+end.rcode-->
+
+</div>
+</div>
+
+
+<h3>Performance comparison</h3>
+
+<!--begin.rcode
+test1 <- 97:122
+microbenchmark(intToUtf8(test1), stri_enc_fromutf32(test1))
+
+test2 <- rep(list(97:122, 65:90, 48:57), 10)
+microbenchmark(lapply(test2, intToUtf8), stri_enc_fromutf32(test2))
+end.rcode-->
+
+
+<!-- -------------------------------------------------------------- -->
+
+<h2>List of Supported Encodings</h2>
+
+<h3>Basic Functionality</h3>
+
+<div class='columns'>
+<div class='column1'><div class='columntitle'>base</div>
+   <code><!--rinline "iconvlist()" --></code> 
+   &ndash; returns a character vector with supported encoding
+   names (as well as its aliases).
+   
+   <p>Note that, as R manual states, the names are rarely valid
+   across all platforms.</p>
+
+<!--begin.rcode
+sample(iconvlist(), 4) # a sample of supported encodings
+length(iconvlist()) # count; Fedora Linux 19 x64_86
+end.rcode-->
+
+</div>
+<div class='column2'><div class='columntitle'>stringr</div>
+
+<em>(none)</em>
+
+</div>
+<div class='column3'><div class='columntitle'>stringi</div>
+   <code><!--rinline "stri_enc_list()" --></code> 
+   with argument <code><!--rinline simplified=TRUE --></code>
+   provides a character vector with all supported encodings and
+   their aliases in many different forms.
+   
+   <p>By default, howewer, a list of character vectors
+   is returned. Each list element contains the list of aliases for 
+   the given encoding.</p>
+   
+   <p>Please, note that apart from given encodings,
+   ICU tries to normalize encoding specifiers, e.g. "utf8" is a valid
+   specifier for "UTF-8".</p>
+   
+   <p>Depending on the version of the ICU library used,
+   each encoding should be supported across all platforms.</p>
+   
+   <p>Please note: <code><!--rinline "stri_enc_info()" --></code>
+   returns detailed information of a given encoding specifier.</p>
+
+<!--begin.rcode
+sample(stri_enc_list(TRUE), 4)
+length(stri_enc_list(TRUE)) # includes aliases
+length(stri_enc_list()) # true number of supported encodings
+str(stri_enc_info("cp1250"))
+end.rcode-->
+
+</div>
+</div>
+
+
+<!-- -------------------------------------------------------------- -->
+
+<h2>Convert Strings Between Encodings</h2>
+
+<h3>Basic Functionality</h3>
+
+<div class='columns'>
+<div class='column1'><div class='columntitle'>base</div>
+   <code><!--rinline "iconv()" --></code> 
+   &ndash; converts a character vector between two given encodings.
+   Argument <code><!--rinline "from" --></code>
+   or <code><!--rinline "to" --></code> equal to ""
+   denotes default (native) encoding,
+   which is used by R session.
+
+<!--begin.rcode
+utf8ToInt(
+   iconv(rawToChar(as.raw(c(177, 182))), "latin2", "utf-8")
+)
+end.rcode-->
+
+</div>
+<div class='column2'><div class='columntitle'>stringr</div>
+
+<em>(none)</em>
+
+</div>
+<div class='column3'><div class='columntitle'>stringi</div>
+   <code><!--rinline "stri_encode()" --></code> 
+   provides a very similar functionality
+   as <code><!--rinline "iconv()" --></code>.
+   
+   <p>Note that currently used default encoding may be obtained by calling
+   <code><!--rinline "stri_enc_get()" --></code>
+   and changed any time with a call to <code><!--rinline "stri_enc_set()" --></code>.
+   This is not dangerous as almost every function in stringi
+   returns UTF-8-encoded strings.</p>
+   
+   <p><code><!--rinline "stri_encode()" --></code> and
+   <code><!--rinline "iconv()" --></code> differ in the treatment of
+   unsupported characters. If an incorrect code point is found on input,
+   <code><!--rinline "stri_encode()" --></code>  replaces it by the default
+   (for that target encoding) substitute character and generates a warning.
+   <code><!--rinline "iconv()" --></code> in turn, by default silently returns
+   <code>NA</code>.
+
+<!--begin.rcode
+stri_enc_toutf32(
+   stri_encode(rawToChar(as.raw(c(177, 182))), "latin2", "utf-8")
+)[[1]]
+end.rcode-->
+
+</div>
+</div>
+
+
+<h3>Performance comparison</h3>
+
+<!--begin.rcode
+test1 <- as.raw(128:255)
+microbenchmark(iconv(test1, "latin2", "utf8"), stri_encode(test1, "latin2", "utf8"))
+end.rcode-->
+
+
+<!-- -------------------------------------------------------------- -->
+
+<h2>Unicode Normalization</h2>
+
+TODO: this is text transform
+
+<h3>Basic Functionality</h3>
+
+<div class='columns'>
+<div class='column1'><div class='columntitle'>base</div>
+
+<em>(none)</em>
+
+</div>
+<div class='column2'><div class='columntitle'>stringr</div>
+
+<em>(none)</em>
+
+</div>
+<div class='column3'><div class='columntitle'>stringi</div>
+   <code><!--rinline "stri_trans_isnfc(), stri_trans_isnfkc(), stri_trans_isnfd(), stri_trans_isnfkd(), stri_trans_isnfkc_casefold()" --></code>
+   check whether given UTF-8-encoded strings are properly normalized.
+   
+   <p>Moreover, <code><!--rinline "stri_trans_nfc(), stri_trans_nfkc(), stri_trans_nfd(), stri_trans_nfkd(), stri_trans_nfkc_casefold()" --></code>
+   perform the desired normalization.</p>
+</div>
+</div>
+
+<!-- -------------------------------------------------------------- -->
+
+<h2>Automatic Encoding Detection</h2>
+
+<h3>Basic Functionality</h3>
+
+<div class='columns'>
+<div class='column1'><div class='columntitle'>base</div>
+
+<em>(none)</em>
+
+</div>
+<div class='column2'><div class='columntitle'>stringr</div>
+
+<em>(none)</em>
+
+</div>
+<div class='column3'><div class='columntitle'>stringi</div>
+   <code><!--rinline "stri_enc_detect()" --></code>
+   and <code><!--rinline "stri_enc_detect2()" --></code>
+   provide two experimental facilities for automatic encoding detection.
+   The first one uses ICU's native algorithm and the second one
+   provides our own implementation for locale-dependent guessing.
+   
+   <p>TO DO: <code><!--rinline "stri_enc_detect2()" --></code> - choose best
+   match from a given list of guesses.</p>
+   
+   <p>Moreover, the functions
+   <code><!--rinline "stri_enc_isascii(), stri_enc_utf8(), str_enci_isutf16le(), stri_enc_isutf16le(), stri_enc_isutf32le(), stri_enc_isutf32le()" --></code>
+   check whether given byte sequences
+   form a valid character sequence in a given encoding.</p>
+</div>
+</div>
+
+
+<!-- -------------------------------------------------------------- -->
+
+<!--begin.rcode echo=FALSE,results='asis',cache=FALSE
+source('compat_tab_footer.R')
+end.rcode-->
+
+</body>
+</html>

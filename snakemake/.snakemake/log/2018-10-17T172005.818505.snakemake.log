@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 237 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing input files for rule prepare_shiny_inputs:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Material_for_heatmap_0.05FDR_0.01P.Rda

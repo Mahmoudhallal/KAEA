@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 21 of /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/Snakefile:
+Missing input files for rule all:
+/Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/dataframe_map_to_pathway.csv

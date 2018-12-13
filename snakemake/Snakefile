@@ -1,0 +1,275 @@
+configfile: "config.yaml"
+
+from snakemake.utils import R
+import pandas as pd
+
+CONDS = config["Samples"].split(',')
+FILES = list()
+
+for x in CONDS:
+    nn = x + '_pathways'
+    FILES.append(nn)
+
+FILES.append('pathways')
+#print(FILES)
+#FILES = ['MOLM13_CTRL_pathways','MOLM13_DRG_pathways','pathways']
+
+FDR = config["fdr_cutoff"]
+PVALUE=config["pvalue_cutoff"]
+input_file = config["path_Input"]
+CWD = config["CWD"]
+cline = config["cell_line"]
+MaxSetSize=config["maxSetSize"]
+motif="FALSE"
+
+new_file_path = [CWD+'/results'+'/'+cline+'_'+str(PVALUE)+'P_'+str(FDR)+'FDR']
+new_file = [cline+'_'+str(PVALUE)+'P_'+str(FDR)+'FDR']
+#new_file = ''.join(new_file)
+print(new_file_path)
+print(cline)
+#os.mkdir(''.join(new_file_path))
+#dirName = ''.join(expand("{CWD}/results/output_networks_with_positions_{fdr}fdr_filtered_less", CWD=CWD,fdr = FDR))
+
+#if not os.path.exists(dirName):
+#    os.mkdir(dirName)
+
+
+
+rule all:
+	input:
+		expand("{CWD}/results/{new_file}/eSet_data_test1_{cline}.csv",cline=cline, CWD=CWD,new_file=new_file),
+		#expand("{CWD}/results/batches_all_data_{cline}.Rda", cline=cline, CWD=CWD),
+		expand("{CWD}/results/{new_file}/batches_all_phospho_data_{cline}.Rda", cline=cline, CWD=CWD,new_file=new_file),
+		expand("{CWD}/results/{new_file}/test_eSet_notfiltered_{cline}.Rda",cline=cline, CWD=CWD,new_file=new_file),
+		expand("{CWD}/results/{new_file}/test_eSet1_{cline}.Rda",cline=cline, CWD=CWD,new_file=new_file),
+		expand("{CWD}/results/{new_file}/all_dbs.csv",CWD=CWD,new_file=new_file),
+		expand("{CWD}/results/{new_file}/PCA_plot_filtered_{cline}.pdf",CWD=CWD,cline=cline,new_file=new_file),
+		#"/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/coverage_celllines_databases.pdf",
+		expand("{CWD}/results/{new_file}/Phos_prots_with_position_venn_diagram_{cline}.pdf",cline =cline, CWD=CWD,new_file=new_file),
+		expand("{CWD}/results/{new_file}/Phos_prots_histogram_{cline}.pdf",CWD=CWD, cline=cline,new_file=new_file),
+		expand("{CWD}/results/{new_file}/Phos_proteins_{cline}_venn_diagram_{cond}.pdf",CWD=CWD,cline=cline,cond=CONDS,new_file=new_file),
+		expand("{CWD}/results/{new_file}/collection_{cline}.Rda", CWD=CWD, MaxSetSize=MaxSetSize,cline=cline,new_file=new_file),
+		expand("{CWD}/results/{new_file}/topTables_{cline}_less.Rda", CWD=CWD, cline=cline,new_file=new_file),
+		expand("{CWD}/results/{new_file}/output_networks_with_positions_{fdr}FDR_{pv}P_{cline}_less/{file}.txt", fdr = FDR, CWD=CWD, file= FILES, pv = PVALUE, cline=cline,new_file=new_file),
+		#expand("{CWD}/results/Material_for_waterfall_{fdr}FDR_{pv}P_{cline}.Rda", CWD=CWD, fdr = FDR, pv=PVALUE,cline=cline),
+		#expand("{CWD}/results/Material_for_heatmap_{fdr}FDR_{pv}P_{cline}.csv", CWD=CWD, fdr = FDR, pv=PVALUE,cline=cline),
+        expand("{CWD}/results/{new_file}/results_shiny_{cline}_{pv}P_{fdr}FDR.Rda", CWD=CWD, fdr = FDR, pv = PVALUE,cline=cline,new_file=new_file),
+        #expand("{CWD}/results/{new_file}/Volcano_plot_{cline}_x_{cond}.pdf",CWD=CWD,cline=cline,cond=CONDS,new_file=new_file)
+	
+
+
+rule load_prepare_STY_files:
+        input:
+            seed1 = input_file,
+            script = "{CWD}/Scripts/cell_lines_analysis_STYfiles_INC1_INC2_sd.R"
+        params:
+            cond=CONDS
+        output:
+            outfile = "{CWD}/results/{new_file}/eSet_data_test1_{cline}.csv",
+		        outfile2 = "{CWD}/results/{new_file}/batches_all_data_{cline}.Rda",
+		        outfile3 = "{CWD}/results/{new_file}/batches_all_phospho_data_{cline}.Rda"
+        shell:
+                """ Rscript {input.script} """
+
+
+rule create_STY_eSet:
+	input:
+		seed1 = "{CWD}/results/{new_file}/eSet_data_test1_{cline}.csv",
+		script = "{CWD}/Scripts/create_eSet_sd.R"
+	output:
+		out  = "{CWD}/results/{new_file}/test_eSet_notfiltered_{cline}.Rda"
+
+	shell: 
+		""" Rscript {input.script} """
+
+rule filter_eSet:
+	input:
+		seed1 = "{CWD}/results/{new_file}/test_eSet_notfiltered_{cline}.Rda",
+		script = "{CWD}/Scripts/filter_eSet_sd.R"
+	
+	output:
+		out = "{CWD}/results/{new_file}/test_eSet1_{cline}.Rda"
+		
+	shell:
+		""" Rscript --max-ppsize=200000 {input.script} """
+
+rule create_kinase_substrate_5_dbs:
+	input:
+		seed1 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoELM_db/phosphoELM_vertebrate_2015-04.dump"),
+		seed2 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoSitePlus/Kinase_Substrate_Dataset"),
+		seed3 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/PhosphoNetworks/refKSI.csv"),
+		seed5 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/HPRD/FLAT_FILES_072010/POST_TRANSLATIONAL_MODIFICATIONS.txt"),
+		seed6 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/MINT/MINT_MiTab.txt"),
+		seed7 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/RegPhos/RegPhos_Phos_human.txt"),
+		seed8 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/SIGNOR/human_phosphorylations_09_05_17.csv"),
+		script = "{CWD}/Scripts/phospho_dbs_v2.R"
+	output:	
+		out ="{CWD}/results/{new_file}/all_dbs1.csv"
+
+	shell:
+		""" Rscript {input.script} """
+
+
+rule create_kinase_substrate_dbs:
+	input:
+		seed1 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Motif_analysis/all_dbs.csv"),
+		seed2 = "{CWD}/results/{new_file}/all_dbs1.csv",
+		script1 = "{CWD}/Scripts/phospho_dbs_with_motif.R",
+		script2 = "{CWD}/Scripts/phospho_dbs_without_motif.R"
+	output:	
+		out = "{CWD}/results/{new_file}/all_dbs.csv"
+
+	run:
+		data2 = pd.read_csv('/Users/Mahmoud.Hallal/Desktop/PhD/Motif_analysis/all_dbs.csv')
+		print(motif)
+
+		if data2.empty or motif == "FALSE":
+			print("MOTIF ANALYSIS WILL NOT BE USED")
+			shell(""" Rscript {input.script2} """)
+		else:
+			print("MOTIF ANALYSIS WILL BE USED")
+			shell(""" Rscript {input.script1} """)
+		
+
+rule STY_plotting:
+	input:
+		seed1 = "{CWD}/results/{new_file}/batches_all_data_{cline}.Rda",
+		seed2 = "{CWD}/results/{new_file}/batches_all_phospho_data_{cline}.Rda",
+		script = "{CWD}/Scripts/plotting_STY.R"
+		
+	output: 
+		out1 = "{CWD}/results/{new_file}/Phos_prots_with_position_histogram_{cline}.pdf",
+		out2 = "{CWD}/results/{new_file}/Phos_prots_histogram_{cline}.pdf", 
+		out3 = "{CWD}/results/{new_file}/Phos_peptides_venn_diagram_{cline}.pdf", 
+		out4 = "{CWD}/results/{new_file}/Phos_prots_with_position_venn_diagram_{cline}.pdf",
+		out5 = "{CWD}/results/{new_file}/table_counts_all_{cline}.csv"
+	
+	shell:
+			""" Rscript {input.script} """
+
+rule Reproducibility:
+	input:
+		seed1 = "{CWD}/results/{new_file}/test_eSet1_{cline}.Rda", 
+		seed2 = "{CWD}/results/{new_file}/batches_all_data_{cline}.Rda", 
+		seed3 = "{CWD}/results/{new_file}/batches_all_phospho_data_{cline}.Rda", 
+		script = "{CWD}/Scripts/STY_reproducibility.R"
+		
+	output: 
+		out1 = "{CWD}/results/{new_file}/Phos_proteins_{cline}_venn_diagram_{COND}.pdf"
+		#out2 = "{CWD}/results/{new_file}/Phos_proteins_{cline}_DRG_venn_diagram.pdf"
+	
+	shell:
+			""" Rscript {input.script} """
+
+rule volcano_plot:
+	input:
+		seed1 = "{CWD}/results/{new_file}/test_eSet1_{cline}.Rda",
+		script = "{CWD}/Scripts/volcano_plots.R"
+		
+	output: 
+		out1 = "{CWD}/results/{new_file}/Volcano_plot_{cline}_x_{cond}.pdf"
+		
+	shell:
+			""" Rscript {input.script} """
+
+
+rule setRank_collection_create:
+	input:
+		seed1 = "{CWD}/results/{new_file}/test_eSet1_{cline}.Rda",
+		seed2 = "{CWD}/results/{new_file}/all_dbs.csv", 
+		script = "{CWD}/Scripts/collection_create.R"
+	
+	output:
+		out = "{CWD}/results/{new_file}/collection_{cline}.Rda"
+
+	shell:
+		""" Rscript {input.script} """
+
+rule topTables:
+	input:
+		seed1 = "{CWD}/results/{new_file}/test_eSet1_{cline}.Rda",
+		script = "{CWD}/Scripts/top_tables.R"
+		
+	output:
+		out = "{CWD}/results/{new_file}/topTables_{cline}_less.Rda"
+
+	shell:
+		""" Rscript {input.script} """
+		
+rule SetRank_analysis:
+	input:
+		seed1 = "{CWD}/results/{new_file}/collection_{cline}.Rda",
+		seed2 = "{CWD}/results/{new_file}/topTables_{cline}_less.Rda", 
+		script ="{CWD}/Scripts/setRank_analysis.R"
+
+	params:
+		MaxSetSize = config["maxSetSize"],
+		fdr = config["fdr_cutoff"]		
+
+	output:
+		out1 = expand("{{CWD}}/results/{{new_file}}/output_networks_with_positions_{{fdr}}FDR_{{pv}}P_{{cline}}_less/{file}.txt", file=FILES)
+
+	shell:
+		""" Rscript {input.script} """
+
+rule heatmap:
+	input:
+		seed1 = "{CWD}/results/{new_file}/output_networks_with_positions_{fdr}FDR_{pv}P_{cline}_less/pathways.txt",
+		script = "{CWD}/Scripts/pathway_create.R"
+	params:
+		fdr = config["fdr_cutoff"]		
+	output:
+		out = "{CWD}/results/{new_file}/Material_for_heatmap_{fdr}FDR_{pv}P_{cline}.csv"
+
+	shell:
+		""" Rscript {input.script} """
+
+rule waterfall:
+	input:
+		seed1 = "{CWD}/results/{new_file}/output_networks_with_positions_{fdr}FDR_{pv}P_{cline}_less/pathways.txt",
+		script = "{CWD}/Scripts/waterfall_create.R"
+	params:
+		fdr = config["fdr_cutoff"]		
+	output:
+		out = "{CWD}/results/{new_file}/Material_for_waterfall_{fdr}FDR_{pv}P_{cline}.Rda"
+
+	shell:
+		""" Rscript {input.script} """
+
+rule prepare_shiny_inputs:
+	input:
+		seed1 = "{CWD}/results/{new_file}/Material_for_waterfall_{fdr}FDR_{pv}P_{cline}.Rda",
+		seed2 = "{CWD}/results/{new_file}/Material_for_heatmap_{fdr}FDR_{pv}P_{cline}.csv",
+		script = "{CWD}/Scripts/prepare_shiny_outputs.R"
+	output:
+		out = "{CWD}/results/{new_file}/results_shiny_{cline}_{pv}P_{fdr}FDR.Rda"
+		
+	shell:
+		""" Rscript {input.script} """
+
+
+rule pca:
+        input:
+                seed1 = "{CWD}/results/{new_file}/test_eSet1_{cline}.Rda",
+                script = "{CWD}/Scripts/pca.R"
+        
+        params:
+                MaxSetSize = config["maxSetSize"]
+        
+        output:
+                out = "{CWD}/results/{new_file}/PCA_plot_filtered_{cline}.pdf"
+
+        shell:
+                """ Rscript {input.script} """
+
+rule coverage:
+        input:
+                seed1 = "{CWD}/results/{new_file}/all_dbs.csv",
+                script = "{CWD}/Scripts/coverage_celllines_dbs.R"
+
+        output:
+                out = "{CWD}/results/{new_file}/coverage_celllines_databases.pdf"
+
+        shell:
+                """ Rscript {input.script} """
+

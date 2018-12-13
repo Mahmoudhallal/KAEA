@@ -1,0 +1,66 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	heatmap
+	1	pca
+	1	prepare_shiny_inputs
+	1	waterfall
+	5
+
+[Mon Dec 10 15:46:21 2018]
+rule pca:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/test_eSet1_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/pca.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/PCA_plot_filtered_MOLM13.pdf
+    jobid: 8
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=MOLM13_0.01P_0.01FDR, cline=MOLM13
+
+[Mon Dec 10 15:46:26 2018]
+Finished job 8.
+1 of 5 steps (20%) done
+
+[Mon Dec 10 15:46:26 2018]
+rule waterfall:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_MOLM13_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/waterfall_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/Material_for_waterfall_0.01FDR_0.01P_MOLM13.Rda
+    jobid: 14
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=MOLM13_0.01P_0.01FDR, fdr=0.01, pv=0.01, cline=MOLM13
+
+[Mon Dec 10 15:46:29 2018]
+Finished job 14.
+2 of 5 steps (40%) done
+
+[Mon Dec 10 15:46:29 2018]
+rule heatmap:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_MOLM13_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/pathway_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/Material_for_heatmap_0.01FDR_0.01P_MOLM13.csv
+    jobid: 13
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=MOLM13_0.01P_0.01FDR, fdr=0.01, pv=0.01, cline=MOLM13
+
+[Mon Dec 10 15:46:30 2018]
+Finished job 13.
+3 of 5 steps (60%) done
+
+[Mon Dec 10 15:46:30 2018]
+rule prepare_shiny_inputs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/Material_for_waterfall_0.01FDR_0.01P_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/Material_for_heatmap_0.01FDR_0.01P_MOLM13.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/prepare_shiny_outputs.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/results_shiny_MOLM13_0.01P_0.01FDR.Rda
+    jobid: 2
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=MOLM13_0.01P_0.01FDR, cline=MOLM13, pv=0.01, fdr=0.01
+
+[Mon Dec 10 15:47:39 2018]
+Finished job 2.
+4 of 5 steps (80%) done
+
+[Mon Dec 10 15:47:39 2018]
+localrule all:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/eSet_data_test1_MOLM13.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/batches_all_phospho_data_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/test_eSet_notfiltered_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/test_eSet1_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/PCA_plot_filtered_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/Phos_prots_with_position_venn_diagram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/Phos_prots_histogram_MOLM13.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/Phos_proteins_MOLM13_venn_diagram_MOLM13_DRG.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/collection_MOLM13.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/topTables_MOLM13_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_MOLM13_less/MOLM13_DRG_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_MOLM13_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/results_shiny_MOLM13_0.01P_0.01FDR.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/MOLM13_0.01P_0.01FDR/Volcano_plot_MOLM13_x_MOLM13_DRG.pdf
+    jobid: 0
+
+[Mon Dec 10 15:47:39 2018]
+Finished job 0.
+5 of 5 steps (100%) done
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-10T154620.629795.snakemake.log

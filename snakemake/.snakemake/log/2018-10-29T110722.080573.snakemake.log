@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 197 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing input files for rule SetRank_analysis:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/topTables_less.Rda

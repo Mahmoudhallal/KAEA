@@ -1,0 +1,3 @@
+WildcardError in line 207 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+No values given for wildcard 'params'.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 207, in <module>

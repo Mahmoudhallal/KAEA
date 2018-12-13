@@ -1,0 +1,250 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	3	Reproducibility
+	1	STY_plotting
+	1	SetRank_analysis
+	1	all
+	1	create_STY_eSet
+	1	create_kinase_substrate_5_dbs
+	1	create_kinase_substrate_dbs
+	1	filter_eSet
+	1	heatmap
+	1	load_prepare_STY_files
+	1	pca
+	1	prepare_shiny_inputs
+	1	setRank_collection_create
+	1	topTables
+	3	volcano_plot
+	1	waterfall
+	20
+
+[Thu Dec  6 12:17:14 2018]
+rule create_kinase_substrate_5_dbs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoELM_db/phosphoELM_vertebrate_2015-04.dump, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoSitePlus/Kinase_Substrate_Dataset, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/PhosphoNetworks/refKSI.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/HPRD/FLAT_FILES_072010/POST_TRANSLATIONAL_MODIFICATIONS.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/MINT/MINT_MiTab.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/RegPhos/RegPhos_Phos_human.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/SIGNOR/human_phosphorylations_09_05_17.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/phospho_dbs_v2.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/all_dbs1.csv
+    jobid: 19
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR
+
+[Thu Dec  6 12:18:41 2018]
+Finished job 19.
+1 of 20 steps (5%) done
+
+[Thu Dec  6 12:18:41 2018]
+rule load_prepare_STY_files:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Fribourg_data_pipeline.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/cell_lines_analysis_STYfiles_INC1_INC2_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/eSet_data_test1_U2OS.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/batches_all_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/batches_all_phospho_data_U2OS.Rda
+    jobid: 1
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS
+
+[Thu Dec  6 12:18:54 2018]
+Finished job 1.
+2 of 20 steps (10%) done
+
+[Thu Dec  6 12:18:54 2018]
+rule STY_plotting:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/batches_all_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/batches_all_phospho_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/plotting_STY.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_prots_with_position_histogram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_prots_histogram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_peptides_venn_diagram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_prots_with_position_venn_diagram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/table_counts_all_U2OS.csv
+    jobid: 3
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS
+
+[Thu Dec  6 12:19:03 2018]
+Finished job 3.
+3 of 20 steps (15%) done
+
+[Thu Dec  6 12:19:03 2018]
+rule create_kinase_substrate_dbs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Motif_analysis/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/all_dbs1.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/phospho_dbs_with_motif.R, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/phospho_dbs_without_motif.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/all_dbs.csv
+    jobid: 14
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR
+
+[Thu Dec  6 12:19:06 2018]
+Finished job 14.
+4 of 20 steps (20%) done
+
+[Thu Dec  6 12:19:06 2018]
+rule create_STY_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/eSet_data_test1_U2OS.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/create_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet_notfiltered_U2OS.Rda
+    jobid: 9
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS
+
+[Thu Dec  6 12:19:19 2018]
+Finished job 9.
+5 of 20 steps (25%) done
+
+[Thu Dec  6 12:19:19 2018]
+rule filter_eSet:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet_notfiltered_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/filter_eSet_sd.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda
+    jobid: 12
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS
+
+[Thu Dec  6 12:19:30 2018]
+Finished job 12.
+6 of 20 steps (30%) done
+
+[Thu Dec  6 12:19:30 2018]
+rule Reproducibility:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/batches_all_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/batches_all_phospho_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/STY_reproducibility.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_proteins_U2OS_venn_diagram_U2OS_RapConA_Rap.pdf
+    jobid: 7
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS, COND=U2OS_RapConA_Rap
+
+[Thu Dec  6 12:19:51 2018]
+Finished job 7.
+7 of 20 steps (35%) done
+
+[Thu Dec  6 12:19:51 2018]
+rule Reproducibility:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/batches_all_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/batches_all_phospho_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/STY_reproducibility.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_proteins_U2OS_venn_diagram_U2OS_Rap_WT.pdf
+    jobid: 16
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS, COND=U2OS_Rap_WT
+
+Warning: the following output files of rule Reproducibility were not present when the DAG was created:
+{'/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_proteins_U2OS_venn_diagram_U2OS_Rap_WT.pdf'}
+[Thu Dec  6 12:20:13 2018]
+Finished job 16.
+8 of 20 steps (40%) done
+
+[Thu Dec  6 12:20:13 2018]
+rule Reproducibility:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/batches_all_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/batches_all_phospho_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/STY_reproducibility.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_proteins_U2OS_venn_diagram_U2OS_RapConA_WT.pdf
+    jobid: 10
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS, COND=U2OS_RapConA_WT
+
+Warning: the following output files of rule Reproducibility were not present when the DAG was created:
+{'/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_proteins_U2OS_venn_diagram_U2OS_RapConA_WT.pdf'}
+[Thu Dec  6 12:20:35 2018]
+Finished job 10.
+9 of 20 steps (45%) done
+
+[Thu Dec  6 12:20:35 2018]
+rule setRank_collection_create:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/collection_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/collection_U2OS.Rda
+    jobid: 15
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS
+
+[Thu Dec  6 12:27:03 2018]
+Finished job 15.
+10 of 20 steps (50%) done
+
+[Thu Dec  6 12:27:03 2018]
+rule topTables:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/top_tables.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/topTables_U2OS_less.Rda
+    jobid: 4
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS
+
+[Thu Dec  6 12:27:28 2018]
+Finished job 4.
+11 of 20 steps (55%) done
+
+[Thu Dec  6 12:27:28 2018]
+rule SetRank_analysis:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/collection_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/topTables_U2OS_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/setRank_analysis.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/U2OS_Rap_WT_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/U2OS_RapConA_WT_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/U2OS_RapConA_Rap_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/pathways.txt
+    jobid: 2
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, fdr=0.01, pv=0.01, cline=U2OS
+
+[Thu Dec  6 12:27:50 2018]
+Finished job 2.
+12 of 20 steps (60%) done
+
+[Thu Dec  6 12:27:50 2018]
+rule volcano_plot:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/volcano_plots.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_Rap_WT.pdf
+    jobid: 8
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS, cond=U2OS_Rap_WT
+
+[Thu Dec  6 12:28:32 2018]
+Finished job 8.
+13 of 20 steps (65%) done
+
+[Thu Dec  6 12:28:32 2018]
+rule volcano_plot:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/volcano_plots.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_RapConA_WT.pdf
+    jobid: 13
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS, cond=U2OS_RapConA_WT
+
+Warning: the following output files of rule volcano_plot were not present when the DAG was created:
+{'/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_RapConA_WT.pdf'}
+[Thu Dec  6 12:28:38 2018]
+Finished job 13.
+14 of 20 steps (70%) done
+
+[Thu Dec  6 12:28:38 2018]
+rule volcano_plot:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/volcano_plots.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_RapConA_Rap.pdf
+    jobid: 5
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS, cond=U2OS_RapConA_Rap
+
+Warning: the following output files of rule volcano_plot were not present when the DAG was created:
+{'/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_RapConA_Rap.pdf'}
+[Thu Dec  6 12:28:43 2018]
+Finished job 5.
+15 of 20 steps (75%) done
+
+[Thu Dec  6 12:28:43 2018]
+rule pca:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/pca.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/PCA_plot_filtered_U2OS.pdf
+    jobid: 6
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS
+
+[Thu Dec  6 12:28:48 2018]
+Finished job 6.
+16 of 20 steps (80%) done
+
+[Thu Dec  6 12:28:48 2018]
+rule waterfall:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/waterfall_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Material_for_waterfall_0.01FDR_0.01P_U2OS.Rda
+    jobid: 18
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, fdr=0.01, pv=0.01, cline=U2OS
+
+[Thu Dec  6 12:28:52 2018]
+Finished job 18.
+17 of 20 steps (85%) done
+
+[Thu Dec  6 12:28:52 2018]
+rule heatmap:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/pathway_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Material_for_heatmap_0.01FDR_0.01P_U2OS.csv
+    jobid: 17
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, fdr=0.01, pv=0.01, cline=U2OS
+
+[Thu Dec  6 12:28:54 2018]
+Finished job 17.
+18 of 20 steps (90%) done
+
+[Thu Dec  6 12:28:54 2018]
+rule prepare_shiny_inputs:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Material_for_waterfall_0.01FDR_0.01P_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Material_for_heatmap_0.01FDR_0.01P_U2OS.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/Scripts/prepare_shiny_outputs.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/results_shiny_U2OS_0.01P_0.01FDR.Rda
+    jobid: 11
+    wildcards: CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline, new_file=U2OS_0.01P_0.01FDR, cline=U2OS, pv=0.01, fdr=0.01
+
+[Thu Dec  6 12:31:17 2018]
+Finished job 11.
+19 of 20 steps (95%) done
+
+[Thu Dec  6 12:31:17 2018]
+localrule all:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/eSet_data_test1_U2OS.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/batches_all_phospho_data_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet_notfiltered_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/test_eSet1_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/all_dbs.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/PCA_plot_filtered_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_prots_with_position_venn_diagram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_prots_histogram_U2OS.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_proteins_U2OS_venn_diagram_U2OS_Rap_WT.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_proteins_U2OS_venn_diagram_U2OS_RapConA_WT.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Phos_proteins_U2OS_venn_diagram_U2OS_RapConA_Rap.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/collection_U2OS.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/topTables_U2OS_less.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/U2OS_Rap_WT_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/U2OS_RapConA_WT_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/U2OS_RapConA_Rap_pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/output_networks_with_positions_0.01FDR_0.01P_U2OS_less/pathways.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/results_shiny_U2OS_0.01P_0.01FDR.Rda, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_Rap_WT.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_RapConA_WT.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/U2OS_0.01P_0.01FDR/Volcano_plot_U2OS_x_U2OS_RapConA_Rap.pdf
+    jobid: 0
+
+[Thu Dec  6 12:31:17 2018]
+Finished job 0.
+20 of 20 steps (100%) done
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-12-06T121713.398049.snakemake.log

@@ -1,0 +1,15 @@
+fdr_cutoff: 0.05
+pvalue_cutoff: 0.01
+maxSetSize: 500
+cell_line: CML
+Conditions: CML_BE00097,CML_BE00097_fup,CML_BE00283
+Imputation: F
+SILAC: F
+Samples: CML_BE00097_fup,CML_BE00283
+control: CML_BE00097
+CWD: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline
+path_Input: /Users/Mahmoud.Hallal/Desktop/PhD/cell_lines_data/CML_samples_12.2018/pipeline_data_CML_OT.csv
+Intensity_columns: ["Intensity.1_CML_BE00097_INC1","Intensity.1_CML_BE00097_INC2","Intensity.1_CML_BE00097_fup_INC1","Intensity.1_CML_BE00097_fup_INC2","Intensity.1_CML_BE00283_INC1","Intensity.1_CML_BE00283_INC2"]
+Conditions_to_sum: [["Intensity.1_CML_BE00097","Intensity.1_CML_BE00097_INC1","Intensity.1_CML_BE00097_INC2"],["Intensity.1_CML_BE00097_fup","Intensity.1_CML_BE00097_fup_INC1","Intensity.1_CML_BE00097_fup_INC2"],["Intensity.1_CML_BE00283","Intensity.1_CML_BE00283_INC1","Intensity.1_CML_BE00283_INC2"]]
+Biological_replicates: 1-1-1
+NWKIN_Input: /Users/Mahmoud.Hallal/Desktop/PhD/cell_lines_data/CML_samples_12.2018/NetworKIN_CML_OT.csv

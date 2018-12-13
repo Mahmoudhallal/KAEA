@@ -1,0 +1,5 @@
+Building DAG of jobs...
+InputFunctionException in line 193 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+AttributeError: 'Wildcards' object has no attribute 'fdr'
+Wildcards:
+

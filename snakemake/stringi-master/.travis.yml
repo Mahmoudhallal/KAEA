@@ -1,0 +1,51 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+dist: trusty
+sudo: required
+language: r
+r_packages:
+  - devtools
+matrix:
+  include:
+  - os: osx
+    osx_image: xcode9.2
+  - os: linux
+    r: release
+    addons:
+        apt:
+            packages:
+                - libicu-dev
+    env:
+        - STRINGI_DISABLE_ICU_BUNDLE="1"
+  - os: linux
+    r: oldrel
+    addons:
+        apt:
+            packages:
+                - libicu-dev
+    env:
+        - STRINGI_DISABLE_ICU_BUNDLE="1"
+  - os: linux
+    r: devel
+    addons:
+        apt:
+            packages:
+                - libicu-dev
+    env:
+        - STRINGI_DISABLE_ICU_BUNDLE="1"
+  - os: linux
+    r: release
+    env:
+        - STRINGI_DISABLE_PKG_CONFIG="1"
+  - os: linux
+    r: oldrel
+    env:
+        - STRINGI_DISABLE_PKG_CONFIG="1"
+  - os: linux
+    r: devel
+    env:
+        - STRINGI_DISABLE_PKG_CONFIG="1"
+
+warnings_are_errors: true
+r_build_args: "--no-manual"
+r_check_args: "--no-manual --as-cran"

@@ -1,0 +1,2 @@
+SyntaxError in line 30 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Unexpected keyword expand in rule definition (Snakefile, line 30)

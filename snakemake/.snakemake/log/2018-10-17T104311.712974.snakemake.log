@@ -1,0 +1,2 @@
+SyntaxError in line 207 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command must be given as string after the shell keyword. (Snakefile, line 207)

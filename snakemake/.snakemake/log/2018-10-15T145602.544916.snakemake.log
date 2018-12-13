@@ -1,0 +1,30 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	heatmap
+	1	prepare_shiny_inputs
+	3
+
+[Mon Oct 15 14:56:02 2018]
+rule heatmap:
+    input: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/params/parameters.txt, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/pathway_create.R
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/pathway_summary_all_phosprots_delete_True_0.01P_0.01fdr_heatmap.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Material_for_heatmap.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/material_for_waterfall.Rda
+    jobid: 6
+
+[Mon Oct 15 14:56:03 2018]
+Error in rule heatmap:
+    jobid: 6
+    output: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/pathway_summary_all_phosprots_delete_True_0.01P_0.01fdr_heatmap.pdf, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/Material_for_heatmap.csv, /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/material_for_waterfall.Rda
+
+RuleException:
+CalledProcessError in line 213 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Command ' set -euo pipefail;   Rscript /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/pathway_create.R ' returned non-zero exit status 1.
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 213, in __rule_heatmap
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General2/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/.snakemake/log/2018-10-15T145602.544916.snakemake.log

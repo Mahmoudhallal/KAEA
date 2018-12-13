@@ -1,0 +1,5 @@
+Building DAG of jobs...
+InputFunctionException in line 77 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+TypeError: string indices must be integers
+Wildcards:
+CWD=/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline

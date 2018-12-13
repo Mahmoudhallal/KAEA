@@ -1,0 +1,10 @@
+name: snakemake
+title:
+username:
+account: mh-apps
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 561860
+bundleId: 1691504
+url: https://mh-apps.shinyapps.io/snakemake/
+when: 1541760967.09162

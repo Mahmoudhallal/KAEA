@@ -1,0 +1,4 @@
+Building DAG of jobs...
+WildcardError in line 145 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Wildcards in input files cannot be determined from output files:
+'cline'

@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 218 of /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/Molm13_Midostaurin_09.2018/snakemake/Snakefile:
+Missing input files for rule prepare_shiny_inputs:
+/Users/Mahmoud.Hallal/Desktop/PhD/stimulated_data_analysis/Molm13_Midostaurin_09.2018_results/material_for_waterfall.Rda

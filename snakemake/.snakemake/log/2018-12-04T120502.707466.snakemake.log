@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 61 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+Missing input files for rule load_prepare_STY_files:
+/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/U2OS_0.01P_0.05FDR/Scripts/cell_lines_analysis_STYfiles_INC1_INC2_sd.R

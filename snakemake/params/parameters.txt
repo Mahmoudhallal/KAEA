@@ -1,0 +1,4 @@
+fdr_cutoff,  pvalue_cutoff,  maxSetSize,	motif
+  0.01,           0.01,         500,		FALSE
+
+

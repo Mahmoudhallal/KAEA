@@ -1,0 +1,4 @@
+TypeError in line 21 of /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile:
+stat: path should be string, bytes, os.PathLike or integer, not list
+  File "/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/snakemake/Snakefile", line 21, in <module>
+  File "/Users/Mahmoud.Hallal/miniconda3/envs/snakemake_General2/lib/python3.6/genericpath.py", line 19, in exists
