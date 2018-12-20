@@ -35,11 +35,11 @@ library(yaml)
 params <- read_yaml("./config.yaml")
 
 ## Load kinase-substrate databases
-phosphoELM_vertebrate <- read.delim("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoELM_db/phosphoELM_vertebrate_2015-04.dump")
-Kinase_Substrate_Dataset <- read.delim("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoSitePlus/Kinase_Substrate_Dataset_v2")
-HPRD <- read.delim('/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/HPRD/FLAT_FILES_072010/POST_TRANSLATIONAL_MODIFICATIONS.txt', header = FALSE)
-RegPhos <- read.delim('/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/RegPhos/RegPhos_Phos_human.txt')
-Signor <- read.delim('/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/SIGNOR/human_phosphorylations_12_07_18.csv', sep = ",")
+phosphoELM_vertebrate <- read.delim("/home/user/KAEA/Phospho_database/phosphoELM_db/phosphoELM_vertebrate_2015-04.dump")
+Kinase_Substrate_Dataset <- read.delim("/home/user/KAEA/Phospho_database/phosphoSitePlus/Kinase_Substrate_Dataset_v2")
+HPRD <- read.delim('/home/user/KAEA/Phospho_database/HPRD/FLAT_FILES_072010/POST_TRANSLATIONAL_MODIFICATIONS.txt', header = FALSE)
+RegPhos <- read.delim('/home/user/KAEA/Phospho_database/RegPhos/RegPhos_Phos_human.txt')
+Signor <- read.delim('/home/user/KAEA/Phospho_database/SIGNOR/human_phosphorylations_12_07_18.csv', sep = ",")
 
 ## Create unified column names
 column_names <- c("geneID","termID","termName","dbName","description")
