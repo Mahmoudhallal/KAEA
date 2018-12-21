@@ -36,3 +36,4 @@ dependencies:
 - r-shiny 
 - r-yaml
 - r-dplyr
+- r-plotly 
