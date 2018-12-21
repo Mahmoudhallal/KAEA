@@ -7,9 +7,9 @@ SILAC: F
 Conditions: K562_CTRL,K562_DRG
 Samples: K562_DRG
 control: K562_CTRL
-CWD: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline
-path_Input: /Users/Mahmoud.Hallal/Desktop/PhD/cell_lines_data/Stimulated_data/K562_Nilotinib_t2/Phospho (STY)Sites.txt
+CWD: /home/user/KAEA
+path_Input: /home/user/KAEA/data/K562_Nilotinib_t2/Phospho (STY)Sites.txt
 Intensity_columns: ["Intensity.K562_C1_2_INC1","Intensity.K562_C1_2_INC2","Intensity.K562_C2_1_INC1","Intensity.K562_C2_1_INC2","Intensity.K562_C3_1_INC1","Intensity.K562_C3_1_INC2","Intensity.K562_D1_2_INC1", "Intensity.K562_D1_2_INC2","Intensity.K562_D2_1_INC1","Intensity.K562_D2_1_INC2","Intensity.K562_D3_2_INC1","Intensity.K562_D3_2_INC2"]
 Conditions_to_sum: [["Intensity.1_K562_CTRL","Intensity.K562_C1_2_INC1","Intensity.K562_C1_2_INC2"],["Intensity.2_K562_CTRL","Intensity.K562_C2_1_INC1","Intensity.K562_C2_1_INC2"],["Intensity.3_K562_CTRL","Intensity.K562_C3_1_INC1","Intensity.K562_C3_1_INC2"],["Intensity.1_K562_DRG","Intensity.K562_D1_2_INC1","Intensity.K562_D1_2_INC2"],["Intensity.2_K562_DRG","Intensity.K562_D2_1_INC1","Intensity.K562_D2_1_INC2"],["Intensity.3_K562_DRG","Intensity.K562_D3_2_INC1","Intensity.K562_D3_2_INC2"]]
 Biological_replicates: 3-3
-NWKIN_Input: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_results/NetworKIN_onlineTool_output_cutoff0.75.csv
+NWKIN_Input: /home/user/KAEA/data/K562_Nilotinib_t2/NetworKIN_onlineTool_output_cutoff0.75.csv
