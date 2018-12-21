@@ -192,7 +192,7 @@ nwkin <- read.delim(nwkin_input,sep=",")
 nwkin$residue <- substr(nwkin$sequence,6,6)
 nwkin <- nwkin[!nwkin$residue == "?",]
 nwkin$residue <- toupper(nwkin$residue)
-nwkin$X.substrate <- gsub("(\\w+)(-\\d+)?","\\1",nwkin$X....substrate)
+nwkin$X.substrate <- gsub("(\\w+)(-\\d+)?","\\1",nwkin$X.substrate)
 nwkin$protein_with_pos <- paste0(nwkin$X.substrate,'_', nwkin$residue, nwkin$position)
 nwkin <- nwkin[!duplicated(nwkin),]
 
