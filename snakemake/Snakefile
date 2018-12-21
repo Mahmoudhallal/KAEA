@@ -54,7 +54,7 @@ rule all:
 		#expand("{CWD}/results/Material_for_waterfall_{fdr}FDR_{pv}P_{cline}.Rda", CWD=CWD, fdr = FDR, pv=PVALUE,cline=cline),
 		#expand("{CWD}/results/Material_for_heatmap_{fdr}FDR_{pv}P_{cline}.csv", CWD=CWD, fdr = FDR, pv=PVALUE,cline=cline),
         expand("{CWD}/results/{new_file}/results_shiny_{cline}_{pv}P_{fdr}FDR.Rda", CWD=CWD, fdr = FDR, pv = PVALUE,cline=cline,new_file=new_file),
-        #expand("{CWD}/results/{new_file}/Volcano_plot_{cline}_x_{cond}.pdf",CWD=CWD,cline=cline,cond=CONDS,new_file=new_file)
+        expand("{CWD}/results/{new_file}/Volcano_plot_{cline}_x_{cond}.pdf",CWD=CWD,cline=cline,cond=CONDS,new_file=new_file)
 	
 
 
