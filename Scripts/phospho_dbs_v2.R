@@ -6,7 +6,7 @@
 ##################################################
 
 ## Load libraries##
-#install.packages("SetRank", repos="http://cran.rstudio.com/")
+install.packages("SetRank", repos="http://cran.rstudio.com/")
 library(SetRank)#
 
 source("https://bioconductor.org/biocLite.R")
@@ -369,7 +369,7 @@ all_dbs[grep('IKK_group',all_dbs$termName),]$termName <- "IKK"
 ##BCR/ABL
 unique(all_dbs[grep('ABL',all_dbs$termName),]$termName)
 all_dbs[grep('BCR/ABL',all_dbs$termName),]$termName <- "ABL1"
-all_dbs[grep('BCR-ABL',all_dbs$termName),]$termName <- "ABL1"
+#all_dbs[grep('BCR-ABL',all_dbs$termName),]$termName <- "ABL1"
 
 all_dbs[grep('^ABL$',all_dbs$termName),]$termName <- "ABL1"
 all_dbs[grep('^Abl$',all_dbs$termName),]$termName <- "ABL1"

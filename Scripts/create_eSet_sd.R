@@ -33,10 +33,10 @@ library('BSgenome.Hsapiens.UCSC.hg19')
 #biocLite("Homo.sapiens")
 library(Homo.sapiens)
 
-#install.packages("/Users/Mahmoud.Hallal/Desktop/PhD/new_scripts/results_test_sm/SetTools_1.01.tar.gz", repos = NULL, type = "source")
+install.packages("/home/user/KAEA/Packages/SetTools_1.01.tar.gz", repos = NULL, type = "source")
 library(SetTools)
 
-#install.packages("/Users/Mahmoud.Hallal/Desktop/PhD/new_scripts/results_test_sm/OmicsTools_0.0.22.tar.gz", repos = NULL, type = "source")
+install.packages("/home/user/KAEA/Packages/OmicsTools_0.0.22.tar.gz", repos = NULL, type = "source")
 library(OmicsTools)
 
 library(yaml)
