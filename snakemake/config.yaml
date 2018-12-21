@@ -1,15 +1,15 @@
 fdr_cutoff: 0.05
 pvalue_cutoff: 0.01
 maxSetSize: 500
-cell_line: CML
-Conditions: CML_BE00097,CML_BE00097_fup,CML_BE00283
+cell_line: K562
 Imputation: F
 SILAC: F
-Samples: CML_BE00097_fup,CML_BE00283
-control: CML_BE00097
-CWD: /home/user/KAEA
-path_Input: /home/user/KAEA/data/pipeline_data_CML_OT.csv
-Intensity_columns: ["Intensity.1_CML_BE00097_INC1","Intensity.1_CML_BE00097_INC2","Intensity.1_CML_BE00097_fup_INC1","Intensity.1_CML_BE00097_fup_INC2","Intensity.1_CML_BE00283_INC1","Intensity.1_CML_BE00283_INC2"]
-Conditions_to_sum: [["Intensity.1_CML_BE00097","Intensity.1_CML_BE00097_INC1","Intensity.1_CML_BE00097_INC2"],["Intensity.1_CML_BE00097_fup","Intensity.1_CML_BE00097_fup_INC1","Intensity.1_CML_BE00097_fup_INC2"],["Intensity.1_CML_BE00283","Intensity.1_CML_BE00283_INC1","Intensity.1_CML_BE00283_INC2"]]
-Biological_replicates: 1-1-1
-NWKIN_Input: /home/user/KAEA/data/NetworKIN_CML_OT.csv
+Conditions: K562_CTRL,K562_DRG
+Samples: K562_DRG
+control: K562_CTRL
+CWD: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline
+path_Input: /Users/Mahmoud.Hallal/Desktop/PhD/cell_lines_data/Stimulated_data/K562_Nilotinib_t2/Phospho (STY)Sites.txt
+Intensity_columns: ["Intensity.K562_C1_2_INC1","Intensity.K562_C1_2_INC2","Intensity.K562_C2_1_INC1","Intensity.K562_C2_1_INC2","Intensity.K562_C3_1_INC1","Intensity.K562_C3_1_INC2","Intensity.K562_D1_2_INC1", "Intensity.K562_D1_2_INC2","Intensity.K562_D2_1_INC1","Intensity.K562_D2_1_INC2","Intensity.K562_D3_2_INC1","Intensity.K562_D3_2_INC2"]
+Conditions_to_sum: [["Intensity.1_K562_CTRL","Intensity.K562_C1_2_INC1","Intensity.K562_C1_2_INC2"],["Intensity.2_K562_CTRL","Intensity.K562_C2_1_INC1","Intensity.K562_C2_1_INC2"],["Intensity.3_K562_CTRL","Intensity.K562_C3_1_INC1","Intensity.K562_C3_1_INC2"],["Intensity.1_K562_DRG","Intensity.K562_D1_2_INC1","Intensity.K562_D1_2_INC2"],["Intensity.2_K562_DRG","Intensity.K562_D2_1_INC1","Intensity.K562_D2_1_INC2"],["Intensity.3_K562_DRG","Intensity.K562_D3_2_INC1","Intensity.K562_D3_2_INC2"]]
+Biological_replicates: 3-3
+NWKIN_Input: /Users/Mahmoud.Hallal/Desktop/PhD/Stimulated_data_analysis/K562_Nilotinib_results/NetworKIN_onlineTool_output_cutoff0.75.csv
