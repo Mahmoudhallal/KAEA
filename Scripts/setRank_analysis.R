@@ -12,15 +12,16 @@ library(SetRank)
 #install.packages("yaml", repos="http://cran.rstudio.com/")
 library(yaml)
 
-## Load parameters #
+## Load parameters 
 params <- read_yaml("./config.yaml")
+imp <- params$Imputation
 
 ## Load collection
-load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"collection_",params$cell_line,".Rda"))
+load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/collection_",params$cell_line,".Rda"))
 
 ## Load topTables files
-load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"topTables_",params$cell_line,"_less.Rda"))
-load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"topTables_",params$cell_line,"_greater.Rda"))
+load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/topTables_",params$cell_line,"_less.Rda"))
+load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/topTables_",params$cell_line,"_greater.Rda"))
 
 ## Define the number of cores for setRank 
 options(mc.cores=1)
@@ -41,8 +42,9 @@ all_nets <- enrichment_analysis
 all_gene_lists <- gene_lists
 
 ## Export output file
-exportMultipleResults(all_nets, all_gene_lists, collection ,IDConverter = NULL, paste(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"output_networks_with_positions_",params$fdr_cutoff,"FDR_",params$pvalue_cutoff,"P_",params$cell_line,"_less/",sep=""))
+exportMultipleResults(all_nets, all_gene_lists, collection ,IDConverter = NULL, paste(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/output_networks_with_positions_",params$fdr_cutoff,"FDR_",params$pvalue_cutoff,"P_",params$cell_line,"_less/",sep=""))
 
+print("DONEEEEEE")
 ## Overactive kianses
 enrichment_analysis1 <- 
   lapply(1:length(topTables_greater), function(x) {
@@ -58,5 +60,5 @@ all_nets <- enrichment_analysis1#
 all_gene_lists <- gene_lists
 
 ## Export output file
-exportMultipleResults(all_nets, all_gene_lists, collection ,IDConverter = NULL, paste(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"output_networks_with_positions_",params$fdr_cutoff,"FDR_",params$pvalue_cutoff,"P_",params$cell_line,"_greater/",sep=""))
+exportMultipleResults(all_nets, all_gene_lists, collection ,IDConverter = NULL, paste(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/output_networks_with_positions_",params$fdr_cutoff,"FDR_",params$pvalue_cutoff,"P_",params$cell_line,"_greater/",sep=""))
 

@@ -19,7 +19,7 @@ library(filesstrings)
 library(ggplot2)
 library(pheatmap)
 data("gene.idtype.bods")
-
+library(yaml)
 ## Load parameters
 params <- read_yaml("./config.yaml")
 

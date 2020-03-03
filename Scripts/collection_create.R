@@ -17,6 +17,8 @@ library(yaml)
 
 ## Load parameters
 params <- read_yaml("./config.yaml")
+imp <- params$Imputation
+maxSetSize <- 500
 
 ## Define the fucntion to create a "collection"
 create_collection <- function(list_prots, all_dbs, maxSetSize){
@@ -32,14 +34,13 @@ create_collection <- function(list_prots, all_dbs, maxSetSize){
 }
 
 ## Load input expressionSet
-load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"test_eSet1_",params$cell_line,".Rda"))
+load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/test_eSet1_",params$cell_line,".Rda"))
 
 ## Load database 
-all_dbs <- read.csv(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"all_dbs.csv"))
+all_dbs <- read.csv(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/all_dbs.csv"))
 
 ## Create the collection
-collection <- create_collection(rownames(exprs(test_eSet)), all_dbs, maxSetSize = params$maxSetSize)
+collection <- create_collection(rownames(exprs(test_eSet)), all_dbs, maxSetSize = maxSetSize)
 
 ## Write output file
-save(collection, file = paste(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"collection_",params$cell_line,".Rda",sep=""))
-
+save(collection, file = paste(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/collection_",params$cell_line,".Rda",sep=""))

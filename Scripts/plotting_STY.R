@@ -17,11 +17,11 @@ library(yaml)
 
 ## Load parameters file
 params <- read_yaml("./config.yaml")
-
+imp <- params$Imputation
 
 #Load phospho- and proteome data
-load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"batches_all_data_",params$cell_line,".Rda"))
-load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"batches_all_phospho_data_",params$cell_line,".Rda"))
+load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/batches_all_data_",params$cell_line,".Rda"))
+load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/batches_all_phospho_data_",params$cell_line,".Rda"))
 
 ## Define conditions
 Conditions <- strsplit(params$Conditions,",")[[1]]
@@ -61,20 +61,22 @@ phos_sites$row <- c("Phos")
 phos_sites$rep <- all_prots_labels
 phos_sites$rep <- factor(phos_sites$rep, levels=unique(phos_sites$rep))
 phos_sites$Cell_line <- gsub("(.*)_.*","\\1",phos_sites$rep)
+#phos_sites$rep <- c("sMOLM13_MIDO1", "sMOLM13_MIDO2" ,"sMOLM13_MIDO3", "sMOLM13_CTRL1", "sMOLM13_CTRL2", "sMOLM13_CTRL3", "rMOLM13_CTRL1", "rMOLM13_CTRL2",
+#        "rMOLM13_CTRL3", "rMOLM13_MIDO1", "rMOLM13_MIDO2", "rMOLM13_MIDO3")
 
 dd <- ggplot(phos_sites, aes(x=rep, y=prots, fill = Cell_line)) + 
   geom_bar(stat="identity") +
-  geom_text(aes(label=prots),vjust=-1, size=3) +
+  geom_text(aes(label=prots),vjust=-1, size=2.4) +
   xlab("Replicates") +
   ylab("# sites") +
   labs(title="Phosphorylated sites") + 
   theme_bw() + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 22)) +
+  theme(axis.text.x = element_text(angle = 270, hjust = 1, size = 8)) +
   theme(axis.text.y = element_text(size = 22)) +
   theme(axis.title=element_text(size=24))
 
 ## Produce output PDF
-pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"Phos_prots_with_position_histogram_",params$cell_line,".pdf"),height=7.5)
+pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Phos_prots_with_position_histogram_",params$cell_line,".pdf"),height=7.5, width=10)
 plot(dd)
 dev.off()
 
@@ -102,7 +104,7 @@ dd <- ggplot(phos_peps, aes(x=rep, y=prots, fill = Cell_line)) +
   theme(axis.title=element_text(size=24))
 
 ## Produce output PDF
-pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"Phos_peps_histogram_",params$cell_line,".pdf"))
+pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Phos_peps_histogram_",params$cell_line,".pdf"))
 plot(dd)
 dev.off()
 
@@ -130,7 +132,7 @@ dd <- ggplot(phos_prots, aes(x=rep, y=prots, fill = Cell_line)) +
   theme(axis.title=element_text(size=24))
 
 ## Produce output PDF
-pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"Phos_prots_histogram_",params$cell_line,".pdf"))
+pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Phos_prots_histogram_",params$cell_line,".pdf"))
 plot(dd)
 dev.off()
 
@@ -146,18 +148,19 @@ names(all_peps) <- Conditions
 
 ## Produce venn diagram
 dd <- venn.diagram(all_peps,
+                   na = "remove",
                    fill = 2:(1+length(all_peps)),
-                   filename = NULL, 
+                   filename = NULL,
                    alpha = rep(0.5,length(all_peps)),
                    cat.fontface = 4,
-                   lty =2, cex = 1.1, 
+                   lty =2, cex = 1.1,
                    scaled = TRUE, euler.d = TRUE,
-                   main = "Phosphorylated Peptides of K562 Ctrl and Drug", 
+                   main = "Phosphorylated Peptides of K562 Ctrl and Drug",
                    main.cex = 1.2)
-
-## Produce output PDF
-pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"Phos_peptides_venn_diagram_",params$cell_line,".pdf"), width = 8)
-grid.draw(dd) 
+# 
+# ## Produce output PDF
+pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Phos_peptides_venn_diagram_",params$cell_line,".pdf"), width = 8)
+grid.draw(dd)
 dev.off()
 
 ## Proteins with positions
@@ -166,23 +169,24 @@ all_sites <- lapply(1:length(Conditions), function(x){
     proteins_counts[[x]][[y]]$c })))
 })
 names(all_sites) <- Conditions
-
+# 
 union_sites <- unique(unlist(all_sites))
-
+# 
 dd <- venn.diagram(all_sites,
+                   na = "remove",
                    fill = 2:(1+length(all_sites)),
-                   filename = NULL, 
+                   filename = NULL,
                    alpha = rep(0.5,length(all_sites)),
                    cat.fontface = 4,
-                   lty =2, 
-                   cex = 1.1, 
-                   scaled = TRUE, 
+                   lty =2,
+                   cex = 1.1,
+                   scaled = TRUE,
                    euler.d = TRUE ,
-                   main = "Phosphorylated Proteins_phosphorylation site of K562 Ctrl and Drug", 
+                   main = "Phosphorylated Proteins_phosphorylation site of K562 Ctrl and Drug",
                    main.cex = 1.2)
-
-pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"Phos_prots_with_position_venn_diagram_",params$cell_line,".pdf"), width = 8)
-grid.draw(dd) 
+# 
+pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Phos_prots_with_position_venn_diagram_",params$cell_line,".pdf"), width = 8)
+grid.draw(dd)
 dev.off()
 
 ## Proteins with positions
@@ -193,21 +197,22 @@ all_prots <- lapply(1:length(Conditions), function(x){
 names(all_prots) <- Conditions
 
 union_prots <- unique(unlist(all_prots))
-
+# 
 dd <- venn.diagram(all_prots,
+                   na = "remove",
                    fill = 2:(1+length(all_peps)),
-                   filename = NULL, 
+                   filename = NULL,
                    alpha = rep(0.5,length(all_peps)),
                    cat.fontface = 4,
-                   lty =2, 
-                   cex = 1.1, 
-                   scaled = TRUE, 
+                   lty =2,
+                   cex = 1.1,
+                   scaled = TRUE,
                    euler.d = TRUE ,
-                   main = "Phosphorylated Proteins_phosphorylation site of K562 Ctrl and Drug", 
+                   main = "Phosphorylated Proteins_phosphorylation site of K562 Ctrl and Drug",
                    main.cex = 1.2)
-
-pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"Phos_prots_venn_diagram_",params$cell_line,".pdf"), width = 8)
-grid.draw(dd) 
+# 
+pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Phos_prots_venn_diagram_",params$cell_line,".pdf"), width = 8)
+grid.draw(dd)
 dev.off()
 
 #########################################################
@@ -221,9 +226,11 @@ table_counts_all <-
   ))
       
 colnames(table_counts_all) <- c("Cell line","# Peps", "# Prots_with_position", "# Prots")
-write.table(table_counts_all, paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"table_counts_all_",params$cell_line,".csv"), sep=",")
+write.table(table_counts_all, paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/table_counts_all_",params$cell_line,".csv"), sep=",")
 
 ## Save for Shiny
 Quality_rep <- list(phos_sites, phos_peps, phos_prots, all_sites, all_peps, all_prots, table_counts_all)
 names(Quality_rep) <- c('hist_sites','hist_peps','hist_prots','venn_sites','venn_peps','venn_prots','table_counts')
-save(Quality_rep, file = paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"Quality_Report_Shiny_",params$cell_line,".Rda"))
+save(Quality_rep, file = paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Quality_Report_Shiny_",params$cell_line,".Rda"))
+
+

@@ -21,9 +21,10 @@ CWD = config["CWD"]
 cline = config["cell_line"]
 MaxSetSize=config["maxSetSize"]
 motif="FALSE"
+IMP=config["Imputation"]
 
 new_file_path = [CWD+'/results'+'/'+cline+'_'+str(PVALUE)+'P_'+str(FDR)+'FDR']
-new_file = [cline+'_'+str(PVALUE)+'P_'+str(FDR)+'FDR']
+new_file = [cline+'_'+str(PVALUE)+'P_'+str(FDR)+'FDR'+'_imp'+str(IMP)]
 #new_file = ''.join(new_file)
 print(new_file_path)
 print(cline)
@@ -37,7 +38,7 @@ print(cline)
 
 rule all:
 	input:
-		expand("{CWD}/results/{new_file}/eSet_data_test1_{cline}.csv",cline=cline, CWD=CWD,new_file=new_file),
+		expand("{CWD}/results/{new_file}/eSet_data_test1_{cline}.csv",cline=cline, CWD=CWD,new_file=new_file, IMP=IMP),
 		#expand("{CWD}/results/batches_all_data_{cline}.Rda", cline=cline, CWD=CWD),
 		expand("{CWD}/results/{new_file}/batches_all_phospho_data_{cline}.Rda", cline=cline, CWD=CWD,new_file=new_file),
 		expand("{CWD}/results/{new_file}/test_eSet_notfiltered_{cline}.Rda",cline=cline, CWD=CWD,new_file=new_file),
@@ -47,15 +48,20 @@ rule all:
 		#"/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/coverage_celllines_databases.pdf",
 		expand("{CWD}/results/{new_file}/Phos_prots_with_position_venn_diagram_{cline}.pdf",cline =cline, CWD=CWD,new_file=new_file),
 		expand("{CWD}/results/{new_file}/Phos_prots_histogram_{cline}.pdf",CWD=CWD, cline=cline,new_file=new_file),
-		expand("{CWD}/results/{new_file}/Phos_proteins_{cline}_venn_diagram_{cond}.pdf",CWD=CWD,cline=cline,cond=CONDS,new_file=new_file),
+		#expand("{CWD}/results/{new_file}/Phos_proteins_{cline}_venn_diagram_{cond}.pdf",CWD=CWD,cline=cline,cond=CONDS,new_file=new_file),
+		expand("{CWD}/results/{new_file}/CV_{cline}.csv",CWD=CWD,cline=cline,cond=CONDS,new_file=new_file),
 		expand("{CWD}/results/{new_file}/collection_{cline}.Rda", CWD=CWD, MaxSetSize=MaxSetSize,cline=cline,new_file=new_file),
 		expand("{CWD}/results/{new_file}/topTables_{cline}_less.Rda", CWD=CWD, cline=cline,new_file=new_file),
-		expand("{CWD}/results/{new_file}/output_networks_with_positions_{fdr}FDR_{pv}P_{cline}_less/{file}.txt", fdr = FDR, CWD=CWD, file= FILES, pv = PVALUE, cline=cline,new_file=new_file),
+		#expand("{CWD}/results/{new_file}/output_networks_with_positions_{fdr}FDR_{pv}P_{cline}_less/{file}.txt", fdr = FDR, CWD=CWD, file= FILES, pv = PVALUE, cline=cline,new_file=new_file),
+        expand("{CWD}/results/{new_file}/output_networks_with_positions_{fdr}FDR_{pv}P_{cline}_less/pathways.txt", fdr = FDR, CWD=CWD, pv = PVALUE, cline=cline,new_file=new_file),
 		#expand("{CWD}/results/Material_for_waterfall_{fdr}FDR_{pv}P_{cline}.Rda", CWD=CWD, fdr = FDR, pv=PVALUE,cline=cline),
 		#expand("{CWD}/results/Material_for_heatmap_{fdr}FDR_{pv}P_{cline}.csv", CWD=CWD, fdr = FDR, pv=PVALUE,cline=cline),
         expand("{CWD}/results/{new_file}/results_shiny_{cline}_{pv}P_{fdr}FDR.Rda", CWD=CWD, fdr = FDR, pv = PVALUE,cline=cline,new_file=new_file),
-        expand("{CWD}/results/{new_file}/Volcano_plot_{cline}_x_{cond}.pdf",CWD=CWD,cline=cline,cond=CONDS,new_file=new_file)
-	
+        #expand("{CWD}/results/{new_file}/Volcano_plot_{cline}_x_{cond}.pdf",CWD=CWD,cline=cline,cond=CONDS,new_file=new_file),
+        expand("{CWD}/results/{new_file}/Volcano_plot_material_{cline}.Rda",CWD=CWD,cline=cline,new_file=new_file),
+        #expand("{CWD}/results/{new_file}/Enriched_pathways_{cline}.Rda",CWD=CWD,cline=cline,new_file=new_file),
+        expand("{CWD}/results/{new_file}/Heatmap_DEsites_{cline}.pdf",CWD=CWD,cline=cline,new_file=new_file),
+        expand("{CWD}/results/{new_file}/Coverage_Database_{cline}.pdf",CWD=CWD,cline=cline,new_file=new_file)
 
 
 rule load_prepare_STY_files:
@@ -95,38 +101,19 @@ rule filter_eSet:
 
 rule create_kinase_substrate_5_dbs:
 	input:
-		seed1 = os.path.abspath("/home/user/KAEA/Phospho_database/phosphoELM_db/phosphoELM_vertebrate_2015-04.dump"),
-		seed2 = os.path.abspath("/home/user/KAEA/Phospho_database/phosphoSitePlus/Kinase_Substrate_Dataset"),
-		seed5 = os.path.abspath("/home/user/KAEA/Phospho_database/HPRD/FLAT_FILES_072010/POST_TRANSLATIONAL_MODIFICATIONS.txt"),
-		seed7 = os.path.abspath("/home/user/KAEA/Phospho_database/RegPhos/RegPhos_Phos_human.txt"),
-		seed8 = os.path.abspath("/home/user/KAEA/Phospho_database/SIGNOR/human_phosphorylations_09_05_17.csv"),
-		script = "{CWD}/Scripts/phospho_dbs_v2.R"
+		seed1 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoELM_db/phosphoELM_vertebrate_2015-04.dump"),
+		seed2 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoSitePlus/Kinase_Substrate_Dataset"),
+		seed3 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/PhosphoNetworks/refKSI.csv"),
+		seed5 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/HPRD/FLAT_FILES_072010/POST_TRANSLATIONAL_MODIFICATIONS.txt"),
+		seed7 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/RegPhos/RegPhos_Phos_human.txt"),
+		seed8 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/SIGNOR/human_phosphorylations_09_05_17.csv"),
+		script = "{CWD}/Scripts/phospho_dbs_v3.R"
 	output:	
-		out ="{CWD}/results/{new_file}/all_dbs1.csv"
+		out ="{CWD}/results/{new_file}/all_dbs.csv"
 
 	shell:
 		""" Rscript {input.script} """
 
-
-rule create_kinase_substrate_dbs:
-	input:
-		#seed1 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Motif_analysis/all_dbs.csv"),
-		seed2 = "{CWD}/results/{new_file}/all_dbs1.csv",
-		script1 = "{CWD}/Scripts/phospho_dbs_with_motif.R",
-		script2 = "{CWD}/Scripts/phospho_dbs_without_motif.R"
-	output:	
-		out = "{CWD}/results/{new_file}/all_dbs.csv"
-
-	run:
-		#data2 = pd.read_csv('/Users/Mahmoud.Hallal/Desktop/PhD/Motif_analysis/all_dbs.csv')
-		print(motif)
-
-		if motif == "FALSE":
-			print("MOTIF ANALYSIS WILL NOT BE USED")
-			shell(""" Rscript {input.script2} """)
-		else:
-			print("MOTIF ANALYSIS WILL BE USED")
-			shell(""" Rscript {input.script1} """)
 		
 
 rule STY_plotting:
@@ -153,7 +140,7 @@ rule Reproducibility:
 		script = "{CWD}/Scripts/STY_reproducibility.R"
 		
 	output: 
-		out1 = "{CWD}/results/{new_file}/Phos_proteins_{cline}_venn_diagram_{COND}.pdf"
+		out1 = "{CWD}/results/{new_file}/CV_{cline}.csv"
 		#out2 = "{CWD}/results/{new_file}/Phos_proteins_{cline}_DRG_venn_diagram.pdf"
 	
 	shell:
@@ -165,7 +152,8 @@ rule volcano_plot:
 		script = "{CWD}/Scripts/volcano_plots.R"
 		
 	output: 
-		out1 = "{CWD}/results/{new_file}/Volcano_plot_{cline}_x_{cond}.pdf"
+        	out1 = "{CWD}/results/{new_file}/Volcano_plot_material_{cline}.Rda"
+		#out2 = "{CWD}/results/{new_file}/Volcano_plot_{cline}_x_{cond}.pdf"
 		
 	shell:
 			""" Rscript {input.script} """
@@ -205,8 +193,9 @@ rule SetRank_analysis:
 		fdr = config["fdr_cutoff"]		
 
 	output:
-		out1 = expand("{{CWD}}/results/{{new_file}}/output_networks_with_positions_{{fdr}}FDR_{{pv}}P_{{cline}}_less/{file}.txt", file=FILES)
-
+		#out1 = expand("{{CWD}}/results/{{new_file}}/output_networks_with_positions_{{fdr}}FDR_{{pv}}P_{{cline}}_less/{file}.txt", file=FILES)
+		out1 = expand("{{CWD}}/results/{{new_file}}/output_networks_with_positions_{{fdr}}FDR_{{pv}}P_{{cline}}_less/pathways.txt")
+        
 	shell:
 		""" Rscript {input.script} """
 
@@ -217,7 +206,7 @@ rule heatmap:
 	params:
 		fdr = config["fdr_cutoff"]		
 	output:
-		out = "{CWD}/results/{new_file}/Material_for_heatmap_{fdr}FDR_{pv}P_{cline}.csv"
+		out = "{CWD}/results/{new_file}/Material_for_heatmap_{fdr}FDR_{pv}P_{cline}.Rda"
 
 	shell:
 		""" Rscript {input.script} """
@@ -237,7 +226,9 @@ rule waterfall:
 rule prepare_shiny_inputs:
 	input:
 		seed1 = "{CWD}/results/{new_file}/Material_for_waterfall_{fdr}FDR_{pv}P_{cline}.Rda",
-		seed2 = "{CWD}/results/{new_file}/Material_for_heatmap_{fdr}FDR_{pv}P_{cline}.csv",
+		seed2 = "{CWD}/results/{new_file}/Material_for_heatmap_{fdr}FDR_{pv}P_{cline}.Rda",
+        seed3 = "{CWD}/results/{new_file}/Volcano_plot_material_{cline}.Rda",
+        #seed4 = "{CWD}/results/{new_file}/Enriched_pathways_{cline}.Rda",
 		script = "{CWD}/Scripts/prepare_shiny_outputs.R"
 	output:
 		out = "{CWD}/results/{new_file}/results_shiny_{cline}_{pv}P_{fdr}FDR.Rda"
@@ -260,7 +251,7 @@ rule pca:
         shell:
                 """ Rscript {input.script} """
 
-rule coverage:
+rule coverage2:
         input:
                 seed1 = "{CWD}/results/{new_file}/all_dbs.csv",
                 script = "{CWD}/Scripts/coverage_celllines_dbs.R"
@@ -271,3 +262,38 @@ rule coverage:
         shell:
                 """ Rscript {input.script} """
 
+rule pathway_enrichment:
+        input:
+                seed1 = "{CWD}/results/{new_file}/test_eSet1_{cline}.Rda",
+                seed2 = "{CWD}/results/{new_file}/topTables_{cline}_less.Rda",
+                script = "{CWD}/Scripts/TopGO_enrichment_sites.R"
+
+        output:
+                out = "{CWD}/results/{new_file}/Enriched_pathways_{cline}.Rda"
+
+        shell:
+                """ Rscript {input.script} """
+
+rule coverage:
+        input:
+                seed1 = "{CWD}/results/{new_file}/test_eSet1_{cline}.Rda",
+                seed2 = "{CWD}/results/{new_file}/all_dbs.csv", 
+                script = "{CWD}/Scripts/coverage_dbs.R"
+
+        output:
+                out = "{CWD}/results/{new_file}/Coverage_Database_{cline}.pdf"
+
+        shell:
+                """ Rscript {input.script} """
+
+rule Sites_heatmap:
+        input:
+                seed1 = "{CWD}/results/{new_file}/test_eSet1_{cline}.Rda",
+                seed2 = "{CWD}/results/{new_file}/Volcano_plot_material_{cline}.Rda", 
+                script = "{CWD}/Scripts/Heatmaps.R"
+
+        output:
+                out = "{CWD}/results/{new_file}/Heatmap_DEsites_{cline}.pdf"
+
+        shell:
+                """ Rscript {input.script} """
