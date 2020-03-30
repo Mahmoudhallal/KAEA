@@ -1,6 +1,6 @@
 ##################################################
 ## Project: Phosphoproteomics analysis of cell lines
-## Script purpose: Use STY files to get phosphorylated proteins and peptides
+## Script purpose: Use MaxQuant STY files to arrange phosphorylated proteins and peptides
 ## Date: 13.06.17
 ## Author: Mahmoud Hallal
 ##################################################
@@ -10,18 +10,19 @@ library("reshape2")
 install.packages("yaml", repos="http://cran.rstudio.com/")
 library(yaml)
 library(S4Vectors)
-## Load parameters file#
+
+## Load parameters file
 params <- read_yaml("./config.yaml")
 biological_reps <- unlist(strsplit(params$Biological_replicates, "-"))
 imp <- params$Imputation
 
 ## Load the input file
-phos_STY_INC1 <- read.delim(params$path_Input,sep = ',')#,sep = ','
+phos_STY_INC1 <- read.delim(params$path_Input)#,sep = ','
 
 ## Change contaminant name
 if ("Contaminant" %in% colnames(phos_STY_INC1)){
   colnames(phos_STY_INC1)[colnames(phos_STY_INC1) == 'Contaminant'] <- 'Potential.contaminant'
-}#
+}
 
 ## Choose the column names to use#
 Intensity_columns <- params$Intensity_columns
@@ -36,31 +37,24 @@ files_to_use_STY <- c("phos_STY_INC1")
 for (x in 1:length(files_to_use_STY)) {assign(paste0(files_to_use_STY[x],"_new"), get(files_to_use_STY[x])[,to_keep_STY])}
 
 ## Merge inputs if available and filter <0.75, contaminants and Reverse sites
-all_phos_STY <- rbind(phos_STY_INC1_new)#
-#all_phos_STY <- all_phos_STY[all_phos_STY$Localization.prob >= 0.75,]
-#all_phos_STY <- all_phos_STY[!all_phos_STY$Reverse == "+",]
-#all_phos_STY <- all_phos_STY[!all_phos_STY$Potential.contaminant == "+",]
-#all_phos_STY <- all_phos_STY[!is.na(all_phos_STY$Position),]
-#
+all_phos_STY <- rbind(phos_STY_INC1_new)
+all_phos_STY <- all_phos_STY[all_phos_STY$Localization.prob >= 0.75,]
+all_phos_STY <- all_phos_STY[!all_phos_STY$Reverse == "+",]
+all_phos_STY <- all_phos_STY[!all_phos_STY$Potential.contaminant == "+",]
+all_phos_STY <- all_phos_STY[!is.na(all_phos_STY$Position),]
 
-# intensities <- grep('AML', colnames(all_phos_STY))
-# sum_na <- lapply(1:length(intensities), function(t){sum(is.na(all_phos_STY[,t]))})
-# remove_na <- which(sum_na >2000)
-# eSet_data_STY <- eSet_data_STY[,-remove_na]
-
-
-## Sum the injection intensity values for every replicate separately#
+## Sum the injection intensity values for every replicate separately
 if (params$Sum_conditions == "T"){
   for (x in 1:length(params$Conditions_to_sum)){
     new_col <- params$Conditions_to_sum[[x]][1]
     all_phos_STY[[new_col]] <- rowSums(all_phos_STY[,c(params$Conditions_to_sum[[x]][-1])])
   }
 }
-## clear all columns that are from the injections##write down 18.07.2019
+
+## clear all columns that are from the injections
 if (isEmpty(grep('_INC', colnames(all_phos_STY))) == F){
   all_phos_STY <- all_phos_STY[,-grep('_INC', colnames(all_phos_STY))]
 }
-
 
 ## Separate the X batches of biological replicates
 ## format of Intensity column name should be "Intensity.#replicate_Conditionname"
@@ -71,17 +65,17 @@ all_batches_STY <- lapply(1:length(Conditions), function(x){
                               rep(Conditions[x], nrow(all_phos_STY))), c("Intensity", "cell_line")),
           setNames(data.frame(paste0(y,'_',Conditions[x])),c("Exp_short")))
     
-  })#
+  })
   new_file <- paste0("batch_new_STY_",x)
   assign(paste0("batch_new_STY_",x),do.call(rbind,nested_ll))
   get(paste0("batch_new_STY_",x))
 })
 
 
-
 ################################################################################################
 ## Clean the Protein and sequences accordint to what we need
 new_all_batches_STY <- lapply(1:length(all_batches_STY), function(x){
+  
   #get gene name
   all_batches_STY[[x]]$Gene <- gsub("(^sp\\|)(.*)\\|(\\w+)(_HUMAN)","\\3", all_batches_STY[[x]]$Protein)
   
@@ -105,21 +99,12 @@ new_all_batches_STY <- lapply(1:length(all_batches_STY), function(x){
   all_batches_STY[[x]] <- all_batches_STY[[x]][!is.na(all_batches_STY[[x]]$Intensity),]
   
   all_batches_STY[[x]]
-})#
+})
 
 ## Divide the batchesin a separate variable each
 for(x in 1:length(all_batches_STY)) {assign(paste0('batch_STY_',x), new_all_batches_STY[[x]])}
 
-
-batches_all_data_STY <- lapply(1:length(Conditions), function(x){
-  replicates <- lapply(1:biological_reps[x], function(y) {
-    new <- new_all_batches_STY[[x]][new_all_batches_STY[[x]]$Exp_short == paste0(y,'_',Conditions[x]),]
-    new2 <- new[new$Intensity != 0,]
-  })
-})
-save(batches_all_data_STY, file=paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/batches_all_data_",params$cell_line,".Rda"))
-
-## only phosphoproteome
+## Export only phosphoproteome for qualitative analysis
 batches_all_phospho_data_STY <- lapply(1:length(Conditions), function(x){
   cell_lines_all_data_STY <- lapply(1:biological_reps[x], function(y) {
     new <- new_all_batches_STY[[x]][new_all_batches_STY[[x]]$Exp_short == paste0(y,'_',Conditions[x]),]
@@ -133,15 +118,12 @@ save(batches_all_phospho_data_STY, file=paste0(params$CWD,"/results/",params$cel
 ###############################################################################################
 ## Prepare to create eSet object
 ## Merge X batches
-
 all_batches_eSet_only_phos_STY <- do.call(rbind, lapply(1:length(all_batches_STY), function(x){get(paste0('batch_STY_',x))}))
 
 ## Choose columns of interest
 eSet_data1_STY <- all_batches_eSet_only_phos_STY[,c("Protein_with_position","Exp_short", "Intensity")]
 
-## remove zero intensity values#
-#eSet_data1_STY$Intensity[eSet_data1_STY$Intensity == 0] <- 1
-#eSet_data1_STY$Intensity <- 2^eSet_data1_STY$Intensity
+## remove zero intensity values
 eSet_data1_STY <- eSet_data1_STY[!eSet_data1_STY$Intensity == 0,]
 
 ## Sum the intensities according to protein_position
@@ -153,31 +135,5 @@ eSet_data_STY <- t(eSet_data_STY)
 eSet_data_STY <- data.frame(eSet_data_STY[-1,])
 eSet_data_STY$Proteins <- rownames(eSet_data_STY)
 
-#########SPECIAL
-# intensities <- grep('AML', colnames(eSet_data_STY))
-# sum_na <- lapply(1:length(intensities), function(t){length(which(as.numeric(as.character(eSet_data_STY[,t]))==0))})
-# remove_na <- which(sum_na >2000)
-# eSet_data_STY <- eSet_data_STY[,-remove_na]
-
 ## Write the table in csv format
 write.table(eSet_data_STY, paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/eSet_data_test1_",params$cell_line,".csv"),sep="\t",row.names = FALSE,quote = FALSE)
-
-
-#for AML samples###
-## remove zero intensity values
-#eSet_data1_STY$Intensity[eSet_data1_STY$Intensity == 0] <- 1
-#eSet_data1_STY$Intensity <- 2^eSet_data1_STY$Intensity
-# and comment 
-#eSet_data1_STY <- eSet_data1_STY[!eSet_data1_STY$Intensity == 0,]
-
-#comment out
-#all_phos_STY <- all_phos_STY[!all_phos_STY$Reverse == "+",]
-#all_phos_STY <- all_phos_STY[!all_phos_STY$Potential.contaminant == "+",]
-
-#comment out
-#exprs(test_eSet)[exprs(test_eSet)== 0] <- NA
-#yy <- as.MSnSet.ExpressionSet(test_eSet)
-
-## Normalise by diff.mean
-#msnset.nrm <- normalise(yy, "quantiles")
-#exprs_all <- exprs(msnset.nrm)

@@ -8,17 +8,23 @@
 ## Load libraries
 #install.packages("gplots", repos="http://cran.rstudio.com/")
 library(gplots)
+
 #install.packages("pheatmap", repos="http://cran.rstudio.com/")
 library(pheatmap)   
+
 library(ggplot2)
+
 library(RColorBrewer)
+
 library(yaml)
+
 library(dplyr)
+
 ## Load parameters
 params <- read_yaml("./config.yaml")
 imp <- params$Imputation
 
-#define contrats and control
+## Define contrasts and control
 contrasts <- unlist(strsplit(params$Conditions,","))
 control <- params$control
 if (params$SILAC == "T"){
@@ -27,7 +33,6 @@ if (params$SILAC == "T"){
   samples <- contrasts[!(contrasts == control)]
 }
 
-#conditions <- strsplit(params$Conditions, split=",")[[1]]
 conditions <- samples
 
 ## Load input file from underactive kianses
@@ -76,17 +81,6 @@ pathwayMatrix_greater <- lapply(1:length(conditions), function(x){
     pathwayMatrix
   }
 })
-
-## UNCOMMENT the next part to get overlapping enriched kinases 27.02.2019
-## Merge over- and under- active kinases
-# both <- lapply(1:length(pathwayMatrix_greater), function(x){
-#   df <- rbind(pathwayMatrix_less[[x]],pathwayMatrix_greater[[x]])
-#   colnames(df) <- c("Enrichment.score","Color","Kinase")
-#   df
-# })
-# 
-# names(both) <- conditions
-# material_for_waterfall <- both
 
 ## Get Oncogene/tumor suppressor CancerMine database
 cancerMine <- read.delim('../cancermine_collated.tsv')
@@ -141,6 +135,7 @@ both <- lapply(1:length(pathwayMatrix_greater), function(x){
 
 names(both) <- conditions
 material_for_waterfall <- both
+
 ## Save the merged dataframe as dataframe for Waterfall
 save(material_for_waterfall, file=paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Material_for_waterfall_", params$fdr_cutoff,"FDR_", params$pvalue_cutoff,"P_",params$cell_line,".Rda"))
 
@@ -161,8 +156,7 @@ for (x in names(both)){
     xlab("Kinase") +
     ylab("-log10 p-value")+
     geom_text(aes(label=both[[x]]$category), hjust = as.numeric(both[[x]]$hjust), color="white", position = position_dodge(1), size=3.5)
-    #theme(#axis.text=element_text(size=14),
-    #  axis.title=element_text(size=36))#
+
   
   plot(water_fall)
   

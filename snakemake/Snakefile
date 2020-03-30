@@ -3,6 +3,7 @@ configfile: "config.yaml"
 from snakemake.utils import R
 import pandas as pd
 
+# define parameters
 CONDS = config["Samples"].split(',')
 FILES = list()
 
@@ -11,8 +12,6 @@ for x in CONDS:
     FILES.append(nn)
 
 FILES.append('pathways')
-#print(FILES)
-#FILES = ['MOLM13_CTRL_pathways','MOLM13_DRG_pathways','pathways']
 
 FDR = config["fdr_cutoff"]
 PVALUE=config["pvalue_cutoff"]
@@ -25,30 +24,18 @@ IMP=config["Imputation"]
 
 new_file_path = [CWD+'/results'+'/'+cline+'_'+str(PVALUE)+'P_'+str(FDR)+'FDR']
 new_file = [cline+'_'+str(PVALUE)+'P_'+str(FDR)+'FDR'+'_imp'+str(IMP)]
-#new_file = ''.join(new_file)
-print(new_file_path)
-print(cline)
-#os.mkdir(''.join(new_file_path))
-#dirName = ''.join(expand("{CWD}/results/output_networks_with_positions_{fdr}fdr_filtered_less", CWD=CWD,fdr = FDR))
-
-#if not os.path.exists(dirName):
-#    os.mkdir(dirName)
-
 
 
 rule all:
 	input:
 		expand("{CWD}/results/{new_file}/eSet_data_test1_{cline}.csv",cline=cline, CWD=CWD,new_file=new_file, IMP=IMP),
-		#expand("{CWD}/results/batches_all_data_{cline}.Rda", cline=cline, CWD=CWD),
 		expand("{CWD}/results/{new_file}/batches_all_phospho_data_{cline}.Rda", cline=cline, CWD=CWD,new_file=new_file),
 		expand("{CWD}/results/{new_file}/test_eSet_notfiltered_{cline}.Rda",cline=cline, CWD=CWD,new_file=new_file),
 		expand("{CWD}/results/{new_file}/test_eSet1_{cline}.Rda",cline=cline, CWD=CWD,new_file=new_file),
 		expand("{CWD}/results/{new_file}/all_dbs.csv",CWD=CWD,new_file=new_file),
 		expand("{CWD}/results/{new_file}/PCA_plot_filtered_{cline}.pdf",CWD=CWD,cline=cline,new_file=new_file),
-		#"/Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline/results/coverage_celllines_databases.pdf",
 		expand("{CWD}/results/{new_file}/Phos_prots_with_position_venn_diagram_{cline}.pdf",cline =cline, CWD=CWD,new_file=new_file),
 		expand("{CWD}/results/{new_file}/Phos_prots_histogram_{cline}.pdf",CWD=CWD, cline=cline,new_file=new_file),
-		#expand("{CWD}/results/{new_file}/Phos_proteins_{cline}_venn_diagram_{cond}.pdf",CWD=CWD,cline=cline,cond=CONDS,new_file=new_file),
 		expand("{CWD}/results/{new_file}/CV_{cline}.csv",CWD=CWD,cline=cline,cond=CONDS,new_file=new_file),
 		expand("{CWD}/results/{new_file}/collection_{cline}.Rda", CWD=CWD, MaxSetSize=MaxSetSize,cline=cline,new_file=new_file),
 		expand("{CWD}/results/{new_file}/topTables_{cline}_less.Rda", CWD=CWD, cline=cline,new_file=new_file),
@@ -72,8 +59,7 @@ rule load_prepare_STY_files:
             cond=CONDS
         output:
             outfile = "{CWD}/results/{new_file}/eSet_data_test1_{cline}.csv",
-		        outfile2 = "{CWD}/results/{new_file}/batches_all_data_{cline}.Rda",
-		        outfile3 = "{CWD}/results/{new_file}/batches_all_phospho_data_{cline}.Rda"
+	        outfile3 = "{CWD}/results/{new_file}/batches_all_phospho_data_{cline}.Rda"
         shell:
                 """ Rscript {input.script} """
 
@@ -118,8 +104,7 @@ rule create_kinase_substrate_5_dbs:
 
 rule STY_plotting:
 	input:
-		seed1 = "{CWD}/results/{new_file}/batches_all_data_{cline}.Rda",
-		seed2 = "{CWD}/results/{new_file}/batches_all_phospho_data_{cline}.Rda",
+		seed1 = "{CWD}/results/{new_file}/batches_all_phospho_data_{cline}.Rda",
 		script = "{CWD}/Scripts/plotting_STY.R"
 		
 	output: 
@@ -135,7 +120,6 @@ rule STY_plotting:
 rule Reproducibility:
 	input:
 		seed1 = "{CWD}/results/{new_file}/test_eSet1_{cline}.Rda", 
-		seed2 = "{CWD}/results/{new_file}/batches_all_data_{cline}.Rda", 
 		seed3 = "{CWD}/results/{new_file}/batches_all_phospho_data_{cline}.Rda", 
 		script = "{CWD}/Scripts/STY_reproducibility.R"
 		

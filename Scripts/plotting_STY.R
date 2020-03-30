@@ -8,26 +8,29 @@
 ## Load libraries
 #install.packages("ggplot2", repos="http://cran.rstudio.com/")
 library(ggplot2)
+
 #install.packages("VennDiagram", repos="http://cran.rstudio.com/")
 library(VennDiagram)
+
 #install.packages("reshape2", repos="http://cran.rstudio.com/")
 library("reshape2")
-flog.threshold(ERROR)
+
 library(yaml)
+
+flog.threshold(ERROR)
 
 ## Load parameters file
 params <- read_yaml("./config.yaml")
 imp <- params$Imputation
 
-#Load phospho- and proteome data
-load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/batches_all_data_",params$cell_line,".Rda"))
+## Load phosphoproteome data
 load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/batches_all_phospho_data_",params$cell_line,".Rda"))
 
 ## Define conditions
 Conditions <- strsplit(params$Conditions,",")[[1]]
 biological_reps <- strsplit(params$Biological_replicates,"-")[[1]]
 
-## Define statistics
+## Define peptides and proteins
 proteins_counts <- lapply(1:length(Conditions), function(x) {
   lapply(1:biological_reps[x], function(y) {
     a = length(unique(batches_all_phospho_data_STY[[x]][[y]]$Protein))
@@ -42,6 +45,7 @@ proteins_counts <- lapply(1:length(Conditions), function(x) {
 
 ###############################################################################################
 ##Stacked barplot for all batches of number of phosphorylated and non-phosphorylated peptides and proteins
+
 ## Phosphorylated proteins with positions
 ## Define labels of replicates
 all_prots_labels <- lapply(1:length(Conditions), function(x){
@@ -61,9 +65,9 @@ phos_sites$row <- c("Phos")
 phos_sites$rep <- all_prots_labels
 phos_sites$rep <- factor(phos_sites$rep, levels=unique(phos_sites$rep))
 phos_sites$Cell_line <- gsub("(.*)_.*","\\1",phos_sites$rep)
-#phos_sites$rep <- c("sMOLM13_MIDO1", "sMOLM13_MIDO2" ,"sMOLM13_MIDO3", "sMOLM13_CTRL1", "sMOLM13_CTRL2", "sMOLM13_CTRL3", "rMOLM13_CTRL1", "rMOLM13_CTRL2",
-#        "rMOLM13_CTRL3", "rMOLM13_MIDO1", "rMOLM13_MIDO2", "rMOLM13_MIDO3")
 
+
+## Barplot
 dd <- ggplot(phos_sites, aes(x=rep, y=prots, fill = Cell_line)) + 
   geom_bar(stat="identity") +
   geom_text(aes(label=prots),vjust=-1, size=2.4) +
@@ -92,6 +96,7 @@ phos_peps$rep <- all_prots_labels
 phos_peps$rep <- factor(phos_peps$rep, levels=unique(phos_peps$rep))
 phos_peps$Cell_line <- gsub("(.*)_.*","\\1",phos_peps$rep)
 
+## Barplot
 dd <- ggplot(phos_peps, aes(x=rep, y=prots, fill = Cell_line)) + 
   geom_bar(stat="identity") +
   geom_text(aes(label=prots),vjust=-1, size=3) +
@@ -120,6 +125,7 @@ phos_prots$rep <- all_prots_labels
 phos_prots$rep <- factor(phos_prots$rep, levels=unique(phos_prots$rep))
 phos_prots$Cell_line <- gsub("(.*)_.*","\\1",phos_prots$rep)
 
+## Barplot
 dd <- ggplot(phos_prots, aes(x=rep, y=prots, fill = Cell_line)) + 
   geom_bar(stat="identity") +
   geom_text(aes(label=prots),vjust=-1, size=3) +
@@ -146,7 +152,7 @@ all_peps <- lapply(1:length(Conditions), function(x){
 })
 names(all_peps) <- Conditions
 
-## Produce venn diagram
+## Venn diagram
 dd <- venn.diagram(all_peps,
                    na = "remove",
                    fill = 2:(1+length(all_peps)),
@@ -157,8 +163,8 @@ dd <- venn.diagram(all_peps,
                    scaled = TRUE, euler.d = TRUE,
                    main = "Phosphorylated Peptides of K562 Ctrl and Drug",
                    main.cex = 1.2)
-# 
-# ## Produce output PDF
+ 
+## Produce output PDF
 pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Phos_peptides_venn_diagram_",params$cell_line,".pdf"), width = 8)
 grid.draw(dd)
 dev.off()
@@ -169,9 +175,10 @@ all_sites <- lapply(1:length(Conditions), function(x){
     proteins_counts[[x]][[y]]$c })))
 })
 names(all_sites) <- Conditions
-# 
+
 union_sites <- unique(unlist(all_sites))
-# 
+
+## Venn diagram
 dd <- venn.diagram(all_sites,
                    na = "remove",
                    fill = 2:(1+length(all_sites)),
@@ -182,9 +189,10 @@ dd <- venn.diagram(all_sites,
                    cex = 1.1,
                    scaled = TRUE,
                    euler.d = TRUE ,
-                   main = "Phosphorylated Proteins_phosphorylation site of K562 Ctrl and Drug",
+                   main = "Phosphorylated sites",
                    main.cex = 1.2)
-# 
+
+## Produce output PDF
 pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Phos_prots_with_position_venn_diagram_",params$cell_line,".pdf"), width = 8)
 grid.draw(dd)
 dev.off()
@@ -197,7 +205,8 @@ all_prots <- lapply(1:length(Conditions), function(x){
 names(all_prots) <- Conditions
 
 union_prots <- unique(unlist(all_prots))
-# 
+
+## Venn diagram
 dd <- venn.diagram(all_prots,
                    na = "remove",
                    fill = 2:(1+length(all_peps)),
@@ -208,9 +217,10 @@ dd <- venn.diagram(all_prots,
                    cex = 1.1,
                    scaled = TRUE,
                    euler.d = TRUE ,
-                   main = "Phosphorylated Proteins_phosphorylation site of K562 Ctrl and Drug",
+                   main = "Phosphorylated Proteins",
                    main.cex = 1.2)
-# 
+
+## Produce output PDF
 pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Phos_prots_venn_diagram_",params$cell_line,".pdf"), width = 8)
 grid.draw(dd)
 dev.off()

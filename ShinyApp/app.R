@@ -1,6 +1,6 @@
 ##################################################
 ## Project: Phosphoproteomics analysis of cell lines
-## Script purpose: Map enriched kinases to selected pathways
+## Script purpose: Shiny App
 ## Date: 25.07.2018
 ## Author: Mahmoud Hallal
 ##################################################
@@ -9,9 +9,10 @@
 source("http://bioconductor.org/biocLite.R")
 options(repos = BiocInstaller::biocinstallRepos())
 #getOption("repos")
+
 #biocLite("pathview")
 #biocLite("GDCRNATools")
-#setwd("~/Desktop/PhD/Generalized_pipeline/snakemake")
+
 #library(GDCRNATools)
 library(XVector)
 library(shiny)
@@ -19,11 +20,10 @@ library(pheatmap)
 #install.packages("filesstrings", repos="http://cran.rstudio.com/")
 #library(rstring)
 library(filesstrings)
-#library(png)
 library(ggplot2)
 library(pheatmap)
 library(VennDiagram)
-
+library(DT)
 library(yaml)
 library(plotly)
 #library(bindrcpp)
@@ -38,16 +38,18 @@ library(org.Sc.sgd.db)
 #detach("package::plotly",unload = TRUE)
 #detach("package::dplyr",unload = TRUE)
 
-## Load parameters
-
 ## Create Shiny function
 shinyPathview2 <- function () 
 {  
+  ## Define human pathways
   pathways_hsa <- c('Autophagy animal','mTOR Signaling Pathway','Acute Myeloid Leukemia','Pathways in Cancer','RAS Signaling Pathway',
                     'MAPK Signaling Pathway','ERBB Signaling Pathway','WNT Signaling Pathway','TGF-BETA Signaling Pathway','JAK-STAT Signaling Pathway',
                     'PI3K-AKT Signaling Pathway','Chronic Myeloid Leukemia')
+  
+  ## Define yeast pathways
   pathways_sce <- c('Autophagy animal','MAPK Signaling Pathway','Hippo signaling pathway')
   
+  ## Define user interface
   ui <- fluidPage(
     headerPanel("KAEA: Kinase Activity Enrichment Analysis"), 
     sidebarPanel(
@@ -55,13 +57,11 @@ shinyPathview2 <- function ()
                        h1("Data Upload"),
                        fileInput("file1", "Choose a Shiny output file",
                                  accept = c(".Rda")),
-                       #conditionalPanel(#checkboxInput("checkbox", label = "Human", value = TRUE),
                        checkboxInput("checkbox1", label = "Human", value = TRUE),
                        checkboxInput("checkbox2", label = "Mouse", value = FALSE),
                        checkboxInput("checkbox3", label = "Yeast", value = FALSE),
                        
-                       #checkboxInput("checkbox", label = "Impute missing values", value = TRUE),
-                       
+
                        actionButton("go", "Go")
       ),
       conditionalPanel(#condition="input.checkbox2 == TRUE",
@@ -70,11 +70,7 @@ shinyPathview2 <- function ()
         
         selectInput("xcol", "Pathway", pathways_hsa)),
       
-      # conditionalPanel(condition="input.checkbox2 == FALSE",
-      #                  
-      #                  uiOutput("cityControls"), 
-      #                  
-      #                  selectInput("xcol", "Pathway", pathways_hsa)),
+      
       conditionalPanel(condition = "input.tabselected==3"),
       
       #topGO panel
@@ -83,7 +79,6 @@ shinyPathview2 <- function ()
         uiOutput("dataset23"), 
         selectInput("Direction", "Direction",c("less","greater")),
         selectInput("DB", "Database", c("MF","BP")))
-        #selectInput("DB", "Database", c("GOMF","KEGG")))
     ),
     
     mainPanel(tabsetPanel(
@@ -109,7 +104,7 @@ shinyPathview2 <- function ()
       tabPanel("Phosphosites", value = 2, 
                tabPanel("Volcano plot", fluidRow(
                  column(6, plotlyOutput(outputId = "Volcano", height = "600px")),
-                 column(5, plotlyOutput(outputId = "correlation", height = "600px"))
+                 column(6, plotlyOutput(outputId = "correlation", height = "600px"))
                )) ),
       tabPanel("Enrichment", value = 2,
                tabsetPanel(
@@ -117,7 +112,6 @@ shinyPathview2 <- function ()
                    fluidRow(
                     column(6, plotlyOutput("Heatmap", width = "100%", height = "600px")),
                     column(6, plotlyOutput(outputId = "correlation66", width = "100%", height = "600px"))
-                            #id = "tabselected"
                           )),
                  
                  tabPanel("Barplot2", 
@@ -126,23 +120,17 @@ shinyPathview2 <- function ()
                             column(6, plotlyOutput(outputId = "correlation3", width = "100%", height = "600px"))),
                           fluidRow(
                             column(10, offset=1, plotlyOutput(outputId = "correlation2", width = "100%", height = "500px"))
-                            #id = "tabselected"
                           ),
-                          fluidRow(
-                            column(9, offset=1, plotlyOutput(outputId = "correlation4", width = "100%", height = "500px"))
-                            #id = "tabselected"
-                          ),
+                          
                           fluidRow(
                             column(10, offset=1, plotlyOutput(outputId = "correlation21", width = "100%", height = "500px"))
-                            #id = "tabselected"
+                            )
                           )
                  )
-                 )
-      ),
+               ),
       
       tabPanel("KEGG pathways", value = 2,
                tabsetPanel(
-                 #tabPanel("Enriched pathways",dataTableOutput("mytable2")),
                  tabPanel("Table",dataTableOutput("mytable1")),
                  tabPanel("KEGG pathway", plotOutput("plot1", width = "10%", height = "600px"))
                )),
@@ -150,11 +138,11 @@ shinyPathview2 <- function ()
       tabPanel("GO terms", value = 7 ,dataTableOutput("mytable2")
                
       ),
-      
-      
-      
       id = "tabselected")
-      ))
+      )
+    )
+  
+  ## Define server
   server <- function(input, output, session) {
     options(shiny.maxRequestSize=30*1024^2)
     
@@ -187,7 +175,8 @@ shinyPathview2 <- function ()
       data <- get(load(inFile$datapath,.GlobalEnv))
       data
     })
-    ##
+    
+    ## Pathway names
     output$dataset22 <- renderUI({
       dd <- names(my_data()$table_rep)
       selectInput("DS", "Dataset", dd)
@@ -201,13 +190,13 @@ shinyPathview2 <- function ()
     data_to_use <- reactive({req(input$DS)})
     
     ## Table
-    output$mytable1 <- renderDataTable({
+    output$mytable1 <- DT::renderDataTable({
       data_tb <- my_data()$table_rep
       data_tb2 <- as.data.frame(data_tb[[data_to_use()]])
       data_tb2
     }, options = list(searching=FALSE, paging = FALSE))
     
-    #KEGG pathways enrichment
+    ## KEGG pathways enrichment
     output$mytable2 <- renderDataTable({
       req(input$DB)
       
@@ -216,11 +205,10 @@ shinyPathview2 <- function ()
       Dir <- strsplit(input$Direction, "~", fixed = TRUE)[[1]][1]
       
       enriched_pathways2 <- as.data.frame(enriched_pathways[[data_to_use()]][[Dir]])
+      
       #choose the desired DB and filter out some columns
-      #enriched_pathways2 <- enriched_pathways2[enriched_pathways2$database == dbID,c("name","description","database","pValue","adjustedPValue")]
       enriched_pathways2 <- enriched_pathways2[enriched_pathways2$ontology == dbID,]
       
-      #enriched_pathways2 <- enriched_pathways2[order(enriched_pathways2$adjustedPValue, decreasing = F),]
       enriched_pathways2
     }, options = list(searching=FALSE, paging = FALSE))
     
@@ -233,6 +221,7 @@ shinyPathview2 <- function ()
       material_for_waterfall <- my_data()$waterfall_rep
       datasets <- lapply(1:length(material_for_waterfall), function(x){
         df1 <- material_for_waterfall[[x]][!duplicated(material_for_waterfall[[x]]$Kinase),]
+        
         #make dataframe
         df <- as.data.frame(df1$Enrichment.score)
         rownames(df) <- df1$Kinase
@@ -245,7 +234,7 @@ shinyPathview2 <- function ()
       })
       names(datasets) <- names(material_for_waterfall)
       
-      ## 
+      ## KEGG Pathway IDs
       pathwayID <- strsplit(input$xcol, "~", fixed = TRUE)[[1]][1]
       if (input$checkbox2 == TRUE ){
         if (pathwayID == "Autophagy animal"){pathwayID <- "mmu04140"}
@@ -269,10 +258,12 @@ shinyPathview2 <- function ()
         if (pathwayID == "PI3K-AKT Signaling Pathway"){pathwayID <- "hsa04151"}
         if (pathwayID == "Chronic Myeloid Leukemia"){pathwayID <- "hsa05220"}
       }
-      #sp_directory <- paste0(directory,'/',data_to_use(),'/')
-      #sp_directory <-  paste0(getwd())
+      
+      ## Define WD
       setwd(paste0(getwd()))
       #print(sp_directory)
+      
+      ## Define output file
       outfile <- paste('./', pathwayID, ".pathview.png", sep = "")
       sp_directory <- c('./')
       #if (!file.exists(outfile)) {
@@ -285,16 +276,16 @@ shinyPathview2 <- function ()
       } else {
         sp = "hsa"
         type = "SYMBOL"
-        }#mmu
+        }
       pathview(gene.data = datasets[[data_to_use()]], pathway.id = pathwayID,
                species = sp, gene.idtype = type, limit = list(gene = max(abs(datasets[[data_to_use()]])), cpd = 1))
-      #file.move(paste(pathwayID, ".pathview.png", sep = ""), sp_directory, overwrite = TRUE)
-      
+
       list(src = outfile)
     }, deleteFile = FALSE)
+    
     library(plotly)
     
-    #heatmap
+    ## Heatmap
     output$Heatmap <- renderPlotly({
       
       data_hm <- as.data.frame(my_data()$Heatmap_rep[[data_to_use()]])
@@ -310,12 +301,9 @@ shinyPathview2 <- function ()
         my_palette <- colorRampPalette(c("blue", "white", "red"))(n = nrow(data_hm2()))
       }
       
-      #plot heatmap
-      #rr <- pheatmap(data_hm2() ,color = my_palette, cluster_rows = T, cluster_cols = F, fontsize_row = 14,fontsize_col = 14)
-      #plot(rr$gtable)
+      ## Plot heatmap
       data <- reactive({as.data.frame(data_hm2()[order(data_hm2()[,c('Enrichment.score')],decreasing =T),,drop=F])})
-      #data2 <- reactive({ data()$sample <- colnames(data())})
-      # 
+      
       rr <- ggplot(data = data(), mapping = aes(x=0,
                                                 y = reorder(rownames(data()),Enrichment.score,order=TRUE),
                                                 fill = Enrichment.score, 
@@ -332,14 +320,13 @@ shinyPathview2 <- function ()
               panel.grid.major=element_blank(),
               panel.grid.minor=element_blank(),
               plot.background=element_blank()) +
-        #scale_fill_gradientn(colours = my_palette,midpoint=0) +
-        #scale_fill_brewer(palette = "RdBu") +
+
         scale_fill_gradient2(low = "royalblue4", mid = "white",
                              high = "red", midpoint = 0)+
       
         ylab("Kinases") 
       
-      ggplotly( rr ,source="source66", tooltip=c("text")  )
+      ggplotly(rr ,source="source66", tooltip=c("text")  )
     })
     
     ## Barplot
@@ -364,7 +351,7 @@ shinyPathview2 <- function ()
       p
     })
     
-    ## Couple hover plot for Barplot 1
+    ## Couple hover plot to Barplot 1
     output$correlation2 <- renderPlotly({
       all_dbs <- reactive({my_data()$DB})
       
@@ -392,16 +379,13 @@ shinyPathview2 <- function ()
       hover_data <- melt(hover_data)
       hover_data$Replicate <- factor(hover_data$Replicate, levels=unique(hover_data$Replicate))
       
-      #####SILAC change
-      #hover_data$value <- 2^hover_data$value
-      
       pl <- plot_ly(x = hover_data$Replicate, y=2^hover_data$value, name=hover_data$variable, type = "bar") %>%
         layout(title = paste0("Intensities of substrates of ",kinase,'_',FDR_value()), barmode = 'stack')
       pl
     })
     
     #############
-    ## Couple hover plot for Barplot 2 (volcano plot)
+    ## Couple hover plot to Barplot 2 (volcano plot)
     data_vlcs <-  reactive({my_data()$Volcano_special[[data_to_use()]]})
     
     output$correlation3 <- renderPlotly({
@@ -428,11 +412,8 @@ shinyPathview2 <- function ()
       hover_data <- as.data.frame(data_vlcs())[rownames(data_vlcs()) %in% kin_subs,]
       print(hover_data)
       print(data_vlcs())
-      ## Shares of phosphosites by kinases
-      # all_dbs <- reactive({my_data()$DB})
-      # one_kinase <- rownames(all_dbs())[table(all_dbs()$geneID) == 1]
-      # more_kinase <- rownames(all_dbs())[table(all_dbs()$geneID) != 1]
-      
+
+      ## Plot volcano
       x <- list(title = paste0("log2(FC)"))
       y <- list(title = "-log10(p-value)")
       pp <- plot_ly(type = 'scatter',source="source",
@@ -462,61 +443,10 @@ shinyPathview2 <- function ()
         layout(xaxis = x, yaxis = y)
       pp
     })
-    ############01.10.2019
-    ## Barplot for SN proteome
-    data_sn <-  reactive({my_data()$proteome})
     
-    output$correlation4 <- renderPlotly({
-
-      eventdata <- event_data("plotly_click", source = "source1")
-      validate(need(!is.null(eventdata), "Press on a kinase bar to visualize its expression"))
-      
-      #pointNumber describes the number of the point desired
-      datapoint <- as.numeric(eventdata$pointNumber)[1]+1
-      #curveNumber describes the direction of the bars here, 0 for negative and 1 for positive
-      curveNum <- eventdata$curveNumber
-      
-      negative_length <- length(grep("-",data_bp()$Enrichment.score))
-      positive_length <- length(grep("\\+",data_bp()$Enrichment.score))
-      
-      if (curveNum == 0){
-        kinase <- gsub('(\\w+)([\\+-])','\\1',data_bp()$Kinase[datapoint])
-      } else {
-        kinase <- gsub('(\\w+)([\\+-])','\\1',data_bp()$Kinase[datapoint+negative_length])
-      }
-      
-      #get the proteome SN
-      proteome <- data_sn()
-      #find the kinase in the genes
-      index <- grep(paste0('^',kinase,'$'), proteome$genes)
-      only_prot_df <- proteome[index,,drop=F]
-      only_prot_df <- only_prot_df[,-ncol(only_prot_df)]
-      #only_prot_df <- only_prot_df[,-1]
-      hover_data <- as.data.frame(t(only_prot_df))
-      #if the kinase is found then we plot it, if not we plot an empty
-      if (ncol(hover_data) >= 1){
-        colnames(hover_data) <- rep(kinase,ncol(hover_data))
-        hover_data$Replicate <- gsub("X","",rownames(hover_data))
-        hover_data <- melt(hover_data)
-        hover_data$Replicate <- factor(hover_data$Replicate, levels=unique(hover_data$Replicate))
-        pl <- plot_ly(x = hover_data$Replicate, y=2^hover_data$value, name=hover_data$variable, type = "bar") %>%
-          layout(title = paste0("Expression of ",kinase), barmode = 'stack')
-      } else {
-        hover_data$value <- 0
-        pl <- plot_ly(x = hover_data$Replicate, y=hover_data$value, name=hover_data$variable, type = "bar") %>%
-          layout(title = paste0("Expression of ",kinase), barmode = 'stack')
-      }
-
-      pl
-
-      #####SILAC change
-      #hover_data$value <- 2^hover_data$value
-      
-      
-
-    })
+    
     #############
-    ## Couple hover plot for Barplot 2 (GSEA plot)
+    ## Couple hover plot to Barplot 2 (GSEA plot)
     data_gsea <-  reactive({my_data()$Volcano_special[[data_to_use()]]})
     
     output$correlation66 <- renderPlotly({
@@ -534,34 +464,27 @@ shinyPathview2 <- function ()
       #event data
       eventdata <- event_data("plotly_click", source = "source66")
       validate(need(!is.null(eventdata), "Press on a kinase bar to visualize its plot"))
-      # 
+      
       #pointNumber describes the number of the point desired
-      #print(eventdata$pointNumber[[1]][1])
       datapoint <- as.numeric(eventdata$pointNumber[[1]][1])+1
+      
       #curveNumber describes the direction of the bars here, 0 for negative and 1 for positive
       curveNum <- eventdata$curveNumber
-      print(curveNum)
-      # 
+      
       negative_length <- length(grep("-",data()[,c('Enrichment.score')]))
       positive_length <- length(data()[,c('Enrichment.score')]) - negative_length
       print(negative_length)
       print(positive_length)
       
-      # 
-      #if (curveNum == 0){
       kinase <- rownames(data())[(nrow(data())+1)-datapoint]
-      #} else {
-      #  kinase <- gsub('(\\w+)([\\+-])','\\1',rownames(data())[datapoint+negative_length])
-      #}
-      print(kinase)
-      print(datapoint)
+
       exprs <- my_data()$ExpressSet
       kin_subs <- unique(all_dbs()[grep(kinase, all_dbs()$termName),]$geneID)
       kin_subs_present <- rownames(exprs)[rownames(exprs) %in% kin_subs]
       toptable_1 <- topTable()$prots[order(topTable()$topTable, decreasing = T)]
       abline_indices <- which(toptable_1 %in% kin_subs_present)
-      # 
-      # # Define the axis of plots
+      
+      ## Define the axis of plots
       ax <- list(
         title = "",
         zeroline = FALSE,
@@ -579,17 +502,17 @@ shinyPathview2 <- function ()
         showgrid = FALSE,
         rangemode = "tozero"
       )
-      #dd <- data.frame(x=c(1,2,3,4),y=c(2,3,4,5))
-      #plot_ly(dd,x=x,y=y)
-      #Get the topTable and order the values
+      
+      ## Get the topTable and order the values
       dd <- topTable()$topTable[order(topTable()$topTable, decreasing = T)]
-      #Create a color for every value
+      
+      ## Create a color for every value
       pal <- colorRampPalette(c("red", "white", "blue"))(length(dd))
-      #pal <- colfunc
       rank.colors <- pal
-      # 
-      #Create a df of color and value
+       
+      ## Create a df of color and value
       ll <- as.data.frame(cbind(as.numeric(dd),as.character(rank.colors)))
+      
       ## Define x axis limit
       axx <- list(
         title = "",
@@ -603,7 +526,7 @@ shinyPathview2 <- function ()
       x <- list(title = paste0("log2(FC)"))
       y <- list(title = "-log10(p-value)")
       
-      # Plot1: red to blue heatmap
+      ## Plot1: red to blue heatmap
       s1 <- plot_ly(x=1:nrow(ll),y=rep(1,nrow(ll)), marker = list(color =  pal),type="bar") %>%
         layout(xaxis = axx,
                yaxis = ax,
@@ -653,9 +576,10 @@ shinyPathview2 <- function ()
       pp
     })
     
-    ## Coupler hover plot
+    ## Couple hover plot
     output$correlation <- renderPlotly({
-      ## hover part
+      
+      ## Hover part
       exprs <- my_data()$ExpressSet
       
       eventdata <- event_data("plotly_hover", source = "source")
@@ -667,29 +591,29 @@ shinyPathview2 <- function ()
       gene <- data_vlc()[datapoint,]$gene
       
       hover_data <- exprs[site,]
+      #for the sake of silac data, we replace 0s by NAs before inverse log transformation
+      hover_data[hover_data == 0] <- NA
       hover_data <- melt(hover_data)
       hover_data$Replicate <- rownames(hover_data)
-      hover_data$value <- 10^hover_data$value
+      hover_data$value <- 2^hover_data$value
+      hover_data$Replicate <- factor(hover_data$Replicate, levels=unique(hover_data$Replicate))
+      
+      # replace again NAs by 0
+      hover_data[is.na(hover_data)] <- 0
+      
       
       plot_ly(x = hover_data$Replicate, y=hover_data$value, type = "bar") %>%
         layout(title = paste0("Intensities of ",site,' (',gene,')')) #%>%
-      # add_trace(
-      #   #x = c(1:100), 
-      #   #y = rnorm(100, mean = 5), 
-      #   #marker = list(color='green'),
-      #   hoverinfo = 'y',
-      #   showlegend = F
-      # )
-      
     })
     
     ## Quality report
     ## Q1: histograms
-    # Histogram sites
+    ## Histogram sites
     output$hist_sites <- renderPlot({
       
       data1 <- my_data()$hist_sites
       
+      ## plot
       ggplot(data1, aes(x=rep, y=prots, fill = Cell_line)) + 
         geom_bar(stat="identity") +
         geom_text(aes(label=data1$prots),vjust=-1, size=3) +
@@ -701,10 +625,11 @@ shinyPathview2 <- function ()
         theme(axis.title=element_text(size=24))
     })
     
-    # Histogram peps
+    ## Histogram peps
     output$hist_peps <- renderPlot({
       data2 <- my_data()$hist_peps
       
+      #plot
       ggplot(data2, aes(x=rep, y=prots, fill = Cell_line)) + 
         geom_bar(stat="identity") +
         geom_text(aes(label=data2$prots),vjust=-1, size=3) +
@@ -716,10 +641,11 @@ shinyPathview2 <- function ()
         theme(axis.title=element_text(size=24))
     })
     
-    # Histogram prots
+    ## Histogram prots
     output$hist_prots <- renderPlot({
       data3 <- my_data()$hist_prots
       
+      #plot
       ggplot(data3, aes(x=rep, y=prots, fill = Cell_line)) + 
         geom_bar(stat="identity") +
         geom_text(aes(label=data3$prots),vjust=-1, size=3) +
@@ -730,12 +656,13 @@ shinyPathview2 <- function ()
         theme(axis.text.y = element_text(size = 22)) +
         theme(axis.title=element_text(size=24))
     })
+    
     ## Q2: Venn diagrams
-    # Venn sites
+    ## Venn sites
     output$venn_sites <- renderPlot({
-      #data_v1 <- shiny_results$venn_sites
       data_v1 <- my_data()$venn_sites
       
+      #plot
       grid.draw(venn.diagram(data_v1,
                              fill = 2:(1+length(data_v1)),
                              filename = NULL, 
@@ -746,10 +673,11 @@ shinyPathview2 <- function ()
                              main.cex = 1.2))
     })
     
-    # Venn peps
+    ## Venn peps
     output$venn_peps <- renderPlot({
       data_v2 <- my_data()$venn_peps
       
+      #plot
       grid.draw(venn.diagram(data_v2,
                              fill = 2:(1+length(data_v2)),
                              filename = NULL, 
@@ -760,10 +688,11 @@ shinyPathview2 <- function ()
                              main.cex = 1.2))
     })
     
-    # Venn proteins
+    ## Venn proteins
     output$venn_prots <- renderPlot({
       data_v3 <- my_data()$venn_prots
       
+      #plot
       grid.draw(venn.diagram(data_v3,
                              fill = 2:(1+length(data_v3)),
                              filename = NULL, 
@@ -788,7 +717,7 @@ shinyPathview2 <- function ()
       g
     })
     
-    ##Additional GSEA with barplot, for check only
+    ## Additional GSEA with barplot, for check only
     ## Couple hover plot for Barplot 2 (GSEA plot)
     data_gsea <-  reactive({my_data()$Volcano_special[[data_to_use()]]})
     
@@ -818,7 +747,7 @@ shinyPathview2 <- function ()
       toptable_1 <- topTable()$prots[order(topTable()$topTable, decreasing = T)]
       abline_indices <- which(toptable_1 %in% kin_subs_present)
       
-      # Define the axis of plots
+      ## Define the axis of plots
       ax <- list(
         title = "",
         zeroline = FALSE,
@@ -838,16 +767,17 @@ shinyPathview2 <- function ()
         rangemode = "tozero"
       )
       
-      #Get the topTable and order the values
+      ## Get the topTable and order the values
       dd <- topTable()$topTable[order(topTable()$topTable, decreasing = T)]
-      #Create a color for every value
+      
+      ## Create a color for every value
       pal <- colorRampPalette(c("red", "white", "blue"))(length(dd))
-      #pal <- colfunc
       rank.colors <- pal
       
-      #Create a df of color and value
+      ## Create a df of color and value
       ll <- as.data.frame(cbind(as.numeric(dd),as.character(rank.colors)))
-      ## define x axis, we use this to extend the range of axis till the end
+      
+      ## Define x axis, we use this to extend the range of axis till the end
       axx <- list(
         title = "",
         zeroline = FALSE,
@@ -860,7 +790,7 @@ shinyPathview2 <- function ()
       x <- list(title = paste0("log2(FC)"))
       y <- list(title = "-log10(p-value)")
       
-      # Plot1: red to blue heatmap
+      ## Plot1: red to blue heatmap
       s1 <- plot_ly(x=0:nrow(ll),y=rep(1,(nrow(ll)+1)), marker = list(color =  pal),type="bar") %>%
         layout(xaxis = axx, 
                yaxis = ax,
@@ -878,7 +808,7 @@ shinyPathview2 <- function ()
                      hoverinfo="text", 
                      text=toptable_1[abline_indices])
 
-      #Plot2: barplot of all phosphosites p-values
+      ## Plot2: barplot of all phosphosites p-values
       s2 <- plot_ly(x=1:length(dd), y=dd, type="bar", color = I('grey')) %>%
         layout(xaxis = ax2, yaxis = ax2, showlegend=F)
       
@@ -905,7 +835,6 @@ shinyPathview2 <- function ()
           text = paste(my_data()[['Volcano']][[data_to_use()]][['prots']],' (',data_vlc()[['gene']],')'),
           color = data_vlc()$threshold,
           hoverinfo = 'text',
-          #marker = list(color='green'),
           showlegend = F
           ) %>%
         layout(xaxis = x, yaxis = y)
@@ -918,6 +847,6 @@ shinyPathview2 <- function ()
   shinyApp(ui, server)
 }
 
-## Run the app
+## Run Shiny App
 shinyPathview2()
 

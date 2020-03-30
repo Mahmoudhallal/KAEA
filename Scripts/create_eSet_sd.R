@@ -1,13 +1,15 @@
 ###########################################################-
-# Objective: create ExpressionSet object from dataframe with Intensity, experiment and proteins columns
-# Author: Mahmoud Hallal
-# Date created: 03.03.17
+## Project: Phosphoproteomics analysis of cell lines
+## Script purpose: create ExpressionSet object from dataframe with Intensity, experiment and proteins columns
+## Date: 03.03.17
+## Author: Mahmoud Hallal
 ###########################################################-
 
 ## Load libraries
 #source("https://bioconductor.org/biocLite.R")
 #biocLite("Rsamtools")
 library(Rsamtools)
+
 #biocLite("AnnotationDbi")
 library(AnnotationDbi)
 
@@ -43,7 +45,6 @@ library(yaml)
 ## Load parameters file
 params <- read_yaml("./config.yaml")
 
-## cell line
 cell_line <- params$cell_line
 imp <- params$Imputation
 
@@ -63,20 +64,8 @@ rawData2 = read.table(inputFile, sep="\t", header=TRUE,
 
 ## Define the expression set (intensities) here they all start with X (remove proteins)
 expression2 = as.matrix(rawData2[,grep(cell_line, colnames(rawData2))])#21.01.2019: remove X from grep
-#expression2[expression2 == 0] <- 1
-#expression2 <- log2(expression2)
-
-## reference#
-#tt2 <- expression2[order(rowVars(expression2), decreasing = F),]
-#tt2 <- as.data.frame(tt2)
-
-#select top1
-#tt2 <- tt2[1,]
-#expression3 <- as.data.frame(expression2)/as.data.frame(tt2)
-#expression3 <- sweep(expression2, 2, tt2, '-')
-#expression2 <- expression3
-#with no X
-#expression2 = as.matrix(rawData2[,-17])
+expression2[expression2 == 0] <- 1
+expression2 <- log2(expression2)
 
 ## Define rowNames as phosphorylation positions
 rownames(expression2) <- rawData2$Proteins

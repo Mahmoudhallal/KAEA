@@ -6,6 +6,7 @@
 ##################################################
 
 ## Load libraries
+
 #source("https://bioconductor.org/biocLite.R")
 #biocLite("Biobase")
 library(Biobase)
@@ -22,6 +23,7 @@ maxSetSize <- 500
 
 ## Define the fucntion to create a "collection"
 create_collection <- function(list_prots, all_dbs, maxSetSize){
+  
   #Define reference: union of all phos proteins of all conditions
   reference_union_all_phos_prots <- unique(list_prots)
   

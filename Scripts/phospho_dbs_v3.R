@@ -5,11 +5,12 @@
 ## Author: Mahmoud Hallal
 ##################################################
 
-## Load libraries##
+## Load libraries
 #source("https://bioconductor.org/biocLite.R")
 
 #biocLite("Rsamtools")
 library(Rsamtools)
+
 #biocLite("AnnotationDbi")
 library(AnnotationDbi)
 
@@ -18,21 +19,27 @@ library(Biobase)
 
 #biocLite("GenomicFeatures")
 library(GenomicFeatures)
+
 #biocLite("BSgenome")
 library('BSgenome')
+
 #biocLite("BSgenome.Hsapiens.UCSC.hg19")
 library('BSgenome.Hsapiens.UCSC.hg19')
+
 #biocLite("Homo.sapiens")
 library(Homo.sapiens)
+
 #detach("package:dplyr", unload=TRUE)
 
 library(yaml)
-library(biomaRt)
-#install.packages("igraph", repos="http://cran.rstudio.com/")
 
+library(biomaRt)
+
+#install.packages("igraph", repos="http://cran.rstudio.com/")
 library(igraph)
+
 install.packages("SetRank", repos="http://cran.rstudio.com/")
-library(SetRank)#
+library(SetRank)
 
 ## Load parameters
 params <- read_yaml("./config.yaml")
@@ -45,11 +52,12 @@ if (params$Species == "Human"){
   phospho_database <- read.delim(paste0(params$CWD,"/Phospho_DBs/Mouse_dbs.csv"), sep=',')
 }
 
+## column names
 column_names <- c("geneID","termID","termName","dbName","description")
 
 
 ####################################################################################
-## NetworKIN#
+## NetworKIN
 nwkin_input <- params$NWKIN_Input
 nwkin <- read.delim(nwkin_input,sep=",")
 nwkin$residue <- substr(nwkin$sequence,6,6)
@@ -65,32 +73,19 @@ motif_df <- data.frame(unique(nwkin$id),paste("MTF_",seq(1:length(unique(nwkin$i
 nwkin$substrateID <- motif_df$paste..MTF_...seq.1.length.unique.nwkin.id.....sep......[match(nwkin$id, motif_df$unique.nwkin.id.)]
 nwkin$dbName <- "MTF"
 
-# Rearrange columns#
+## Rearrange columns
 motif_new <- nwkin[,c(1,3,2,4)]
 motif_new$domain <- 'domain'
 colnames(motif_new) <- column_names
 motif_new <- motif_new[complete.cases(motif_new),]
 motif_new <- motif_new[!duplicated(motif_new),]
 
-#MusiteDeep#
-MD_dbs <- read.delim('/Users/Mahmoud.Hallal/Desktop/PhD/MusiteDeep/DBs_MusiteDeep_17.07.2019/Molm13H_allsample_MusiteDeep_DBs_above10_17.07.2019_95cutoff.csv',sep=',')
-MD_dbs1 <- MD_dbs
-subs_MD_df <- data.frame(unique(MD_dbs1$Kinase_only),paste("MD_",seq(1:length(unique(MD_dbs1$Kinase_only))), sep=""))
-MD_dbs1$substrateID <- subs_MD_df$paste..MD_...seq.1.length.unique.MD_dbs1.Kinase_only.....sep......[match(MD_dbs1$Kinase_only, subs_MD_df$unique.MD_dbs1.Kinase_only.)]
-MD_dbs1$dbName <- 'MusiteDeep'
-MD_dbs1$description <- 'domain'
-
-#Rearrange columns
-MD_dbs2 <- MD_dbs1[,c(8,10,9,11,12)]
-colnames(MD_dbs2) <- column_names
-
 ####################################################################################
-#Merge the all databases
+## Merge all databases
 all_dbs <- rbind(phospho_database, motif_new)
 all_dbs$termName <- as.character(all_dbs$termName)
     
 ## remove PTPNs
-#all_dbs <- all_dbs[-grep('PTPN',all_dbs$termName),]
 all_dbs$termName[grep('^PTPN',all_dbs$termName)] <- ""
 
 ## Unify names given by different databases
@@ -338,7 +333,6 @@ all_dbs <- all_dbs[!all_dbs$termName=="autocatalysis",]
 all_dbs <- all_dbs[!all_dbs$termName=="inisoform HMG-I",]
 
 # Remove phosphatases
-#all_dbs[grep('^PTPRE$',all_dbs$termName),]$termName <- ""
 all_dbs$termName[grep('^PTPR',all_dbs$termName)] <- ""
 all_dbs$termName[grep('^CDC14B$',all_dbs$termName)] <- ""
 all_dbs$termName[grep('^CDC14A$',all_dbs$termName)] <- ""
@@ -359,20 +353,19 @@ table_count <- table(all_dbs$termName)
 table_count_1 <- table_count[table_count == 1]
 all_dbs <- all_dbs[!all_dbs$termName %in% names(table_count_1),]
 
-## Lyn
+#Lyn
 all_dbs$termName[grep('^Lyn$',all_dbs$termName)] <- "LYN"
 all_dbs$termName[grep('^Lck$',all_dbs$termName)] <- "LCK"
 all_dbs$termName[grep('^Met$',all_dbs$termName)] <- "MET"
 all_dbs$termName[grep('^TGFbR2$',all_dbs$termName)] <- "TGFBR2"
 all_dbs$termName[grep('^PKD1$',all_dbs$termName)] <- "PRKD1"
 
-# Make groups look same
+## Make groups look same
 groups <- grep('[A-Za-z0-9]group',all_dbs$termName)
-#above100
 all_dbs$termName[groups] <- gsub('(.*)(group)','\\1_\\2',all_dbs$termName[groups])
 
 
-## Unified database#
+## Unified database
 all_dbs$dbName <- "DBS"
 all_dbs <- subset(all_dbs, select = -termID)
 all_dbs <- all_dbs[!duplicated(all_dbs),]
@@ -381,8 +374,6 @@ all_dbs$termID <- dd$paste..DBS_...seq.1.length.unique.all_dbs.termName.....sep.
 all_dbs <- all_dbs[, c(1,5,2,3,4)]
 all_dbs <- all_dbs[!duplicated(all_dbs),]
 all_dbs$termName <- as.factor(all_dbs$termName)
-#write.csv(all_dbs,'../../MusiteDeep/all_dbs_02.07.2019.csv' , row.names = FALSE)
-## Write output DB#
-#write.table(all_dbs, paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/all_dbs.csv"), row.names = FALSE, sep=',')
+
+## Write output DB
 write.csv(all_dbs, paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/all_dbs.csv"), row.names = FALSE)
-#write.csv(all_dbs,'~/Desktop/PhD/MusiteDeep/all_dbs_02.07.2019_corrected_05.08.2019.csv',row.names=FALSE)

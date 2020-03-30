@@ -14,20 +14,23 @@ library(Biobase)
 library(ggplot2)
 
 library(yaml)
+
 ## Load parameters
 params <- read_yaml("./config.yaml")
 biological_reps <- strsplit(params$Biological_replicates,"-")[[1]]
 imp <- params$Imputation
 
-#
+## TopTables
 if (params$SILAC == "T"){
+  
+  ## calculate logFC
   getLogFC <- function(row, phenoTable, groupA, groupVar) {
     indicesA = phenoTable[[groupVar]] == groupA
     mean(row[indicesA]) 
     
   }
   
-  #calculate p-value with one tail (greater) t-test
+  #calculate p-value
   getPValue <- function(row, phenoTable, groupA, groupVar, ttest) {
     row = row + runif(length(row), -1e-10, 1e-10)
     indicesA = phenoTable[[groupVar]] == groupA
@@ -36,20 +39,15 @@ if (params$SILAC == "T"){
     t.test(row[indicesA],alternative = ttest)$p.value
   }
   
-  ######
+  
   #function to create a table of p-value, p-adj and logFC
-  #group A is the desired cell line and groupB is all the rest
+  #group A is the desired cell line and groupB is the control
   getTopTable <- function(samples, control, eSet, groupVar, x, ttest) {
     groupA = samples[x]
-    #groupB = contrasts[1]
-    #topTable = fData(eSet)
+    
     #when only selecting the proteins that are present in every cell line
     topTable = data.frame()
     
-    # eSet_modified[eSet_modified==0] <- NA
-    # eSet_modified <- eSet_modified[apply(eSet_modified[,pData(eSet)[[groupVar]] == groupA], 1, function(x) sum(is.na(x))) < ncol(eSet_modified[,pData(eSet)[[groupVar]] == groupA])*0.66,]
-    # eSet_modified <- eSet_modified[apply(eSet_modified[,pData(eSet)[[groupVar]] != groupA], 1, function(x) sum(is.na(x))) < ncol(eSet_modified[,pData(eSet)[[groupVar]] != groupA])*0.2,]
-    # eSet_modified[is.na(eSet_modified)] <- 0
     eSet2 <- eSet[rowSums(exprs(eSet)[,pData(eSet)[[groupVar]] == groupA]) != 0,]
     #eSet2 <- eSet
     topTable = apply(exprs(eSet2), 1, getLogFC, pData(eSet2), groupA, groupVar)
@@ -58,44 +56,49 @@ if (params$SILAC == "T"){
     topTable$padj = p.adjust(topTable$p, method="fdr")
     topTable = topTable[order(topTable$padj, topTable$p),]
     topTable
-  }
+    }
   } else {
-#calculate logFC
-  getLogFC <- function(row, phenoTable, groupA, groupB, groupVar) {
+    
+    ## calculate logFC
+    getLogFC <- function(row, phenoTable, groupA, groupB, groupVar) {
       indicesA = phenoTable[[groupVar]] == groupA
       indicesB = phenoTable[[groupVar]] == groupB
       mean(row[indicesA], na.rm=T) - mean(row[indicesB], na.rm=T)
-  }
+      }
 
-#calculate p-value with one tail (greater) t-test
+  ## calculate p-value 
   getPValue <- function(row, phenoTable, groupA, groupB, groupVar, ttest) {
       row = row + runif(length(row), -1e-10, 1e-10)#
       indicesA = phenoTable[[groupVar]] == groupA
       indicesB = phenoTable[[groupVar]] == groupB
-      #cz we are only looking at overrepresentation
+      
       t.test(row[indicesA], row[indicesB], alternative = ttest)$p.value
-  }
+      }
 
 
-#function to create a table of p-value, p-adj and logFC
-#group A is the desired cell line and groupB is all the rest
+  ## function to create a table of p-value, p-adj and logFC
+  ## group A is the desired cell line and groupB is the control
   getTopTable <- function(samples, control, eSet, groupVar, x, ttest, parm) {
+    
     #Define conditions  
     groupA = samples[x]
     if (control != 'ALL'){
       groupB = control
     } else {
       groupB = samples[x] 
-      } 
+    } 
+    
     #Define fData
     topTable = fData(eSet)
+    
     #Define dataset
     eSet_modified <- exprs(eSet)
+    
     #Calculate FC
-    #eSet_modified <- eSet[rowSums(exprs(eSet)[,pData(eSet)[[groupVar]] == groupA | groupB]) != 0,]
     if (biological_reps[x] > 1){
       topTable = apply(eSet_modified, 1, getLogFC, pData(eSet), groupA, groupB, groupVar)
       topTable <- as.data.frame(topTable)
+      
       #Calculate p-value
       topTable$p = apply(eSet_modified, 1, getPValue, pData(eSet), groupA, groupB, groupVar, ttest)
       topTable$padj = p.adjust(topTable$p, method="fdr")
@@ -114,7 +117,7 @@ if (params$SILAC == "T"){
         topTable_down = topTable_down[order(topTable_down$padj, topTable_down$p,decreasing = TRUE),]
         topTable <- rbind(topTable_up,topTable_down)
         }
-      topTable#
+      topTable
     } else {
       if (ttest == "less"){
         topTable = apply(exprs(eSet), 1, getLogFC, pData(eSet), groupA, groupB, groupVar)
@@ -144,7 +147,7 @@ if (params$SILAC == "T"){
   samples <- contrasts[!(contrasts == control)]
 }
 
-  ## Create topTables for over- and unver-expressed phosphosites
+## Create topTables for over- and unver-expressed phosphosites
 topTables_less <- lapply(1:length(samples), function(x) getTopTable(samples, control, test_eSet, "cell_line", x, "two.sided","less"))
 topTables_greater <- lapply(1:length(samples), function(x) getTopTable(samples, control,test_eSet, "cell_line", x, "two.sided","greater"))
 

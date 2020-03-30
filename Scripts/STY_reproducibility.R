@@ -5,17 +5,22 @@
 ## Author: Mahmoud Hallal
 ##################################################
 
-## Load Packages
+## Load libraries
 library(yaml)
 
 #install.packages("ggplot2", repos="http://cran.rstudio.com/")
 library(ggplot2)
+
 #install.packages("VennDiagram", repos="http://cran.rstudio.com/")
 library(VennDiagram)
+
 #install.packages("reshape2", repos="http://cran.rstudio.com/")
 library("reshape2")
+
 library(Biobase)
+
 library(plyr)
+
 flog.threshold(ERROR)
 
 ## load parameters file
@@ -23,63 +28,9 @@ params <- read_yaml("./config.yaml")
 biological_reps <- strsplit(params$Biological_replicates,"-")[[1]]
 imp <- params$Imputation
 
-## Take every batch separately and make some statistics of proteome and phosphorpteoome
-load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/batches_all_data_",params$cell_line,".Rda"))
-load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/batches_all_phospho_data_",params$cell_line,".Rda"))
-
 ## Define conditions used
 Conditions <- unlist(strsplit(params$Conditions,","))
 biological_reps <- strsplit(params$Biological_replicates,"-")[[1]]
-
-## GIve statistics on phosphopeptides and proteins
-peptide_counts <- lapply(1:length(Conditions), function(x) {
-  lapply(1:biological_reps[x], function(y) {
-    a = length(unique(batches_all_data_STY[[x]][[y]]$Modified.sequence.position))
-    b = length(unique(batches_all_phospho_data_STY[[x]][[y]]$Modified.sequence.position))
-    diff = a-b
-    c = batches_all_phospho_data_STY[[x]][[y]]$Modified.sequence.position
-    d = batches_all_phospho_data_STY[[x]][[y]]$Protein
-    return(list(all = a, phos = b, diff = diff, c = c, d = d))
-  })
-})
-#a = numberof all peptides
-#b = number of phosphorylated peptides
-#diff = difference between the 2 values above
-#c = the modified sequences of this replicate cell line
-#d = the proteins of this replicate cell line
-
-## Proteins
-proteins_counts <- lapply(1:length(Conditions), function(x) {
-  lapply(1:biological_reps[x], function(y) {
-    a = length(unique(batches_all_data_STY[[x]][[y]]$Protein))
-    b = length(unique(batches_all_phospho_data_STY[[x]][[y]]$Protein))
-    diff = a-b
-    c = batches_all_phospho_data_STY[[x]][[y]]$Modified.sequence.position
-    d = batches_all_phospho_data_STY[[x]][[y]]$Protein
-    e = batches_all_phospho_data_STY[[x]][[y]]$Protein_with_position
-    
-    return(list(all = a, phos = b, diff = diff, c = c, d = d, e = e))
-  })
-})
-
-
-###################################################################################################
-#Draw venn diagrams of overlaps between replicates of every condition
-# for(cond in 1:length(Conditions)){
-#   pr <- c(biological_reps)
-#   rr <- lapply(1:pr[cond],function(x) proteins_counts[[cond]][[x]]$e)
-#   names(rr) <- lapply(1:pr[cond], function(x) paste0(Conditions[cond],'_',x))
-#   #K562
-#   venn_diag <- venn.diagram(rr,
-#     fill = 2:(as.numeric(pr[cond])+1),filename = NULL, alpha = rep(0.4,pr[cond]),
-#     cat.fontface = 4,lty =2, cat.cex = 1.6, cex = 2.2, scaled = TRUE, euler.d = TRUE,
-#     main = "Phosphorylated sites between K562 CTRL replicates", main.cex = 2)
-#   
-#   pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"Phos_proteins_",params$cell_line,"_venn_diagram_", Conditions[cond],".pdf"), width = 8)
-#   grid.draw(venn_diag) 
-#   dev.off()
-#   
-# }
 
 ###################################################################################################
 ## Coeffiecient of variation
@@ -131,7 +82,7 @@ g <- g + geom_violin(alpha = 0.5,draw_quantiles = c(0.5)) +
   theme(#axis.text=element_text(size=14),
     axis.title=element_text(size=24))
 
-
+# Output PDF
 pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Phos_proteins_CV_violin_plot_",params$cell_line,".pdf"), width = 8)
 plot(g)
 dev.off()

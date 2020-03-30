@@ -44,8 +44,7 @@ all_gene_lists <- gene_lists
 ## Export output file
 exportMultipleResults(all_nets, all_gene_lists, collection ,IDConverter = NULL, paste(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/output_networks_with_positions_",params$fdr_cutoff,"FDR_",params$pvalue_cutoff,"P_",params$cell_line,"_less/",sep=""))
 
-print("DONEEEEEE")
-## Overactive kianses
+## Overactive kinases
 enrichment_analysis1 <- 
   lapply(1:length(topTables_greater), function(x) {
     setRankAnalysis(rownames(topTables_greater[[x]]), collection, use.ranks= TRUE, setPCutoff = params$pvalue_cutoff , fdrCutoff = params$fdr_cutoff, delete = TRUE)

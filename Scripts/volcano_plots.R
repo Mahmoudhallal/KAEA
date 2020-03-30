@@ -4,6 +4,7 @@
 ## Date: 28.08.2018
 ## Author: Mahmoud Hallal
 ##################################################
+
 ## Load libraries
 #source("https://bioconductor.org/biocLite.R")
 #biocLite("Biobase")
@@ -17,10 +18,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
 BiocManager::install("biomaRt")
-#library(devtools)
-#devtools::install_github("r-lib/xml2")
 
-#library(xml2)
 
 ## Load parameters file
 params <- read_yaml("./config.yaml")
@@ -29,7 +27,7 @@ imp <- params$Imputation
 ## Define logFC function
 getLogFC <- function(row, phenoTable, groupA, groupB, groupVar) {
   indicesA = phenoTable[[groupVar]] == groupA
-  indicesB = phenoTable[[groupVar]] != groupA
+  indicesB = phenoTable[[groupVar]] == groupB
   mean(row[indicesA],na.rm=T) - mean(row[indicesB], na.rm=T)
 }
 
@@ -37,29 +35,29 @@ getLogFC <- function(row, phenoTable, groupA, groupB, groupVar) {
 getPValue <- function(row, phenoTable, groupA, groupB, groupVar, ttest) {
   row = row + runif(length(row), -1e-6, 1e-6)
   indicesA = phenoTable[[groupVar]] == groupA
-  indicesB = phenoTable[[groupVar]] != groupA
+  indicesB = phenoTable[[groupVar]] == groupB
   #cz we are only looking at overrepresentation
   t.test(row[indicesA], row[indicesB], alternative = ttest)$p.value
 }
 
 
 ## Define a function to create a table of p-value, p-adj and logFC
-getTopTable <- function(contrasts, eSet, groupVar, x, ttest) {
-  print(x)
-  groupA = contrasts[x]
-  groupB = contrasts[-x]
+getTopTable <- function(samples, control, eSet, groupVar, x, ttest) {
+  groupA = samples[x]
+  if (control != 'ALL'){
+    groupB = control
+  } else {
+    groupB = samples[x] 
+  } 
+  #Define fData
   topTable = fData(eSet)
+  #Define dataset
   eSet_modified <- exprs(eSet)
-  #keep complete cases only
-  #eSet_modified[eSet_modified==0] <- NA
-  #eSet_modified <- eSet_modified[complete.cases(eSet_modified),]
-  #calculate FC
+  
   topTable = apply(eSet_modified, 1, getLogFC, pData(eSet), groupA, groupB, groupVar)
   topTable <- as.data.frame(topTable)
-  print(topTable)
-  
-  #calculate pvalue
-  topTable$p = apply(eSet_modified, 1, getPValue, pData(eSet), groupA, groupB, groupVar,ttest)
+  #Calculate p-value
+  topTable$p = apply(eSet_modified, 1, getPValue, pData(eSet), groupA, groupB, groupVar, ttest)
   topTable$padj = p.adjust(topTable$p, method="fdr")
   topTable = topTable[order(topTable$padj, topTable$p),]
   topTable
@@ -69,16 +67,23 @@ getTopTable <- function(contrasts, eSet, groupVar, x, ttest) {
 ## Load input expressionSet
 load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/test_eSet1_",params$cell_line,".Rda"))
 
-## Define the conditions to compare
+## Define contrasts
 contrasts <- unlist(strsplit(params$Conditions,","))
+control <- params$control
+if (params$SILAC == "T"){
+  samples = contrasts
+} else {
+  samples <- contrasts[!(contrasts == control)]
+}
 
 ## Calculate two-tailed t-test
-topTables_ts <- lapply(1:length(contrasts), function(x) getTopTable(contrasts, test_eSet, "cell_line", x, "two.sided"))
-names(topTables_ts) <- contrasts
+topTables_ts <- lapply(1:length(samples), function(x) getTopTable(samples, control, test_eSet, "cell_line", x, "two.sided"))
+names(topTables_ts) <- samples
 
 ## Plot volcano plots for every condition
 for (x in 1:length(topTables_ts)){
   data <- topTables_ts
+  
   #Mark threshold on 0.05pvalue
   data[[x]]$threshold = as.factor(data[[x]]$padj < 0.05)
   data[[x]]$prots <- rownames(data[[x]])
@@ -135,36 +140,13 @@ save(volcano_material, file = paste0(params$CWD,"/results/",params$cell_line,'_'
 ## Create topTables for specific volcano plot of barplot in shiny
 ## Define a function to create a table of p-value, p-adj and logFC
 
-## IF phosphosite has one or more kinases
+## If phosphosite has one or more kinases
 all_dbs <- read.csv(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/all_dbs.csv"))
 one_kinase <- names(table(all_dbs$geneID)[table(all_dbs$geneID) == 1])
 five_kinase <-  names(table(all_dbs$geneID)[which(table(all_dbs$geneID) > 1 & table(all_dbs$geneID) <= 5)])
 
-#more_kinase <- all_dbs$geneID[table(all_dbs$geneID) != 1]
-
-#'Q9UQ35_T983' %in% one_kinase
-## out of order 11.04.2019 because we use the normal one up
-# getTopTable_special <- function(contrasts, eSet, groupVar, x, ttest) {
-#   groupA = contrasts[x]
-#   groupB = contrasts[-x]
-#   topTable = fData(eSet)
-#   eSet_modified <- exprs(eSet)
-#   #keep complete cases only
-#   eSet_modified[eSet_modified==0] <- 1
-#   eSet_modified <- eSet_modified[complete.cases(eSet_modified),]
-#   #calculate FC
-#   topTable = apply(eSet_modified, 1, getLogFC, pData(eSet), groupA, groupB, groupVar)
-#   topTable <- as.data.frame(topTable)
-#   #calculate pvalue
-#   topTable$p = apply(eSet_modified, 1, getPValue, pData(eSet), groupA, groupB, groupVar,ttest)
-#   topTable$padj = p.adjust(topTable$p, method="fdr")
-#   topTable = topTable[order(topTable$padj, topTable$p),]
-#   topTable
-# }
-
-#topTables_ts_special <- lapply(1:length(contrasts), function(x) getTopTable_special(contrasts, test_eSet, "cell_line", x, "two.sided"))
 topTables_ts_special <- topTables_ts
-names(topTables_ts_special) <- contrasts
+names(topTables_ts_special) <- samples
 
 data_volcano_special <- topTables_ts_special
 volcano_material_special <- lapply(1:length(topTables_ts_special), function(x){
@@ -186,11 +168,12 @@ volcano_material_special <- lapply(1:length(topTables_ts_special), function(x){
   data_volcano_special[[x]][which(data_volcano_special[[x]]$share == "FALSE"),]$share <- 'Not specific (>5)'
   #data_volcano_special[[x]][which(data_volcano_special[[x]]$share == "FALSE"),]$shape <- 'x'
   
-  #
   data_volcano_special[[x]]$shape <- as.factor(data_volcano_special[[x]]$shape)
   data_volcano_special[[x]]$share <- as.factor(data_volcano_special[[x]]$share)
   
   data_volcano_special[[x]]
 })
 names(volcano_material_special) <- names(topTables_ts_special)
+
+## Save output file
 save(volcano_material_special, file = paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Volcano_plot_material_",params$cell_line,"_special.Rda"))

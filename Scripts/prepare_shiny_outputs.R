@@ -6,62 +6,48 @@
 ##################################################
 
 ## Load libraries
-
 #source("http://bioconductor.org/biocLite.R")
 #biocLite("pathview")
 library(pathview)
+
 #install.packages("filesstrings", repos="http://cran.rstudio.com/")
 library(filesstrings)
 data("gene.idtype.bods")
 
 library(yaml)
-# library(dplyr)
-# library(plotly)
-# detach("package:dplyr", unload=TRUE)
-# detach("package:plotly", unload=TRUE)
+
+#library(dplyr)
+
+#library(plotly)
+
+#detach("package:dplyr", unload=TRUE)
+
+#detach("package:plotly", unload=TRUE)
+
 ## Load parameters
 params <- read_yaml("./config.yaml")
 imp <- params$Imputation
 
 ## Load material for heatmap
-#Heatmap_rep <- read.csv(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR/',"Material_for_heatmap_", params$fdr_cutoff,"FDR_", params$pvalue_cutoff,"P_",params$cell_line,".csv"), row.names = 1,sep=" ")
 load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Material_for_heatmap_", params$fdr_cutoff,"FDR_", params$pvalue_cutoff,"P_",params$cell_line,".Rda"))
 
 ## Load material for waterfall plots
 load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Material_for_waterfall_", params$fdr_cutoff,"FDR_", params$pvalue_cutoff,"P_",params$cell_line,".Rda"))
 
-## Define tumor suppressor and oncogenes
-## http://cancerres.aacrjournals.org/content/canres/suppl/2012/01/23/0008-5472.CAN-11-2266.DC1/T3_74K.pdf
-tumor_suppressor <- c('APC','ARHGEF12', 'ATM', 'BCL11B', 'BLM', 'BMPR1A', 'BRCA1', 'IL2', 'TNFAIP3', 'JAK2', 'TP53', 'MAP2K4', 'TSC1', 'MDM4',
-                      'TSC2', 'MEN1', 'VHL', 'MLH1', 'WRN', 'MSH2', 'WT1','BRCA2','CARS','CBFA2T3','CDH1','CDH11','CDK6','CDKN2C','CEBPA','CHEK2','CREB1',
-                      'CREBBP','CYLD','DDX5','EXT1','EXT2','FBXW7','FH','FLT3','FOXP1','GPC3','IDH1','TCF3','SYK','SUZ12','SUFU','STK11','SOCS1','SMARCB1',
-                      'SMARCA4','SDHD','SDHB','RUNX1','RB1','PTEN','PALB2','NUP98','NR4A3','NPM1','NOTCH1','NF2','NF1')
-
-
-oncogenes <- c('ABL1', 'EVI1','ABL2' ,'EWSR1', 'AKT1', 'FEV' ,'AKT2', 'FGFR1' ,'ATF1', 'FGFR1OP','BCL11A' ,'FGFR2' ,'BCL2', 'FUS',
-               'BCL3','GOLGA5' ,'BCL6', 'GOPC','BCR', 'HMGA1', 'BRAF' ,'HMGA2','CARD11', 'HRAS' ,'CBLB' ,'IRF4' ,'CBLC' ,'JUN','MYC',
-               'MYCL1' ,'MYCN' ,'NCOA4' ,'NFKB2', 'NRAS', 'NTRK1', 'NUP214' ,'PAX8', 'PDGFB', 'PIK3CA', 'PIM1', 'PLAG1' ,'PPARG',
-               'CCND3', 'CDX2' ,'CTNNB1' ,'DDB2' ,'DDIT3', 'DDX6' ,'DEK', 'EGFR', 'ELK4', 'ERBB2', 'ETV4' ,'ETV6','CCND2','KRAS','RAF1',
-               'LCK' ,'LMO2','MAF' ,'MAFB' ,'MAML2', 'MDM2' ,'MET' ,'MITF' ,'MLL' ,'MPL' ,'MYB','REL','RET','ROS1','SMO','SS18','TCL1A',
-               'TET2','TFG','TLX1','TPR','USP6')
-
-
 ## Create table of pathways using waterfall input
 to_sbmt <- lapply(1:length(material_for_waterfall), function(x){
   df1 <- material_for_waterfall[[x]][!duplicated(material_for_waterfall[[x]]$Kinase),]
+  
   #make dataframe
   df <- as.data.frame(df1$Enrichment.score)
   rownames(df) <- df1$Kinase
   colnames(df) <- "value"
-  #dd <- df$value
-  #names(dd) <- gsub('(\\w+)[+-]','\\1',rownames(df))
-  #dd1 <- dd[!duplicated(names(dd))]
   dd1 <- df
   dd2 <- as.data.frame(dd1)
-  #rownames(dd2) <- names(dd1)
-  #colnames(dd2) <- "value"
+  
   dd2
 })
+
 names(to_sbmt) <- names(material_for_waterfall)
 files <- names(to_sbmt)
 
@@ -112,7 +98,7 @@ names(all_files) <- files
 ## Count the number of kinases present in every pathway
 enriched_kin <- lapply(1:length(files), function(y){ lapply(1:length(all_files[[files[y]]]), function(x){sum(!is.na(all_files[[files[y]]][[x]]$plot.data.gene$ge1))})})
 
-#Give pathway names
+## Give pathway names
 for(x in 1:length(enriched_kin)){names(enriched_kin[[x]]) <- pathways}
 names(enriched_kin) <- files
 
@@ -142,40 +128,11 @@ material_for_table <- enriched_kin1
 ## LoadExpressionSet
 load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/test_eSet1_",params$cell_line,".Rda"))
 
-## Prepare SN dataframe
-# protein_groups <- params$proteome_path
-# protein_groups <- read.delim(protein_groups)
-# 
-# protein_groups1 <- protein_groups[protein_groups$Reverse != "+",]
-# protein_groups1 <- protein_groups1[protein_groups1$Potential.contaminant != "+",]
-# protein_groups1$cleaned_prots <- gsub("[|].*","", protein_groups1$Protein)
-# 
-# keep_cols <- params$proteome_cols
-# protein_groups2 <- protein_groups1[,keep_cols]
-# new_colnames <- params$proteome_cols_new
-# colnames(protein_groups2) <- new_colnames
-# pp_colnames <- gsub("X","",colnames(exprs(test_eSet)))
-# #new order
-# protein_groups2 <- protein_groups2[,pp_colnames]
-# protein_groups2[protein_groups2 == 0] <- 1
-# protein_groups2 <- log2(protein_groups2)
-# #protein_groups2 <- cbind(protein_groups2, protein_groups1$Majority.protein.IDs)
-# protein_groups3 <- cbind(protein_groups2, protein_groups1$Fasta.headers)
-# colnames(protein_groups3) <- c(pp_colnames,'Fasta.headers')
-# 
-# protein_groups3$genes <- gsub('(.*) (GN=)(\\w*\\d*)(;.*)?(.*)','\\3',protein_groups3$Fasta.headers)
-# protein_groups3 <- protein_groups3[,-(ncol(protein_groups3)-1)]
-# 
-# save(protein_groups3, file=paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Material_for_SNproteome_", params$fdr_cutoff,"FDR_", params$pvalue_cutoff,"P_",params$cell_line,".Rda"))
-# 
-
-
 ## Load Quality report material
 load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Quality_Report_Shiny_",params$cell_line,".Rda"))
 
 ## Load Volcano plot material
 load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Volcano_plot_material_",params$cell_line,".Rda"))
-
 
 ## Load Coefficient of variation
 CVs <- read.csv(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/CV_",params$cell_line,".csv"))
@@ -195,5 +152,3 @@ shiny_results <- list(Quality_rep$hist_sites, Quality_rep$hist_peps, Quality_rep
                       Quality_rep$table_counts, material_for_heatmap, material_for_waterfall, material_for_table, volcano_material, volcano_material_special, exprs(test_eSet),CVs,db)
 names(shiny_results) <- c(names(Quality_rep),'Heatmap_rep', 'waterfall_rep','table_rep','Volcano','Volcano_special','ExpressSet','CV','DB')
 save(shiny_results, file = paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/results_shiny_",params$cell_line,"_",params$pvalue_cutoff,"P_",params$fdr_cutoff,"FDR.Rda"))
-
-#
