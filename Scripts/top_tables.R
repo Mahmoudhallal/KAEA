@@ -26,7 +26,7 @@ if (params$SILAC == "T"){
   ## calculate logFC
   getLogFC <- function(row, phenoTable, groupA, groupVar) {
     indicesA = phenoTable[[groupVar]] == groupA
-    mean(row[indicesA]) 
+    mean(row[indicesA], na.rm=T) 
     
   }
   
@@ -35,43 +35,85 @@ if (params$SILAC == "T"){
     row = row + runif(length(row), -1e-10, 1e-10)
     indicesA = phenoTable[[groupVar]] == groupA
     
-    print(ttest)
+    #print(ttest)
     t.test(row[indicesA],alternative = ttest)$p.value
   }
   
   
   #function to create a table of p-value, p-adj and logFC
   #group A is the desired cell line and groupB is the control
-  getTopTable <- function(samples, control, eSet, groupVar, x, ttest) {
+  getTopTable <- function(samples, control, eSet, groupVar, x, ttest, parm) {
     groupA = samples[x]
+    #Define fData
+    topTable = fData(eSet)
     
-    #when only selecting the proteins that are present in every cell line
-    topTable = data.frame()
+    #Define dataset
+    eSet_modified <- exprs(eSet)
     
-    eSet2 <- eSet[rowSums(exprs(eSet)[,pData(eSet)[[groupVar]] == groupA]) != 0,]
-    #eSet2 <- eSet
-    topTable = apply(exprs(eSet2), 1, getLogFC, pData(eSet2), groupA, groupVar)
-    topTable <- as.data.frame(topTable)
-    topTable$p = apply(exprs(eSet2), 1, getPValue, pData(eSet2), groupA, groupVar, ttest)
-    topTable$padj = p.adjust(topTable$p, method="fdr")
-    topTable = topTable[order(topTable$padj, topTable$p),]
+    #Calculate FC
+    if (biological_reps[x] > 1){
+      topTable = apply(eSet_modified, 1, getLogFC, pData(eSet), groupA, groupVar)
+      topTable <- as.data.frame(topTable)
+      
+      #Calculate p-value
+      topTable$p = apply(eSet_modified, 1, getPValue, pData(eSet), groupA, groupVar, ttest)
+      topTable$padj = p.adjust(topTable$p, method="fdr")
+      topTable = topTable[order(topTable$padj, topTable$p),]
+      #topTable
+      if (parm == "less"){
+        topTable_up <- topTable[topTable$topTable > 0,]
+        topTable_up = topTable_up[order(topTable_up$padj, topTable_up$p,decreasing = TRUE),]
+        topTable_down <- topTable[topTable$topTable < 0,]
+        topTable_down = topTable_down[order(topTable_down$padj, topTable_down$p,decreasing = FALSE),]
+        topTable <- rbind(topTable_down,topTable_up)
+      } else {
+        topTable_up <- topTable[topTable$topTable > 0,]
+        topTable_up = topTable_up[order(topTable_up$padj, topTable_up$p,decreasing = FALSE),]
+        topTable_down <- topTable[topTable$topTable < 0,]
+        topTable_down = topTable_down[order(topTable_down$padj, topTable_down$p,decreasing = TRUE),]
+        topTable <- rbind(topTable_up,topTable_down)
+      }
+      topTable
+    } else {
+      if (ttest == "less"){
+        topTable = apply(exprs(eSet), 1, getLogFC, pData(eSet), groupA, groupB, groupVar)
+        topTable <- as.data.frame(topTable)
+        topTable = topTable[order(topTable$topTable,decreasing = FALSE),,drop=FALSE]
+        topTable
+      } else {
+        topTable = apply(exprs(eSet), 1, getLogFC, pData(eSet), groupA, groupB, groupVar)
+        topTable <- as.data.frame(topTable)
+        topTable = topTable[order(topTable$topTable,decreasing = TRUE),,drop=FALSE]
+        topTable
+      }
+    }
     topTable
     }
   } else {
     
     ## calculate logFC
-    getLogFC <- function(row, phenoTable, groupA, groupB, groupVar) {
+    getLogFC <- function(row, phenoTable, groupA, groupB, groupVar, control) {
       indicesA = phenoTable[[groupVar]] == groupA
-      indicesB = phenoTable[[groupVar]] == groupB
+      if (control != 'ALL'){
+        indicesB = phenoTable[[groupVar]] == groupB
+      } else {
+        indicesB = phenoTable[[groupVar]] != groupB
+        
+      }
+      
       mean(row[indicesA], na.rm=T) - mean(row[indicesB], na.rm=T)
       }
 
   ## calculate p-value 
-  getPValue <- function(row, phenoTable, groupA, groupB, groupVar, ttest) {
+  getPValue <- function(row, phenoTable, groupA, groupB, groupVar, control, ttest) {
       row = row + runif(length(row), -1e-10, 1e-10)#
       indicesA = phenoTable[[groupVar]] == groupA
-      indicesB = phenoTable[[groupVar]] == groupB
-      
+      if (control != 'ALL'){
+        indicesB = phenoTable[[groupVar]] == groupB
+      } else {
+        indicesB = phenoTable[[groupVar]] != groupB
+        
+      }
       t.test(row[indicesA], row[indicesB], alternative = ttest)$p.value
       }
 
@@ -96,11 +138,11 @@ if (params$SILAC == "T"){
     
     #Calculate FC
     if (biological_reps[x] > 1){
-      topTable = apply(eSet_modified, 1, getLogFC, pData(eSet), groupA, groupB, groupVar)
+      topTable = apply(eSet_modified, 1, getLogFC, pData(eSet), groupA, groupB, groupVar, control)
       topTable <- as.data.frame(topTable)
       
       #Calculate p-value
-      topTable$p = apply(eSet_modified, 1, getPValue, pData(eSet), groupA, groupB, groupVar, ttest)
+      topTable$p = apply(eSet_modified, 1, getPValue, pData(eSet), groupA, groupB, groupVar, control, ttest)
       topTable$padj = p.adjust(topTable$p, method="fdr")
       topTable = topTable[order(topTable$padj, topTable$p),]
       #topTable

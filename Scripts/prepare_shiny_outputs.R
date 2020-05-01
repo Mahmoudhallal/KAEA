@@ -84,8 +84,9 @@ all_files <- lapply(1:length(files), function(y){
     pp <- pathview(gene.data = to_sbmt[[files[y]]], pathway.id = pathways[x],
                    #we changed gene.idtype from SYMBOL to GENENAME 22.01.2019
              species = sp, gene.idtype = type, 
-             limit = list(gene = 1, cpd = 1),
+             limit = list(gene = c(min(to_sbmt[[files[y]]]), max(to_sbmt[[files[y]]])), cpd = 1),
              kegg.dir = sp_directory)
+    
     file.move(paste(pathways[x], ".pathview.png", sep = ""), sp_directory, overwrite = TRUE)
     file.copy(paste0(sp_directory,'/',pathways[x],'.pathview.png'), paste0(sp_directory,'/',pathways_names[x],'.pathview.png'))
     pp

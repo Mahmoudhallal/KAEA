@@ -37,11 +37,22 @@ pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_'
 pheatmap(data, 
            show_rownames = F, 
            fontsize_col = 8,
-         #angle_col = 315,
-           #main=paste0("K562 - top ",nrow(matrix2)), 
            color=colorRampPalette(c("blue", "white", "red"))(nrow(data)),
            border_color = NA,
            scale='row',
-           na_col="grey")
+           na_col="grey",
+         #silac fribourg 05.04.20
+         cluster_rows = T
+         )
 dev.off()
 
+cat(paste("[\"Intensity.CL1_C1_2_INC1\",\"Intensity.CL1_C1_2_INC2\",",
+      
+      "\"Intensity.CL1_C2_1_INC1\",\"Intensity.CL1_C2_1_INC2\",",
+      
+      "\"Intensity.CL1_D1_2_INC1\",\"Intensity.CL1_D1_2_INC2\",",
+      "\"Intensity.CL1_D2_1_INC1\",\"Intensity.CL1_D2_1_INC2\"]", sep="\n"))
+
+cat(paste("sadsadasdsad",
+            'sasadasdasdas',
+            'dasdasdsad',sep = "\n"))

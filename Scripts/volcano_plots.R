@@ -27,7 +27,13 @@ imp <- params$Imputation
 ## Define logFC function
 getLogFC <- function(row, phenoTable, groupA, groupB, groupVar) {
   indicesA = phenoTable[[groupVar]] == groupA
-  indicesB = phenoTable[[groupVar]] == groupB
+  
+  if (control != 'ALL'){
+    indicesB = phenoTable[[groupVar]] == groupB
+  } else {
+    indicesB = phenoTable[[groupVar]] != groupB
+    
+  }
   mean(row[indicesA],na.rm=T) - mean(row[indicesB], na.rm=T)
 }
 
@@ -35,7 +41,12 @@ getLogFC <- function(row, phenoTable, groupA, groupB, groupVar) {
 getPValue <- function(row, phenoTable, groupA, groupB, groupVar, ttest) {
   row = row + runif(length(row), -1e-6, 1e-6)
   indicesA = phenoTable[[groupVar]] == groupA
-  indicesB = phenoTable[[groupVar]] == groupB
+  if (control != 'ALL'){
+    indicesB = phenoTable[[groupVar]] == groupB
+  } else {
+    indicesB = phenoTable[[groupVar]] != groupB
+    
+  }
   #cz we are only looking at overrepresentation
   t.test(row[indicesA], row[indicesB], alternative = ttest)$p.value
 }
@@ -111,7 +122,7 @@ for (x in 1:length(topTables_ts)){
 library(biomaRt)
 rnms <- rownames(test_eSet)
 
-mart <- useMart(biomart = "ensembl", dataset = "hsapiens_gene_ensembl",host = "uswest.ensembl.org")
+mart <- useMart(biomart = "ensembl", dataset = "hsapiens_gene_ensembl",host = "useast.ensembl.org")
 prots <- gsub('(^.*)(\\-[d])?_([STY]\\d+)','\\1',rnms)
 unique_prots <- unique(prots)
 

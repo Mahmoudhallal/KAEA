@@ -18,7 +18,7 @@ PVALUE=config["pvalue_cutoff"]
 input_file = config["path_Input"]
 CWD = config["CWD"]
 cline = config["cell_line"]
-MaxSetSize=config["maxSetSize"]
+#MaxSetSize=config["maxSetSize"]
 motif="FALSE"
 IMP=config["Imputation"]
 
@@ -37,7 +37,7 @@ rule all:
 		expand("{CWD}/results/{new_file}/Phos_prots_with_position_venn_diagram_{cline}.pdf",cline =cline, CWD=CWD,new_file=new_file),
 		expand("{CWD}/results/{new_file}/Phos_prots_histogram_{cline}.pdf",CWD=CWD, cline=cline,new_file=new_file),
 		expand("{CWD}/results/{new_file}/CV_{cline}.csv",CWD=CWD,cline=cline,cond=CONDS,new_file=new_file),
-		expand("{CWD}/results/{new_file}/collection_{cline}.Rda", CWD=CWD, MaxSetSize=MaxSetSize,cline=cline,new_file=new_file),
+		expand("{CWD}/results/{new_file}/collection_{cline}.Rda", CWD=CWD, cline=cline,new_file=new_file),
 		expand("{CWD}/results/{new_file}/topTables_{cline}_less.Rda", CWD=CWD, cline=cline,new_file=new_file),
 		#expand("{CWD}/results/{new_file}/output_networks_with_positions_{fdr}FDR_{pv}P_{cline}_less/{file}.txt", fdr = FDR, CWD=CWD, file= FILES, pv = PVALUE, cline=cline,new_file=new_file),
         expand("{CWD}/results/{new_file}/output_networks_with_positions_{fdr}FDR_{pv}P_{cline}_less/pathways.txt", fdr = FDR, CWD=CWD, pv = PVALUE, cline=cline,new_file=new_file),
@@ -125,7 +125,6 @@ rule Reproducibility:
 		
 	output: 
 		out1 = "{CWD}/results/{new_file}/CV_{cline}.csv"
-		#out2 = "{CWD}/results/{new_file}/Phos_proteins_{cline}_DRG_venn_diagram.pdf"
 	
 	shell:
 			""" Rscript {input.script} """
@@ -137,7 +136,6 @@ rule volcano_plot:
 		
 	output: 
         	out1 = "{CWD}/results/{new_file}/Volcano_plot_material_{cline}.Rda"
-		#out2 = "{CWD}/results/{new_file}/Volcano_plot_{cline}_x_{cond}.pdf"
 		
 	shell:
 			""" Rscript {input.script} """
@@ -173,11 +171,10 @@ rule SetRank_analysis:
 		script ="{CWD}/Scripts/setRank_analysis.R"
 
 	params:
-		MaxSetSize = config["maxSetSize"],
+		#MaxSetSize = config["maxSetSize"],
 		fdr = config["fdr_cutoff"]		
 
 	output:
-		#out1 = expand("{{CWD}}/results/{{new_file}}/output_networks_with_positions_{{fdr}}FDR_{{pv}}P_{{cline}}_less/{file}.txt", file=FILES)
 		out1 = expand("{{CWD}}/results/{{new_file}}/output_networks_with_positions_{{fdr}}FDR_{{pv}}P_{{cline}}_less/pathways.txt")
         
 	shell:
@@ -212,7 +209,6 @@ rule prepare_shiny_inputs:
 		seed1 = "{CWD}/results/{new_file}/Material_for_waterfall_{fdr}FDR_{pv}P_{cline}.Rda",
 		seed2 = "{CWD}/results/{new_file}/Material_for_heatmap_{fdr}FDR_{pv}P_{cline}.Rda",
         seed3 = "{CWD}/results/{new_file}/Volcano_plot_material_{cline}.Rda",
-        #seed4 = "{CWD}/results/{new_file}/Enriched_pathways_{cline}.Rda",
 		script = "{CWD}/Scripts/prepare_shiny_outputs.R"
 	output:
 		out = "{CWD}/results/{new_file}/results_shiny_{cline}_{pv}P_{fdr}FDR.Rda"
@@ -227,7 +223,7 @@ rule pca:
                 script = "{CWD}/Scripts/pca.R"
         
         params:
-                MaxSetSize = config["maxSetSize"]
+                #MaxSetSize = config["maxSetSize"]
         
         output:
                 out = "{CWD}/results/{new_file}/PCA_plot_filtered_{cline}.pdf"
