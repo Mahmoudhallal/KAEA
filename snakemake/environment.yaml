@@ -4,13 +4,13 @@ channels:
 - r
 - defaults
 dependencies:
-- r
+- r-essentials=3.6
+- lapack
 - bcftools
 - bwa
 - graphviz
 - python
 - samtools
-- snakemake
 - pyyaml
 - pandas
 - r-plyr
