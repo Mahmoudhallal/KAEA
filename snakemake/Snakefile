@@ -87,12 +87,7 @@ rule filter_eSet:
 
 rule create_kinase_substrate_5_dbs:
 	input:
-		seed1 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoELM_db/phosphoELM_vertebrate_2015-04.dump"),
-		seed2 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/phosphoSitePlus/Kinase_Substrate_Dataset"),
-		seed3 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/PhosphoNetworks/refKSI.csv"),
-		seed5 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/HPRD/FLAT_FILES_072010/POST_TRANSLATIONAL_MODIFICATIONS.txt"),
-		seed7 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/RegPhos/RegPhos_Phos_human.txt"),
-		seed8 = os.path.abspath("/Users/Mahmoud.Hallal/Desktop/PhD/Phospho_database/SIGNOR/human_phosphorylations_09_05_17.csv"),
+		seed1 = "{CWD}/Phospho_DBs/Human_dbs.csv",
 		script = "{CWD}/Scripts/phospho_dbs_v3.R"
 	output:	
 		out ="{CWD}/results/{new_file}/all_dbs.csv"

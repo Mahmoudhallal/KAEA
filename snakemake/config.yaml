@@ -1,17 +1,17 @@
-fdr_cutoff: 0.05
+fdr_cutoff: 0.025
 pvalue_cutoff: 0.01
 maxSetSize: 500
-cell_line: MV411
-Conditions: MV411_CTRL,MV411_DRG
+cell_line: K562
 Imputation: F
 SILAC: F
+Conditions: K562_CTRL,K562_DRG
+Samples: K562_DRG
+control: K562_CTRL
 Species: Human
-Samples: MV411_DRG
-control: MV411_CTRL
-CWD: /Users/Mahmoud.Hallal/Desktop/PhD/Generalized_pipeline
-path_Input: /Users/Mahmoud.Hallal/Desktop/PhD/cell_lines_data/Stimulated_data/MV411_Midostaurin_03.2019/20190305_MHV4_TiO2_INC_MH/Phospho (STY)Sites.txt
-Intensity_columns: ["Intensity.C1_INC1","Intensity.C1_INC2","Intensity.C2_INC1","Intensity.C2_INC2","Intensity.C3_INC1","Intensity.C3_INC2","Intensity.D1_INC1","Intensity.D1_INC2","Intensity.D2_INC1","Intensity.D2_INC2","Intensity.D3_INC1","Intensity.D3_INC2"]
+CWD: /home/user/KAEA/
+path_Input: /home/user/KAEA/data/Phospho (STY)Sites.txt
+Intensity_columns: ["Intensity.K562_C1_2_INC1","Intensity.K562_C1_2_INC2","Intensity.K562_C2_1_INC1","Intensity.K562_C2_1_INC2","Intensity.K562_C3_1_INC1","Intensity.K562_C3_1_INC2","Intensity.K562_D1_2_INC1", "Intensity.K562_D1_2_INC2","Intensity.K562_D2_1_INC1","Intensity.K562_D2_1_INC2","Intensity.K562_D3_2_INC1","Intensity.K562_D3_2_INC2"]
 Sum_conditions: T
-Conditions_to_sum: [["Intensity.1_MV411_CTRL","Intensity.C1_INC1","Intensity.C1_INC2"],["Intensity.2_MV411_CTRL","Intensity.C2_INC1","Intensity.C2_INC2"],["Intensity.3_MV411_CTRL","Intensity.C3_INC1","Intensity.C3_INC2"],["Intensity.1_MV411_DRG","Intensity.D1_INC1","Intensity.D1_INC2"],["Intensity.2_MV411_DRG","Intensity.D2_INC1","Intensity.D2_INC2"],["Intensity.3_MV411_DRG","Intensity.D3_INC1","Intensity.D3_INC2"]]
+Conditions_to_sum: [["Intensity.1_K562_CTRL","Intensity.K562_C1_2_INC1","Intensity.K562_C1_2_INC2"],["Intensity.2_K562_CTRL","Intensity.K562_C2_1_INC1","Intensity.K562_C2_1_INC2"],["Intensity.3_K562_CTRL","Intensity.K562_C3_1_INC1","Intensity.K562_C3_1_INC2"],["Intensity.1_K562_DRG","Intensity.K562_D1_2_INC1","Intensity.K562_D1_2_INC2"],["Intensity.2_K562_DRG","Intensity.K562_D2_1_INC1","Intensity.K562_D2_1_INC2"],["Intensity.3_K562_DRG","Intensity.K562_D3_2_INC1","Intensity.K562_D3_2_INC2"]]
 Biological_replicates: 3-3
-NWKIN_Input: /Users/Mahmoud.Hallal/Desktop/PhD/cell_lines_data/Stimulated_data/MV411_Midostaurin_03.2019/NetworKIN_onlineTool_output_cutoff0.75.csv
+NWKIN_Input: /home/user/KAEA/data/NetworKIN_onlineTool_output_cutoff0.75.csv
