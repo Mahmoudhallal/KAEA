@@ -5,7 +5,7 @@ channels:
 - defaults
 dependencies:
 - r-essentials=3.6
-- lapack
+- libopenblas=0.3.3
 - bcftools
 - bwa
 - graphviz

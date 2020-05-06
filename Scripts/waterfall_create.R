@@ -83,7 +83,7 @@ pathwayMatrix_greater <- lapply(1:length(conditions), function(x){
 })
 
 ## Get Oncogene/tumor suppressor CancerMine database
-cancerMine <- read.delim('../cancermine_collated.tsv')
+cancerMine <- read.delim('../Phospho_DBs/cancermine_collated.tsv')
 leukemia_genes <- grep('leukemia',cancerMine$cancer_normalized)
 cancerMine_leukemia <- cancerMine[leukemia_genes,]
 TS_leukemia <- cancerMine_leukemia[cancerMine_leukemia$role == "Tumor_Suppressor",]
