@@ -45,14 +45,3 @@ pheatmap(data,
          cluster_rows = T
          )
 dev.off()
-
-cat(paste("[\"Intensity.CL1_C1_2_INC1\",\"Intensity.CL1_C1_2_INC2\",",
-      
-      "\"Intensity.CL1_C2_1_INC1\",\"Intensity.CL1_C2_1_INC2\",",
-      
-      "\"Intensity.CL1_D1_2_INC1\",\"Intensity.CL1_D1_2_INC2\",",
-      "\"Intensity.CL1_D2_1_INC1\",\"Intensity.CL1_D2_1_INC2\"]", sep="\n"))
-
-cat(paste("sadsadasdsad",
-            'sasadasdasdas',
-            'dasdasdsad',sep = "\n"))

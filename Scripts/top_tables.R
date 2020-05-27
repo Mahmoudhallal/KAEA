@@ -41,7 +41,6 @@ if (params$SILAC == "T"){
   
   
   #function to create a table of p-value, p-adj and logFC
-  #group A is the desired cell line and groupB is the control
   getTopTable <- function(samples, control, eSet, groupVar, x, ttest, parm) {
     groupA = samples[x]
     #Define fData
@@ -106,7 +105,7 @@ if (params$SILAC == "T"){
 
   ## calculate p-value 
   getPValue <- function(row, phenoTable, groupA, groupB, groupVar, control, ttest) {
-      row = row + runif(length(row), -1e-10, 1e-10)#
+      row = row + runif(length(row), -1e-10, 1e-10)
       indicesA = phenoTable[[groupVar]] == groupA
       if (control != 'ALL'){
         indicesB = phenoTable[[groupVar]] == groupB

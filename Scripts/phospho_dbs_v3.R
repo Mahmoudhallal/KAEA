@@ -55,13 +55,6 @@ if (params$Species == "Human"){
 ## column names
 column_names <- c("geneID","termID","termName","dbName","description")
 
-
-##clean ENSP0 and NAs in phospho_database
-phospho_database <- phospho_database[-grep('ENSP0',phospho_database$geneID),]
-phospho_database <- phospho_database[-grep('NA',phospho_database$geneID),]
-
-
-
 ####################################################################################
 ## NetworKIN
 nwkin_input <- params$NWKIN_Input
@@ -105,9 +98,6 @@ all_dbs$termName[grep('^CK2a1$',all_dbs$termName)] <- "CSNK2A1"
 all_dbs$termName[grep('^CK2a2$',all_dbs$termName)] <- "CSNK2A2"
 all_dbs$termName[grep('^CK2a$',all_dbs$termName)] <- "CSNK2A"
 
-all_dbs$termName[grep('^CSNK2A1$',all_dbs$termName)] <- "CSNK2A1"
-all_dbs$termName[grep('^CSNK2A2$',all_dbs$termName)] <- "CSNK2A2"
-
 all_dbs$termName[grep('^CK2B$',all_dbs$termName)] <- "CSNK2B"
 all_dbs$termName[grep('^CK2_beta$',all_dbs$termName)]<- "CSNK2B"
 
@@ -115,16 +105,18 @@ all_dbs$termName[grep('^CK2_beta$',all_dbs$termName)]<- "CSNK2B"
 unique(all_dbs$termName[grep('^CSNK$',all_dbs$termName)])
 unique(all_dbs$termName[grep('^CK1$',all_dbs$termName)])
 
-#all_dbs$termName[grep('^CK1_group$',all_dbs$termName)] <- "CSNK1"
+all_dbs$termName[grep('^CK1_group$',all_dbs$termName)] <- "CSNK1"
 all_dbs$termName[grep('^CK1alpha$',all_dbs$termName)] <- "CSNK1A"
+all_dbs$termName[grep('^CK1_alpha$',all_dbs$termName)] <- "CSNK1A"
 all_dbs$termName[grep('^CK1a$',all_dbs$termName)] <- "CSNK1A"
-all_dbs$termName[grep('^CSNK1A1$',all_dbs$termName)] <- "CSNK1A1"
 all_dbs$termName[grep('^CK1_delta$',all_dbs$termName)] <- "CSNK1D"
 all_dbs$termName[grep('^CK1d$',all_dbs$termName)] <- "CSNK1D"
 all_dbs$termName[grep('^CK1delta$',all_dbs$termName)] <- "CSNK1D"
 all_dbs$termName[grep('^CK1e$',all_dbs$termName)] <- "CSNK1E"
 all_dbs$termName[grep('^CK1_epsilon$',all_dbs$termName)] <- "CSNK1E"
 all_dbs$termName[grep('^CK1gamma2$',all_dbs$termName)] <- "CSNK1G2"
+all_dbs$termName[grep('^CK1gamma3$',all_dbs$termName)] <- "CSNK1G3"
+all_dbs$termName[grep('^CK1epsilon$',all_dbs$termName)] <- "CSNK1E"
 
 ##
 all_dbs$termName[grep('^CK$',all_dbs$termName)] <- "CSNK2"
@@ -167,6 +159,8 @@ all_dbs$termName[grep('^AurB$',all_dbs$termName)] <- "AURKB"
 #C
 all_dbs$termName[grep('^AurC$',all_dbs$termName)] <- "AURKC"
 
+
+
 #PKB
 unique(all_dbs$termName[grep('^PKB',all_dbs$termName)])
 
@@ -174,6 +168,7 @@ all_dbs$termName[grep('^PKB_group$',all_dbs$termName)] <- "AKT"
 all_dbs$termName[grep('^PKBalpha$',all_dbs$termName)] <- "AKT1"
 all_dbs$termName[grep('^PKB_beta$',all_dbs$termName)] <- "AKT2"
 all_dbs$termName[grep('^PKBbeta$',all_dbs$termName)] <- "AKT2"
+all_dbs$termName[grep('^PKBgamma$',all_dbs$termName)] <- "AKT3"
 
 #PKC
 unique(all_dbs$termName[grep('PKC',all_dbs$termName)])
@@ -193,9 +188,9 @@ all_dbs$termName[grep('^PKCepsilon$',all_dbs$termName)] <- "PRKCE"
 all_dbs$termName[grep('^PKCe$',all_dbs$termName)] <- "PRKCE"
 all_dbs$termName[grep('^PKC_epsilon$',all_dbs$termName)] <- "PRKCE"
 
-all_dbs$termName[grep('^PKCtheta$',all_dbs$termName)] <- "PRKCT"
-all_dbs$termName[grep('^PKCt',all_dbs$termName)] <- "PRKCT"
-all_dbs$termName[grep('^PKC_theta',all_dbs$termName)] <- "PRKCT"
+all_dbs$termName[grep('^PKCtheta$',all_dbs$termName)] <- "PRKCQ"
+all_dbs$termName[grep('^PKCt',all_dbs$termName)] <- "PRKCQ"
+all_dbs$termName[grep('^PKC_theta',all_dbs$termName)] <- "PRKCQ"
 
 all_dbs$termName[grep('^PKCgamma',all_dbs$termName)] <- "PRKCG"
 all_dbs$termName[grep('^PKCg$',all_dbs$termName)] <- "PRKCG"
@@ -216,43 +211,43 @@ all_dbs$termName[grep('^PKC_group$',all_dbs$termName)] <- "PRKC"
 ##IKK
 unique(all_dbs$termName[grep('IKK',all_dbs$termName)])
 
-all_dbs$termName[grep('^IKKa$',all_dbs$termName)] <- "IKKA"
-all_dbs$termName[grep('^CHUK$',all_dbs$termName)] <- "IKKA"
-all_dbs$termName[grep('^IKK_alpha$',all_dbs$termName)] <- "IKKA"
+all_dbs$termName[grep('IKKa$',all_dbs$termName)] <- "CHUK"
+all_dbs$termName[grep('IKKA$',all_dbs$termName)] <- "CHUK"
+all_dbs$termName[grep('IKK_alpha$',all_dbs$termName)] <- "CHUK"
+all_dbs$termName[grep('IKKalpha$',all_dbs$termName)] <- "CHUK"
 
-all_dbs$termName[grep('^IKKb$',all_dbs$termName)] <- "IKKB"
-all_dbs$termName[grep('^IKBKB$',all_dbs$termName)] <- "IKKB"
-all_dbs$termName[grep('^IKK_beta$',all_dbs$termName)] <- "IKKB"
+all_dbs$termName[grep('IKKb$',all_dbs$termName)] <- "IKBKB"
+all_dbs$termName[grep('IKKB$',all_dbs$termName)] <- "IKBKB"
+all_dbs$termName[grep('IKK_beta$',all_dbs$termName)] <- "IKBKB"
+all_dbs$termName[grep('IKKbeta$',all_dbs$termName)] <- "IKBKB"
 
-all_dbs$termName[grep('IKKe$',all_dbs$termName)] <- "IKKE"
-all_dbs$termName[grep('IKBKE$',all_dbs$termName)] <- "IKKE"
-all_dbs$termName[grep('IKK_epsilon$',all_dbs$termName)] <- "IKKE"
+all_dbs$termName[grep('IKKe$',all_dbs$termName)] <- "IKBKE"
+all_dbs$termName[grep('IKKE$',all_dbs$termName)] <- "IKBKE"
+all_dbs$termName[grep('IKK_epsilon$',all_dbs$termName)] <- "IKBKE"
 
-all_dbs$termName[grep('^IKK-complex$',all_dbs$termName)] <- "IKK"
-all_dbs$termName[grep('^IKK_group$',all_dbs$termName)] <- "IKK"
+all_dbs$termName[grep('IKK-complex$',all_dbs$termName)] <- "IKK"
+all_dbs$termName[grep('IKK_group$',all_dbs$termName)] <- "IKK"
 
 
 ##BCR/ABL
 unique(all_dbs[grep('Abl',all_dbs$termName),])
-all_dbs$termName[grep('^BCR/ABL$',all_dbs$termName)] <- "BCR/ABL"
 all_dbs$termName[grep('^BCR-ABL$',all_dbs$termName)] <- "BCR/ABL"
 
 all_dbs$termName[grep('^ABL$',all_dbs$termName)] <- "ABL"
-all_dbs$termName[grep('^Abl$',all_dbs$termName)] <- "ABL"
+all_dbs$termName[grep('^Abl$',all_dbs$termName)] <- "ABL1"
 
-#PKA
-all_dbs$termName[grep('^PKAalpha$',all_dbs$termName)] <- "PRKACA"
-all_dbs$termName[grep('^PKACa$',all_dbs$termName)] <- "PRKACA"
-all_dbs$termName[grep('^PKA_alpha$',all_dbs$termName)] <- "PRKACA"
+#DNA-PK
+all_dbs$termName[grep('^DNA-PK$',all_dbs$termName)] <- "DNAPK"
+
 
 #CAMK2
 unique(all_dbs$termName[grep('CaM-K$',all_dbs$termName)])
 unique(all_dbs$termName[grep('CaMK$',all_dbs$termName)])
 
-all_dbs$termName[grep('^CaMKIIdelta$',all_dbs$termName)] <- "CaMK2D"
+all_dbs$termName[grep('^CaMKIIdelta$',all_dbs$termName)] <- "CAMK2D"
 
-all_dbs$termName[grep('^CaMKIIbeta$',all_dbs$termName)] <- "CaMK2B"
-all_dbs$termName[grep('^CaMK2b$',all_dbs$termName)] <- "CaMK2B"
+all_dbs$termName[grep('^CaMKIIbeta$',all_dbs$termName)] <- "CAMK2B"
+all_dbs$termName[grep('^CaMK2b$',all_dbs$termName)] <- "CAMK2B"
 
 all_dbs$termName[grep('^CaMKIIalpha$',all_dbs$termName)] <- "CAMK2A"
 all_dbs$termName[grep('^CaMK2a$',all_dbs$termName)] <- "CAMK2A"
@@ -260,8 +255,12 @@ all_dbs$termName[grep('^CaMKIIa$',all_dbs$termName)] <- "CAMK2A"
 
 all_dbs$termName[grep('^CaM-KII_alpha$',all_dbs$termName)] <- "CAMK2A"
 all_dbs$termName[grep('^CaM-KII_group$',all_dbs$termName)] <- "CAMK2"
-#all_dbs$termName[grep('^CaM-CaMK2_group$',all_dbs$termName)] <- "CAMK2"
 
+all_dbs$termName[grep('^CaMKIV$',all_dbs$termName)] <- "CAMK4"
+
+all_dbs$termName[grep('^CaMKIIgamma$',all_dbs$termName)] <- "CAMK2G"
+
+#CAMK1
 all_dbs$termName[grep('^CaM-KI_alpha$',all_dbs$termName)] <- "CaMK1a"
 all_dbs$termName[grep('^CaMK1a$',all_dbs$termName)] <- "CAMK1A"
 
@@ -322,14 +321,16 @@ all_dbs$termName[grep('^CyclinD/CDK4$',all_dbs$termName)] <- "CDK4"
 all_dbs$termName[grep('^CyclinE/CDK2$',all_dbs$termName)] <- "CDK2"
 all_dbs$termName[grep('^CyclinB/CDK1$',all_dbs$termName)] <- "CDK1"
 all_dbs$termName[grep('^CDC2$',all_dbs$termName)] <- "CDK1"
-all_dbs$termName[grep('^CDC42BPA$',all_dbs$termName)] <- "MRCKa"
+all_dbs$termName[grep('^MRCKa$',all_dbs$termName)] <- "CDC42BPA"
 
 
 all_dbs$termName[grep('^CyclinA2/CDK2$',all_dbs$termName)] <- "CDK2"
 
 #ADRBK1, BARK, GRK2
-all_dbs$termName[grep('^BARK1$',all_dbs$termName)] <- "ADRBK1"
-all_dbs$termName[grep('^GRK2$',all_dbs$termName)] <- "ADRBK1"
+all_dbs$termName[grep('^BARK1$',all_dbs$termName)] <- "GRK2"
+all_dbs$termName[grep('^ADRBK1$',all_dbs$termName)] <- "GRK2"
+all_dbs$termName[grep('^ADRBK2$',all_dbs$termName)] <- "GRK3"
+all_dbs$termName[grep('^BARK2$',all_dbs$termName)] <- "GRK3"
 
 #WNK4
 #all_dbs$termName[grep('^Wnk4pp$',all_dbs)] <- "WNK4"
@@ -337,6 +338,33 @@ all_dbs$termName[grep('^GRK2$',all_dbs$termName)] <- "ADRBK1"
 #DNA-PK
 all_dbs$termName[grep('^DNA-PK$',all_dbs$termName)] <- "DNAPK"
 
+#Lyn
+all_dbs$termName[grep('^Lyn$',all_dbs$termName)] <- "LYN"
+all_dbs$termName[grep('^Lck$',all_dbs$termName)] <- "LCK"
+all_dbs$termName[grep('^Met$',all_dbs$termName)] <- "MET"
+all_dbs$termName[grep('^TGFbR2$',all_dbs$termName)] <- "TGFBR2"
+all_dbs$termName[grep('^Tyk2$',all_dbs$termName)] <- "TYK2"
+
+all_dbs$termName[grep('^PKD1$',all_dbs$termName)] <- "PRKD1"
+all_dbs$termName[grep('^PKD2$',all_dbs$termName)] <- "PRKD2"
+all_dbs$termName[grep('^PKD3$',all_dbs$termName)] <- "PRKD3"
+
+## Make groups look same
+groups <- grep('[A-Za-z0-9]group',all_dbs$termName)
+all_dbs$termName[groups] <- gsub('(.*)(group)','\\1_\\2',all_dbs$termName[groups])
+
+#PKA
+all_dbs$termName[grep('^PKAalpha$',all_dbs$termName)] <- "PRKACA"
+all_dbs$termName[grep('^PKACa$',all_dbs$termName)] <- "PRKACA"
+all_dbs$termName[grep('^PKA_alpha$',all_dbs$termName)] <- "PRKACA"
+all_dbs$termName[grep('^PKAgamma$',all_dbs$termName)] <- "PRKACG"
+all_dbs$termName[grep('^PKAbeta$',all_dbs$termName)] <- "PRKACB"
+
+## Add p42229_Y694 of FLT3
+#addition <- t(data.frame(c("P42229_Y694","OWN","FLT3","OWN2","domain")))
+#colnames(addition) <- colnames(all_dbs)
+#rownames(addition) <- NULL
+#all_dbs <- rbind(all_dbs, addition)
 
 #Remove autocatalysis
 all_dbs <- all_dbs[!all_dbs$termName=="autocatalysis",]
@@ -358,24 +386,98 @@ all_dbs$termName[grep('^PPM1D$',all_dbs$termName)] <- ""
 all_dbs$termName[grep('^DUSP4$',all_dbs$termName)] <- ""
 all_dbs <- all_dbs[!all_dbs$termName=="",]
 
-## Remove kinases with one entry
-table_count <- table(all_dbs$termName)
-table_count_1 <- table_count[table_count == 1]
-all_dbs <- all_dbs[!all_dbs$termName %in% names(table_count_1),]
+#14.05.20
+all_dbs$termName[grep('^Abl2$',all_dbs$termName)] <- "ABL2"
+all_dbs$termName[grep('^eEF2K$',all_dbs$termName)] <- "EEF2K"
+all_dbs$termName[grep('^Brk$',all_dbs$termName)] <- "PTK6"
+all_dbs$termName[grep('^BRK$',all_dbs$termName)] <- "PTK6"
+all_dbs$termName[grep('^Yes$',all_dbs$termName)] <- "YES1"
+all_dbs$termName[grep('^YES$',all_dbs$termName)] <- "YES1"
+all_dbs$termName[grep('^Csk$',all_dbs$termName)] <- "CSK"
+all_dbs$termName[grep('^Fes$',all_dbs$termName)] <- "FES"
+all_dbs$termName[grep('^Mer$',all_dbs$termName)] <- "MERTK"
+all_dbs$termName[grep('^MER$',all_dbs$termName)] <- "MERTK"
+all_dbs$termName[grep('^Axl$',all_dbs$termName)] <- "AXL"
+all_dbs$termName[grep('^Fgr$',all_dbs$termName)] <- "FGR"
+all_dbs$termName[grep('^Kit$',all_dbs$termName)] <- "KIT"
+all_dbs$termName[grep('^Wnk1$',all_dbs$termName)] <- "WNK1"
+all_dbs$termName[grep('^NuaK1$',all_dbs$termName)] <- "NUAK1"
+all_dbs$termName[grep('^ErbB2$',all_dbs$termName)] <- "ERBB2"
+all_dbs$termName[grep('^TGFbR1$',all_dbs$termName)] <- "TGFBR1"
+all_dbs$termName[grep('^HRI$',all_dbs$termName)] <- "EIF2AK1"
+all_dbs$termName[grep('^AMPKa1$',all_dbs$termName)] <- "PRKAA1"
+all_dbs$termName[grep('^AMPKa2$',all_dbs$termName)] <- "PRKAA2"
+all_dbs$termName[grep('^CHK1$',all_dbs$termName)] <- "CHEK1"
+all_dbs$termName[grep('^OSR1$',all_dbs$termName)] <- "OXSR1"
+all_dbs$termName[grep('^TRKB$',all_dbs$termName)] <- "NTRK2"
+all_dbs$termName[grep('^MSK2$',all_dbs$termName)] <- "RPS6KA4"
+all_dbs$termName[grep('^PYK2$',all_dbs$termName)] <- "PTK2B"
+all_dbs$termName[grep('^P70S6KB$',all_dbs$termName)] <- "RPS6KB2"
+all_dbs$termName[grep('^Brk$',all_dbs$termName)] <- "PTK6"
+all_dbs$termName[grep('^BRK$',all_dbs$termName)] <- "PTK6"
+all_dbs$termName[grep('^CHK2$',all_dbs$termName)] <- "CHEK2"
+all_dbs$termName[grep('^DNAPK$',all_dbs$termName)] <- "PRKDC"
+all_dbs$termName[grep('^EphA2$',all_dbs$termName)] <- "EPHA2"
+all_dbs$termName[grep('^LKB1$',all_dbs$termName)] <- "STK11"
+all_dbs$termName[grep('^RON$',all_dbs$termName)] <- "MST1R"
+all_dbs$termName[grep('^KIS$',all_dbs$termName)] <- "UHMK1"
+all_dbs$termName[grep('^PKG1$',all_dbs$termName)] <- "PRKG1"
+all_dbs$termName[grep('^FAK$',all_dbs$termName)] <- "PTK2"
+all_dbs$termName[grep('^PRP4$',all_dbs$termName)] <- "PRPF4B"
+all_dbs$termName[grep('^MST2$',all_dbs$termName)] <- "STK3"
+all_dbs$termName[grep('^MLK3$',all_dbs$termName)] <- "MAP3K11"
+all_dbs$termName[grep('^NIK$',all_dbs$termName)] <- "MAP3K14"
+all_dbs$termName[grep('^p70S6K$',all_dbs$termName)] <- "RPS6KB1"
+all_dbs$termName[grep('^ChaK1$',all_dbs$termName)] <- "TRPM7"
+all_dbs$termName[grep('^Chak1$',all_dbs$termName)] <- "TRPM7"
+all_dbs$termName[grep('^Mnk1$',all_dbs$termName)] <- "MKNK1"
+all_dbs$termName[grep('^MNK1$',all_dbs$termName)] <- "MKNK1"
+all_dbs$termName[grep('^MST1$',all_dbs$termName)] <- "STK4"
+all_dbs$termName[grep('^EphA4$',all_dbs$termName)] <- "EPHA4"
+all_dbs$termName[grep('^smMLCK$',all_dbs$termName)] <- "MYLK"
+all_dbs$termName[grep('^ACK$',all_dbs$termName)] <- "TNK2"
+all_dbs$termName[grep('^MSK1$',all_dbs$termName)] <- "RPS6KA5"
+all_dbs$termName[grep('^RSK2$',all_dbs$termName)] <- "RPS6KA3"
+all_dbs$termName[grep('^EphA3$',all_dbs$termName)] <- "EPHA3"
+all_dbs$termName[grep('^EphA8$',all_dbs$termName)] <- "EPHA8"
+all_dbs$termName[grep('^EphB1$',all_dbs$termName)] <- "EPHB1"
+all_dbs$termName[grep('^EphB2$',all_dbs$termName)] <- "EPHB2"
+all_dbs$termName[grep('^EphB3$',all_dbs$termName)] <- "EPHB3"
+all_dbs$termName[grep('^EphB4$',all_dbs$termName)] <- "EPHB4"
+all_dbs$termName[grep('^ALK4$',all_dbs$termName)] <- "ACVR1B"
+all_dbs$termName[grep('^TRKB$',all_dbs$termName)] <- "NTRK2"
+all_dbs$termName[grep('^RON$',all_dbs$termName)] <- "MST1R"
+all_dbs$termName[grep('^PHKg1$',all_dbs$termName)] <- "PHKG1"
+all_dbs$termName[grep('^NDR2$',all_dbs$termName)] <- "STK38L"
+all_dbs$termName[grep('^PYK2$',all_dbs$termName)] <- "PTK2B"
+all_dbs$termName[grep('^BRK$',all_dbs$termName)] <- "PTK6"
+all_dbs$termName[grep('^Brk$',all_dbs$termName)] <- "PTK6"
+all_dbs$termName[grep('^TRKA$',all_dbs$termName)] <- "NTRK1"
+all_dbs$termName[grep('^GPRK6$',all_dbs$termName)] <- "GRK6"
+all_dbs$termName[grep('^GPRK5$',all_dbs$termName)] <- "GRK5"
+all_dbs$termName[grep('^GPRK4$',all_dbs$termName)] <- "GRK4"
+all_dbs$termName[grep('^Eg3 kinase$',all_dbs$termName)] <- "MELK"
+all_dbs$termName[grep('^TIE2$',all_dbs$termName)] <- "TEK"
+all_dbs$termName[grep('^YSK1$',all_dbs$termName)] <- "STK25"
+all_dbs$termName[grep('^RSK3$',all_dbs$termName)] <- "RPS6KA2"
+all_dbs$termName[grep('^CDC2$',all_dbs$termName)] <- "CDK1"
+all_dbs$termName[grep('^QIK$',all_dbs$termName)] <- "SIK2"
+all_dbs$termName[grep('^RHOK$',all_dbs$termName)] <- "GRK1"
+all_dbs$termName[grep('^LOK$',all_dbs$termName)] <- "STK10"
+all_dbs$termName[grep('^ACK$',all_dbs$termName)] <- "TNK2"
+all_dbs$termName[grep('^QSK$',all_dbs$termName)] <- "SIK3"
+all_dbs$termName[grep('^NDR1$',all_dbs$termName)] <- "STK38"
+all_dbs$termName[grep('^PKR$',all_dbs$termName)] <- "EIF2AK2"
+all_dbs$termName[grep('^MST3$',all_dbs$termName)] <- "STK24"
+all_dbs$termName[grep('^CRIK$',all_dbs$termName)] <- "CIT"
+all_dbs$termName[grep('^Wnk4$',all_dbs$termName)] <- "WNK4"
+all_dbs$termName[grep('^p70S6Kb$',all_dbs$termName)] <- "RPS6KB2"
+all_dbs$termName[grep('^PKG2$',all_dbs$termName)] <- "PRKG2"
+all_dbs$termName[grep('^PKG1$',all_dbs$termName)] <- "PRKG1"
 
-#Lyn
-all_dbs$termName[grep('^Lyn$',all_dbs$termName)] <- "LYN"
-all_dbs$termName[grep('^Lck$',all_dbs$termName)] <- "LCK"
-all_dbs$termName[grep('^Met$',all_dbs$termName)] <- "MET"
-all_dbs$termName[grep('^TGFbR2$',all_dbs$termName)] <- "TGFBR2"
-all_dbs$termName[grep('^Tyk2$',all_dbs$termName)] <- "TYK2"
-
-all_dbs$termName[grep('^PKD1$',all_dbs$termName)] <- "PRKD1"
-
-## Make groups look same
-groups <- grep('[A-Za-z0-9]group',all_dbs$termName)
-all_dbs$termName[groups] <- gsub('(.*)(group)','\\1_\\2',all_dbs$termName[groups])
-
+all_dbs$termName[grep('^MRCKb$',all_dbs$termName)] <- "CDC42BPB"
+all_dbs$termName[grep('^PKG1cGKI$',all_dbs$termName)] <- "PKG1/cGK-I"
+all_dbs$termName[grep('^PKG2cGKII$',all_dbs$termName)] <- "PKG2/cGK-II"
 
 ## Unified database
 all_dbs$dbName <- "DBS"
@@ -386,6 +488,11 @@ all_dbs$termID <- dd$paste..DBS_...seq.1.length.unique.all_dbs.termName.....sep.
 all_dbs <- all_dbs[, c(1,5,2,3,4)]
 all_dbs <- all_dbs[!duplicated(all_dbs),]
 all_dbs$termName <- as.factor(all_dbs$termName)
+
+## Remove kinases with one entry
+table_count <- table(all_dbs$termName)
+table_count_1 <- table_count[table_count == 1]
+all_dbs <- all_dbs[!all_dbs$termName %in% names(table_count_1),]
 
 ## Write output DB
 write.csv(all_dbs, paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/all_dbs.csv"), row.names = FALSE)

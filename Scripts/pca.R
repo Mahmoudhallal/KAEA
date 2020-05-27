@@ -21,8 +21,8 @@ imp <- params$Imputation
 ## Perform a MAD ranking and cutoff to take the proteins with the hight variance only
 MAD_ranking <- function(e, z_cutoff, mad_cutoff){
   exprMatrix1 = data.frame(exprs(e))
-  exprMatrix1_cleaned <- exprMatrix1[rowSums(exprMatrix1 > 0,na.rm=T)>z_cutoff,]
-  exprMatrix1_cleaned[is.na(exprMatrix1_cleaned)] <- 0
+  #exprMatrix1_cleaned <- exprMatrix1[rowSums(exprMatrix1 > 0,na.rm=T)>z_cutoff,]
+  #exprMatrix1_cleaned[is.na(exprMatrix1_cleaned)] <- 0
   exprMatrix1_cleaned <- exprMatrix1
   mads = apply(exprMatrix1_cleaned, 1, mad, na.rm=TRUE)
   cutoff = sort(mads, decreasing = TRUE)[mad_cutoff]

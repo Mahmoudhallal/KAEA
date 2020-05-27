@@ -24,54 +24,92 @@ BiocManager::install("biomaRt")
 params <- read_yaml("./config.yaml")
 imp <- params$Imputation
 
-## Define logFC function
-getLogFC <- function(row, phenoTable, groupA, groupB, groupVar) {
-  indicesA = phenoTable[[groupVar]] == groupA
+## TopTables
+if (params$SILAC == "T"){
   
-  if (control != 'ALL'){
-    indicesB = phenoTable[[groupVar]] == groupB
-  } else {
-    indicesB = phenoTable[[groupVar]] != groupB
-    
+  ## calculate logFC
+  getLogFC <- function(row, phenoTable, groupA, groupVar) {
+    indicesA = phenoTable[[groupVar]] == groupA
+    mean(row[indicesA], na.rm=T) 
   }
-  mean(row[indicesA],na.rm=T) - mean(row[indicesB], na.rm=T)
-}
-
-## Define PValue function
-getPValue <- function(row, phenoTable, groupA, groupB, groupVar, ttest) {
-  row = row + runif(length(row), -1e-6, 1e-6)
-  indicesA = phenoTable[[groupVar]] == groupA
-  if (control != 'ALL'){
-    indicesB = phenoTable[[groupVar]] == groupB
-  } else {
-    indicesB = phenoTable[[groupVar]] != groupB
-    
-  }
-  #cz we are only looking at overrepresentation
-  t.test(row[indicesA], row[indicesB], alternative = ttest)$p.value
-}
-
-
-## Define a function to create a table of p-value, p-adj and logFC
-getTopTable <- function(samples, control, eSet, groupVar, x, ttest) {
-  groupA = samples[x]
-  if (control != 'ALL'){
-    groupB = control
-  } else {
-    groupB = samples[x] 
-  } 
-  #Define fData
-  topTable = fData(eSet)
-  #Define dataset
-  eSet_modified <- exprs(eSet)
   
-  topTable = apply(eSet_modified, 1, getLogFC, pData(eSet), groupA, groupB, groupVar)
-  topTable <- as.data.frame(topTable)
-  #Calculate p-value
-  topTable$p = apply(eSet_modified, 1, getPValue, pData(eSet), groupA, groupB, groupVar, ttest)
-  topTable$padj = p.adjust(topTable$p, method="fdr")
-  topTable = topTable[order(topTable$padj, topTable$p),]
-  topTable
+  #calculate p-value
+  getPValue <- function(row, phenoTable, groupA, groupVar, ttest) {
+    row = row + runif(length(row), -1e-10, 1e-10)
+    indicesA = phenoTable[[groupVar]] == groupA
+    
+    t.test(row[indicesA],alternative = ttest)$p.value
+  }
+  
+  #function to create a table of p-value, p-adj and logFC
+  getTopTable <- function(samples, control, eSet, groupVar, x, ttest) {
+    groupA = samples[x]
+    #Define fData
+    topTable = fData(eSet)
+    
+    #Define dataset
+    eSet_modified <- exprs(eSet)
+    
+    #Calculate FC
+    topTable = apply(eSet_modified, 1, getLogFC, pData(eSet), groupA, groupVar)
+    topTable <- as.data.frame(topTable)
+      
+    #Calculate p-value
+    topTable$p = apply(eSet_modified, 1, getPValue, pData(eSet), groupA, groupVar, ttest)
+    topTable$padj = p.adjust(topTable$p, method="fdr")
+    topTable = topTable[order(topTable$padj, topTable$p),]
+    topTable
+  }
+} else {
+  ## Define logFC function
+  getLogFC <- function(row, phenoTable, groupA, groupB, groupVar) {
+    indicesA = phenoTable[[groupVar]] == groupA
+    
+    if (control != 'ALL'){
+      indicesB = phenoTable[[groupVar]] == groupB
+    } else {
+      indicesB = phenoTable[[groupVar]] != groupB
+      
+    }
+    mean(row[indicesA],na.rm=T) - mean(row[indicesB], na.rm=T)
+  }
+  
+  ## Define PValue function
+  getPValue <- function(row, phenoTable, groupA, groupB, groupVar, ttest) {
+    row = row + runif(length(row), -1e-10, 1e-10)
+    indicesA = phenoTable[[groupVar]] == groupA
+    if (control != 'ALL'){
+      indicesB = phenoTable[[groupVar]] == groupB
+    } else {
+      indicesB = phenoTable[[groupVar]] != groupB
+      
+    }
+    #cz we are only looking at overrepresentation
+    t.test(row[indicesA], row[indicesB], alternative = ttest)$p.value
+  }
+  
+  
+  ## Define a function to create a table of p-value, p-adj and logFC
+  getTopTable <- function(samples, control, eSet, groupVar, x, ttest) {
+    groupA = samples[x]
+    if (control != 'ALL'){
+      groupB = control
+    } else {
+      groupB = samples[x] 
+    } 
+    #Define fData
+    topTable = fData(eSet)
+    #Define dataset
+    eSet_modified <- exprs(eSet)
+    
+    topTable = apply(eSet_modified, 1, getLogFC, pData(eSet), groupA, groupB, groupVar)
+    topTable <- as.data.frame(topTable)
+    #Calculate p-value
+    topTable$p = apply(eSet_modified, 1, getPValue, pData(eSet), groupA, groupB, groupVar, ttest)
+    topTable$padj = p.adjust(topTable$p, method="fdr")
+    topTable = topTable[order(topTable$padj, topTable$p),]
+    topTable
+  }
 }
 
 

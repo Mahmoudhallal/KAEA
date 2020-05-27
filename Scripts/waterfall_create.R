@@ -83,7 +83,7 @@ pathwayMatrix_greater <- lapply(1:length(conditions), function(x){
 })
 
 ## Get Oncogene/tumor suppressor CancerMine database
-cancerMine <- read.delim('../Phospho_DBs/cancermine_collated.tsv')
+cancerMine <- read.delim('../cancermine_collated.tsv')
 leukemia_genes <- grep('leukemia',cancerMine$cancer_normalized)
 cancerMine_leukemia <- cancerMine[leukemia_genes,]
 TS_leukemia <- cancerMine_leukemia[cancerMine_leukemia$role == "Tumor_Suppressor",]
@@ -92,7 +92,7 @@ DR_leukemia <- cancerMine_leukemia[cancerMine_leukemia$role == "Driver",]
 #Intersection between TS and ONC
 Intersection <- intersect(ONC_leukemia$gene_normalized,TS_leukemia$gene_normalized)
 
-## NO Overlapping kkinases
+## NO Overlapping kinases
 ### Heatmap
 both <- lapply(1:length(pathwayMatrix_greater), function(x){
   dd1 <- as.data.frame(pathwayMatrix_less[[x]][,grep(params$cell_line,colnames(pathwayMatrix_less[[x]])),drop=FALSE])

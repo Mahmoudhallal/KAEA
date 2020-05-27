@@ -6,15 +6,18 @@
 ##################################################
 
 ## Load libraries
-source("http://bioconductor.org/biocLite.R")
-options(repos = BiocInstaller::biocinstallRepos())
+#library(BiocManager)
+#options(repos = BiocManager::repositories())
+#source("http://bioconductor.org/biocLite.R")
+#options(repos = BiocInstaller::biocinstallRepos())
 #getOption("repos")
-
+options(repos = BiocManager::repositories())
+options("repos")
 #biocLite("pathview")
 #biocLite("GDCRNATools")
 
 #library(GDCRNATools)
-library(XVector)
+#library(XVector)
 library(shiny)
 library(pheatmap)
 #install.packages("filesstrings", repos="http://cran.rstudio.com/")
@@ -90,7 +93,8 @@ shinyPathview2 <- function ()
                  navbarMenu("Sites",
                             tabPanel("Histogram", plotOutput("hist_sites", width = "70%", height = "600px")),
                             tabPanel("Venn Diagram", plotOutput("venn_sites", width = "70%", height = "600px")),
-                            tabPanel("Coefficient of Variation", plotOutput("CVs", width = "70%", height = "600px"))),
+                            tabPanel("Coefficient of Variation", plotOutput("CVs", width = "70%", height = "600px"))
+                            ),
                  
                  navbarMenu("Peptides",
                             tabPanel("Histogram", plotOutput("hist_peps", width = "70%", height = "600px")),
@@ -135,9 +139,7 @@ shinyPathview2 <- function ()
                  tabPanel("KEGG pathway", plotOutput("plot1", width = "10%", height = "600px"))
                )),
       
-      tabPanel("GO terms", value = 7 ,dataTableOutput("mytable2")
-               
-      ),
+      #tabPanel("GO terms", value = 7 ,dataTableOutput("mytable2")),
       id = "tabselected")
       )
     )
@@ -278,7 +280,7 @@ shinyPathview2 <- function ()
         type = "SYMBOL"
         }
       pathview(gene.data = datasets[[data_to_use()]], pathway.id = pathwayID,
-               species = sp, gene.idtype = type, limit = list(gene = max(abs(datasets[[data_to_use()]])), cpd = 1))
+               species = sp, gene.idtype = type, limit = list(gene = c(min(datasets[[data_to_use()]]), max(datasets[[data_to_use()]])), cpd = 1))
 
       list(src = outfile)
     }, deleteFile = FALSE)
@@ -706,7 +708,7 @@ shinyPathview2 <- function ()
     output$CVs <- renderPlot({
       CV_Data <- my_data()$CV
       g <- ggplot(CV_Data, aes(cell_line, CV, fill = cell_line))
-      g <- g + geom_violin(alpha = 0.5,draw_quantiles = c(0.5)) + 
+      g <- g + geom_violin(alpha = 0.5,draw_quantiles = c(0.5)) +
         labs(x="Condition",
              y="CV(%)") +
         theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 22)) +

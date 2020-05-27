@@ -40,6 +40,7 @@ load(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_
 all_quants <- as.data.frame(exprs(test_eSet))
 
 ## Calculate CV between replicates of every conditions
+## CV rule: (SD/mean)*100
 cc <- lapply (1:length(Conditions), function(x){
   all_quants2 <- all_quants[,grep(Conditions[x],colnames(all_quants),fixed=TRUE)]
   all_quants2$Proteins <- rownames(all_quants)
@@ -60,7 +61,6 @@ cc <- lapply (1:length(Conditions), function(x){
   final_cv <- final_cv[!is.na(final_cv$CV),]
   final_cv$cell_line <- Conditions[x]
   final_cv
-  #plot(density(final_cv$CV))
   
 })
 
@@ -70,17 +70,18 @@ cc2$cell_line <- as.factor(cc2$cell_line)
 cc2$CV <- as.numeric(cc2$CV)
 cc2 <- cc2[,c('cell_line','CV')]
 
+#write as csv file
 write.csv(cc2, paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/CV_",params$cell_line,".csv"))
 
+## ggplot for CV
 g <- ggplot(cc2, aes(cell_line, CV, fill = cell_line))
-g <- g + geom_violin(alpha = 0.5,draw_quantiles = c(0.5)) + 
+g <- g + geom_violin(alpha = 0.5, draw_quantiles = c(0.5)) + 
   labs(title="CV between triplicates", 
        x="Condition",
        y="CV %") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 22)) +
   theme(axis.text.y = element_text(size = 22)) +
-  theme(#axis.text=element_text(size=14),
-    axis.title=element_text(size=24))
+  theme(axis.title=element_text(size=24))
 
 # Output PDF
 pdf(paste0(params$CWD,"/results/",params$cell_line,'_',params$pvalue_cutoff,'P_',params$fdr_cutoff,'FDR_imp',imp,"/Phos_proteins_CV_violin_plot_",params$cell_line,".pdf"), width = 8)
