@@ -88,6 +88,7 @@ if (params$Imputation == "T"){
     
     #select phosphosites with 1/3 missing values
     indices_NA <-  (apply(exprs_all[, indices] == 0, 1, sum) == 1)
+    #indices_NA <-  (apply(exprs_all[, indices] == 0, 1, sum) < (2/3)*ncol(exprs_all[, indices]))
     #exprs_all[indices_NA,indices][exprs_all[indices_NA,indices] == 0]  <- NA
     
     #replace all 0s with NAs

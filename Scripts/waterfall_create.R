@@ -43,6 +43,7 @@ pathwayMatrix_less <- lapply(1:length(conditions), function(x){
   if (nrow(results) != 0){
     pathwayMatrix = as.matrix(results[,c("correctedPValue")])
     rownames(pathwayMatrix) <- results$description
+    rownames(pathwayMatrix) <- paste0(rownames(pathwayMatrix),'-')
     colnames(pathwayMatrix) <- conditions[x]
     pathwayMatrix <- as.data.frame(pathwayMatrix)
     pathwayMatrix$color <- "blue"
@@ -67,14 +68,17 @@ pathwayMatrix_greater <- lapply(1:length(conditions), function(x){
   if (nrow(results) != 0){
   pathwayMatrix = as.matrix(results[,c("correctedPValue")])
   rownames(pathwayMatrix) <- results$description
+  rownames(pathwayMatrix) <- paste0(rownames(pathwayMatrix),'+')
+  
   colnames(pathwayMatrix) <- conditions[x]
   pathwayMatrix <- as.data.frame(pathwayMatrix)
   pathwayMatrix$color <- "red"
   pathwayMatrix$kinase <- rownames(pathwayMatrix)
+  
   pathwayMatrix <- pathwayMatrix[order(pathwayMatrix[[conditions[x]]], decreasing = T),]
   pathwayMatrix[[conditions[x]]]<- -log10(pathwayMatrix[[conditions[x]]])
   pathwayMatrix[[conditions[x]]] <- round(pathwayMatrix[[conditions[x]]], digits = 5)
-  
+  #pathwayMatrix[[conditions[x]]] <- paste0(pathwayMatrix[[conditions[x]]]$,'+')
   pathwayMatrix
   } else {
     pathwayMatrix <- data.frame()
@@ -98,15 +102,16 @@ both <- lapply(1:length(pathwayMatrix_greater), function(x){
   dd1 <- as.data.frame(pathwayMatrix_less[[x]][,grep(params$cell_line,colnames(pathwayMatrix_less[[x]])),drop=FALSE])
   #dd1 <- as.data.frame(dd1$MOLM13_DRG,drop=FALSE)
   dd2 <- as.data.frame(pathwayMatrix_greater[[x]][,grep(params$cell_line,colnames(pathwayMatrix_greater[[x]])),drop=FALSE])
+  
   ll <- bind_rows(dd1 %>% add_rownames(), 
                 dd2 %>% add_rownames()) %>% 
   # evaluate following calls for each value in the rowname column
-  group_by(rowname) %>% 
+  group_by(rowname) #%>% 
   # add all non-grouping variables
-  summarise_all(sum)
+  #summarise_all(sum)
   cc <- as.data.frame(ll)
   material_for_waterfall <- cc
-  rownames(material_for_waterfall) <- cc$rowname
+  #rownames(material_for_waterfall) <- cc$rowname
   #direcion
   for (y in 1:nrow(material_for_waterfall)){if (material_for_waterfall[[conditions[[x]]]][y] > 0){material_for_waterfall$Color[y] <- "red"} else {material_for_waterfall$Color[y] <- "blue"}}
   

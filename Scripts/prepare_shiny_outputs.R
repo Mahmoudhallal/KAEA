@@ -80,15 +80,37 @@ all_files <- lapply(1:length(files), function(y){
     type = "GENENAME"
     
   }
+  
+  ##adjust material_waterfall 17.06.20
+  dd1 <- to_sbmt[[files[y]]][to_sbmt[[files[y]]]$value > 0,,drop=FALSE]
+  rownames(dd1) <- gsub('(.*)([-+])','\\1',rownames(dd1))
+  #dd1 <- as.data.frame(dd1$MOLM13_DRG,drop=FALSE)
+  dd2 <- to_sbmt[[files[y]]][to_sbmt[[files[y]]]$value < 0,,drop=FALSE]
+  rownames(dd2) <- gsub('(.*)([-+])','\\1',rownames(dd2))
+  
+  m1 <- merge(dd1, dd2, by="row.names")
+  rownames(m1) <- m1$Row.names
+  
+  
+  common_kinases <- m1$Row.names
+  dd1_wo_common <- dd1[!rownames(dd1) %in% m1$Row.names,,drop=FALSE]
+  dd1_wo_common <- as.data.frame(cbind(dd1_wo_common,dd1_wo_common))
+  dd2_wo_common <- dd2[!rownames(dd2) %in% m1$Row.names,,drop=FALSE]
+  dd2_wo_common <- as.data.frame(cbind(dd2_wo_common,dd2_wo_common))
+  
+  m1 <- subset(m1, select = -c(Row.names)) 
+  colnames(m1) <- colnames(dd1_wo_common)
+  Merged_df <- rbind(m1, dd1_wo_common, dd2_wo_common)
+  
   table_con <-  lapply(1:length(pathways), function(x) {
-    pp <- pathview(gene.data = to_sbmt[[files[y]]], pathway.id = pathways[x],
+    pp <- pathview(gene.data = Merged_df, pathway.id = pathways[x],
                    #we changed gene.idtype from SYMBOL to GENENAME 22.01.2019
              species = sp, gene.idtype = type, 
              limit = list(gene = c(min(to_sbmt[[files[y]]]), max(to_sbmt[[files[y]]])), cpd = 1),
              kegg.dir = sp_directory)
     
-    file.move(paste(pathways[x], ".pathview.png", sep = ""), sp_directory, overwrite = TRUE)
-    file.copy(paste0(sp_directory,'/',pathways[x],'.pathview.png'), paste0(sp_directory,'/',pathways_names[x],'.pathview.png'))
+    file.move(paste(pathways[x], ".pathview.multi.png", sep = ""), sp_directory, overwrite = TRUE)
+    file.copy(paste0(sp_directory,'/',pathways[x],'.pathview.multi.png'), paste0(sp_directory,'/',pathways_names[x],'.pathview.multi.png'))
     pp
     })
 })

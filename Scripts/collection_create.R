@@ -19,7 +19,7 @@ library(yaml)
 ## Load parameters
 params <- read_yaml("./config.yaml")
 imp <- params$Imputation
-maxSetSize <- 500
+maxSetSize <- 800
 
 ## Define the fucntion to create a "collection"
 create_collection <- function(list_prots, all_dbs, maxSetSize){

@@ -55,7 +55,7 @@ coverage2$sample <- rownames(coverage2)
 colnames(coverage2) <- c("Absent", "Present","cell_line")
 coverage2$cell_line <- as.factor(coverage2$cell_line)
 Total <- as.numeric(coverage2$Absent) + as.numeric(coverage2$Present)
-#(as.numeric(coverage2$Present)*100)/Total
+(as.numeric(coverage2$Present)*100)/Total
 
 coverage2$Present <- as.numeric(coverage2$Present)
 coverage2$Absent <- as.numeric(coverage2$Absent)
