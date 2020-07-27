@@ -46,8 +46,11 @@ coverage <- lapply(1:length(sample_sites), function(x){
   })
 
 names(coverage) <- colnames(exprs(test_eSet))
-coverage2 <- t(bind_rows(coverage))
+#remove t() only for docker version
+coverage2 <- bind_rows(coverage)
 colnames(coverage2) <- c('no','yes')
+#added only for docker version
+rownames(coverage2) <- names(coverage)
 coverage2 <- as.data.frame(coverage2)
 coverage2$sample <- rownames(coverage2)
 
